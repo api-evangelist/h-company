@@ -1,0 +1,12 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/h-company-computer-use-agents-openapi-original.json
+summary:
+  types:
+  - http
+schemes:
+- name: HTTPBearer
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/h-company-computer-use-agents-openapi-original.json
