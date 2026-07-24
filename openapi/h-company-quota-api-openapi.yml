@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Computer-Use Agents quota API
+  version: 1.0.0
+servers:
+- url: https://agp.eu.hcompany.ai
+  description: Europe
+  x-fern-server-name: Eu
+- url: https://agp.hcompany.ai
+  description: United States
+  x-fern-server-name: Us
+tags:
+- name: quota
+paths:
+  /api/v2/quota/tokens:
+    get:
+      tags:
+      - quota
+      summary: Get Token Quota
+      description: Return the current org's token-quota snapshot for the FE meter.
+      operationId: get_token_quota_api_v2_quota_tokens_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenQuotaStatus'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    TokenQuotaStatus:
+      properties:
+        limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Limit
+        used:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Used
+        remaining:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Remaining
+        window_start:
+          type: string
+          format: date-time
+          title: Window Start
+        window_end:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Window End
+      type: object
+      required:
+      - limit
+      - used
+      - remaining
+      - window_start
+      - window_end
+      title: TokenQuotaStatus
+      description: Current per-org token usage snapshot.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

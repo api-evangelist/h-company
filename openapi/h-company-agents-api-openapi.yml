@@ -1,0 +1,730 @@
+openapi: 3.1.0
+info:
+  title: Computer-Use Agents API
+  version: 1.0.0
+servers:
+- url: https://agp.eu.hcompany.ai
+  description: Europe
+  x-fern-server-name: Eu
+- url: https://agp.hcompany.ai
+  description: United States
+  x-fern-server-name: Us
+tags:
+- name: Agents
+paths:
+  /api/v2/agents:
+    post:
+      tags:
+      - Agents
+      summary: Create Agent
+      description: Create an agent..
+      operationId: create_agent_api_v2_agents_post
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Agents
+      summary: List Agents
+      description: List reserved + caller's org agents. Unauthenticated callers see reserved ``h/`` agents only.
+      operationId: list_agents_api_v2_agents_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Case-insensitive substring match on agent name.
+          title: Agent Name
+        description: Case-insensitive substring match on agent name.
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Case-insensitive match on agent name or description.
+          title: Search
+        description: Case-insensitive match on agent name or description.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: Number of items per page
+          default: 10
+          title: Size
+        description: Number of items per page
+      - name: sort
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              enum:
+              - created_at
+              - -created_at
+              - agent_name
+              - -agent_name
+              type: string
+          - type: 'null'
+          description: Sort by field
+          default:
+          - -created_at
+          title: Sort
+        description: Sort by field
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Agent_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/agents/{agent_name}:
+    get:
+      tags:
+      - Agents
+      summary: Get Agent
+      description: Fetch by identifier; 404 if not visible. ``resolve=true`` materialises spec leaves.
+      operationId: get_agent_api_v2_agents__agent_name__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Name
+      - name: resolve
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Materialise string environment/skill/subagent leaves into full specs.
+          default: false
+          title: Resolve
+        description: Materialise string environment/skill/subagent leaves into full specs.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Agents
+      summary: Update Agent
+      description: Replace ``spec``. ``spec.name`` must match the URL identifier; renames are not supported.
+      operationId: update_agent_api_v2_agents__agent_name__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Agents
+      summary: Patch Agent
+      description: Partially update an agent spec; only provided fields change.
+      operationId: patch_agent_api_v2_agents__agent_name__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchAgent'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agents
+      summary: Delete Agent
+      description: 'Delete by identifier. Reserved rows: H employee only.'
+      operationId: delete_agent_api_v2_agents__agent_name__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Name
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Desktop:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: desktop
+          title: Kind
+          default: desktop
+        host:
+          type: string
+          title: Host
+          const: user_device
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing desktop session by id instead of starting a new one.
+      type: object
+      required:
+      - id
+      - host
+      title: Desktop
+      description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    PatchAgent:
+      properties:
+        description:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Description
+        environments:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Environment'
+            type: array
+          - type: 'null'
+          title: Environments
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instructions
+        subagents:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Agent'
+            type: array
+          - type: 'null'
+          title: Subagents
+        skills:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Skill'
+            type: array
+          - type: 'null'
+          title: Skills
+        answer_format:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Answer Format
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolDefinition'
+            type: array
+          - type: 'null'
+          title: Tools
+      type: object
+      title: PatchAgent
+      description: Partial agent update.
+    BrowserNetwork:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
+      type: object
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
+    Page_Agent_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Agent'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[Agent]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Skill:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: When to use this skill. The agent reads this to decide whether to load it.
+        body:
+          type: string
+          minLength: 1
+          title: Body
+          description: Markdown instructions the agent loads when it uses the skill.
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Optional URL the content was sourced from.
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+          description: Optional regex hinting at URLs where this skill applies.
+      type: object
+      required:
+      - name
+      - description
+      - body
+      title: Skill
+      description: A named, reusable instruction an agent can draw on during a session.
+    ToolDefinition:
+      properties:
+        name:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Name
+          description: 'Tool name advertised to the model. Format: letters, digits and underscores; must start with a letter or underscore; max 64 chars.'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the tool does, when to use it, and what it returns. Shown to the model verbatim.
+        input_schema:
+          additionalProperties: true
+          type: object
+          title: Input Schema
+          description: JSON Schema (object type) describing the tool call arguments.
+      type: object
+      required:
+      - name
+      - description
+      title: ToolDefinition
+      description: 'Contract for a tool executed by the API client, not by the agent runtime.
+
+
+        The agent emits a tool call matching ``input_schema``, pauses, and resumes
+
+        once the client sends back the corresponding tool result.'
+    BrowserVisualMode:
+      properties:
+        type:
+          type: string
+          const: visual
+          title: Type
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Agent:
+      properties:
+        name:
+          type: string
+          maxLength: 127
+          minLength: 1
+          title: Name
+          description: 'Unique name for this agent in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the agent does. Parent agents read this to decide when to delegate to it.
+        environments:
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Environment'
+          type: array
+          title: Environments
+          description: Environments the agent runs in. Each entry is a registered environment's id or an inline definition. At most one per kind. Required unless the agent delegates to subagents (a pure orchestrator owns none).
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model that serves the agent. Defaults to the platform model if omitted.
+        instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instructions
+          description: Instructions appended to the agent's system prompt to steer behavior.
+        subagents:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Agent'
+            type: array
+          - type: 'null'
+          title: Subagents
+          description: Agents this one can delegate to. Each entry is a registered agent's name or an inline definition.
+        skills:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Skill'
+            type: array
+          - type: 'null'
+          title: Skills
+          description: Skills the agent can draw on. Each entry is a registered skill's name or an inline definition.
+        answer_format:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Answer Format
+          description: JSON Schema the agent's final answer must conform to. Null returns a free-form text answer.
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolDefinition'
+            type: array
+          - type: 'null'
+          title: Tools
+          description: Custom tools executed by the API client. The agent emits a tool call, pauses, and resumes once the client sends back the matching tool result.
+      type: object
+      required:
+      - name
+      - description
+      - environments
+      title: Agent
+      description: Declarative agent definition.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    Browser:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: web
+          title: Kind
+          default: web
+        host:
+          type: string
+          enum:
+          - user_device
+          - cloud
+          title: Host
+          description: 'Where the browser runs: ''cloud'' on H Company infrastructure, or ''user_device'' on your own machine.'
+          default: cloud
+        start_url:
+          type: string
+          title: Start Url
+          description: Initial URL to open.
+          default: https://www.bing.com
+        headless:
+          type: boolean
+          title: Headless
+          description: Run the browser without a visible window.
+          default: false
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing browser session by id instead of starting a new one.
+        mode:
+          oneOf:
+          - $ref: '#/components/schemas/BrowserVisualMode'
+          - $ref: '#/components/schemas/BrowserTextMode'
+          title: Mode
+          description: How the agent perceives and drives the browser.
+          discriminator:
+            propertyName: type
+            mapping:
+              text: '#/components/schemas/BrowserTextMode'
+              visual: '#/components/schemas/BrowserVisualMode'
+        vault_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Vault Id
+          description: Id of a vault config to bind to this browser, letting the agent sign in to sites with secrets resolved from the vault. The vault must belong to the caller's organization. Only supported on cloud-hosted browsers. Omit to run without secret access.
+        browser_profile_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Browser Profile Id
+          description: Id of a browser profile to load into this browser, restoring saved cookies and storage state from a prior session. The profile must belong to the caller's organization. Only supported on cloud-hosted browsers. Omit to run with a fresh profile.
+        use_default_browser_profile:
+          type: boolean
+          title: Use Default Browser Profile
+          description: When true, load the caller's default browser profile for this browser flavor (marked via the browser-profiles API) instead of naming one explicitly. Mutually exclusive with browser_profile_id. When no default exists, an empty profile is auto-created and marked default; default-profile sessions save their final state back on stop when no other session is already persisting the profile. Only supported on cloud-hosted browsers.
+          default: false
+        persist_browser_profile:
+          type: boolean
+          title: Persist Browser Profile
+          description: When true, the browser profile is updated with this session's final browser state (cookies, storage) when the session ends. Requires browser_profile_id or use_default_browser_profile. Only one active session at a time may persist a given profile; concurrent read-only use is always allowed.
+          default: false
+        network:
+          anyOf:
+          - $ref: '#/components/schemas/BrowserNetwork'
+          - type: 'null'
+          description: Optional network configuration for the remote browser session. Applied only when a new runner session is provisioned (not when session_id is set).
+      type: object
+      required:
+      - id
+      title: Browser
+      description: A web browser the agent navigates and acts on.
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

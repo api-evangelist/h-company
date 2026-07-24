@@ -1,0 +1,473 @@
+openapi: 3.1.0
+info:
+  title: Computer-Use Agents Browser Profiles API
+  version: 1.0.0
+servers:
+- url: https://agp.eu.hcompany.ai
+  description: Europe
+  x-fern-server-name: Eu
+- url: https://agp.hcompany.ai
+  description: United States
+  x-fern-server-name: Us
+tags:
+- name: Browser Profiles
+paths:
+  /api/v2/browser-profiles:
+    get:
+      tags:
+      - Browser Profiles
+      summary: List Browser Profiles
+      description: List the caller's browser profiles.
+      operationId: list_browser_profiles_api_v2_browser_profiles_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 10
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/browser-profiles/initiate-upload:
+    post:
+      tags:
+      - Browser Profiles
+      summary: Initiate Browser Profile Upload
+      description: 'Get a presigned S3 POST for uploading a profile zip directly to S3.
+
+
+        The returned ``upload_url`` and ``upload_fields`` are passed through verbatim;
+
+        the client uploads to S3 and then calls ``complete-upload``.'
+      operationId: initiate_browser_profile_upload_api_v2_browser_profiles_initiate_upload_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiateUploadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/v2/browser-profiles/{profile_id}/complete-upload:
+    post:
+      tags:
+      - Browser Profiles
+      summary: Complete Browser Profile Upload
+      description: 'Finalize a profile after the zip is uploaded to S3.
+
+
+        ``browser_name`` is an unconstrained ``str`` here; env-manager validates it
+
+        against its own ``BROWSER_NAMES`` literal and returns 422 on a bad value.'
+      operationId: complete_browser_profile_upload_api_v2_browser_profiles__profile_id__complete_upload_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Profile Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrowserProfileCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/browser-profiles/default:
+    get:
+      tags:
+      - Browser Profiles
+      summary: Get Default Browser Profile
+      description: Fetch the caller's default profile for a browser flavor (404 when unset).
+      operationId: get_default_browser_profile_api_v2_browser_profiles_default_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: browser_name
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Browser flavor, e.g. 'chromium'
+          title: Browser Name
+        description: Browser flavor, e.g. 'chromium'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/browser-profiles/{profile_id}/default:
+    put:
+      tags:
+      - Browser Profiles
+      summary: Set Default Browser Profile
+      description: 'Mark a profile as the caller''s default for its browser flavor.
+
+
+        Sessions created with ``use_default_browser_profile: true`` attach this
+
+        profile. Replaces the caller''s previous default for the same browser_name.'
+      operationId: set_default_browser_profile_api_v2_browser_profiles__profile_id__default_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Profile Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Browser Profiles
+      summary: Unset Default Browser Profile
+      description: Clear the default flag on a profile.
+      operationId: unset_default_browser_profile_api_v2_browser_profiles__profile_id__default_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Profile Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/browser-profiles/{profile_id}:
+    get:
+      tags:
+      - Browser Profiles
+      summary: Get Browser Profile
+      description: Fetch a browser profile by id.
+      operationId: get_browser_profile_api_v2_browser_profiles__profile_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Profile Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserProfileRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Browser Profiles
+      summary: Delete Browser Profile
+      description: Delete a browser profile (record + S3 object).
+      operationId: delete_browser_profile_api_v2_browser_profiles__profile_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Profile Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BrowserProfileList:
+      properties:
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+        profiles:
+          items:
+            $ref: '#/components/schemas/BrowserProfileRead'
+          type: array
+          title: Profiles
+      type: object
+      required:
+      - total
+      - limit
+      - offset
+      - profiles
+      title: BrowserProfileList
+      description: Response model for listing browser profiles.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BrowserProfileCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        browser_name:
+          type: string
+          title: Browser Name
+        browser_version:
+          type: string
+          title: Browser Version
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        labels:
+          additionalProperties:
+            type: string
+          type: object
+          title: Labels
+      type: object
+      required:
+      - name
+      - browser_name
+      - browser_version
+      title: BrowserProfileCreate
+      description: Request model for completing a browser profile upload.
+    BrowserProfileRead:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        org_id:
+          type: string
+          format: uuid
+          title: Org Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        browser_name:
+          type: string
+          title: Browser Name
+        browser_version:
+          type: string
+          title: Browser Version
+        s3_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Path
+        file_size_bytes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: File Size Bytes
+        checksum:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Checksum
+        usage_count:
+          type: integer
+          title: Usage Count
+          default: 0
+        last_used_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Used At
+        labels:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Labels
+        is_default:
+          type: boolean
+          title: Is Default
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - user_id
+      - org_id
+      - name
+      - browser_name
+      - browser_version
+      - created_at
+      - updated_at
+      title: BrowserProfileRead
+      description: Response model for a browser profile.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InitiateUploadResponse:
+      properties:
+        profile_id:
+          type: string
+          format: uuid
+          title: Profile Id
+        upload_url:
+          type: string
+          title: Upload Url
+        upload_fields:
+          additionalProperties:
+            type: string
+          type: object
+          title: Upload Fields
+        upload_expires_in:
+          type: integer
+          title: Upload Expires In
+      type: object
+      required:
+      - profile_id
+      - upload_url
+      - upload_fields
+      - upload_expires_in
+      title: InitiateUploadResponse
+      description: Response model for initiating a browser profile upload.
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

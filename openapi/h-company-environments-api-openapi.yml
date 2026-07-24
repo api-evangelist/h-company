@@ -1,0 +1,618 @@
+openapi: 3.1.0
+info:
+  title: Computer-Use Agents Environments API
+  version: 1.0.0
+servers:
+- url: https://agp.eu.hcompany.ai
+  description: Europe
+  x-fern-server-name: Eu
+- url: https://agp.hcompany.ai
+  description: United States
+  x-fern-server-name: Us
+tags:
+- name: Environments
+paths:
+  /api/v2/environments:
+    post:
+      tags:
+      - Environments
+      summary: Create Environment
+      description: Create an environment.
+      operationId: create_environment_api_v2_environments_post
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/Browser'
+              - $ref: '#/components/schemas/Desktop'
+              discriminator:
+                propertyName: kind
+                mapping:
+                  web: '#/components/schemas/Browser'
+                  desktop: '#/components/schemas/Desktop'
+              title: Create
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Environments
+      summary: List Environments
+      description: List reserved + caller's org environments. Unauthenticated callers see reserved ``h/`` environments only.
+      operationId: list_environments_api_v2_environments_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Case-insensitive substring match on environment id.
+          title: Id
+        description: Case-insensitive substring match on environment id.
+      - name: kind
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/EnvironmentKind'
+          - type: 'null'
+          description: Filter by environment kind.
+          title: Kind
+        description: Filter by environment kind.
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Case-insensitive match on environment id or description.
+          title: Search
+        description: Case-insensitive match on environment id or description.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: Number of items per page
+          default: 10
+          title: Size
+        description: Number of items per page
+      - name: sort
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              enum:
+              - created_at
+              - -created_at
+              - id
+              - -id
+              type: string
+          - type: 'null'
+          description: Sort by field
+          default:
+          - -created_at
+          title: Sort
+        description: Sort by field
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentPage'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v2/environments/{id}:
+    get:
+      tags:
+      - Environments
+      summary: Get Environment
+      description: Fetch by identifier; 404 if not visible. ``:path`` so slash-containing ids round-trip.
+      operationId: get_environment_api_v2_environments__id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Environments
+      summary: Update Environment
+      description: Replace the environment spec.
+      operationId: update_environment_api_v2_environments__id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/Browser'
+              - $ref: '#/components/schemas/Desktop'
+              discriminator:
+                propertyName: kind
+                mapping:
+                  web: '#/components/schemas/Browser'
+                  desktop: '#/components/schemas/Desktop'
+              title: Update
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Environments
+      summary: Patch Environment
+      description: Partially update an environment spec; only provided fields change.
+      operationId: patch_environment_api_v2_environments__id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchEnvironment'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Environments
+      summary: Delete Environment
+      description: 'Delete by identifier. Reserved rows: H employee only.'
+      operationId: delete_environment_api_v2_environments__id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Desktop:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: desktop
+          title: Kind
+          default: desktop
+        host:
+          type: string
+          title: Host
+          const: user_device
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing desktop session by id instead of starting a new one.
+      type: object
+      required:
+      - id
+      - host
+      title: Desktop
+      description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    BrowserNetwork:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
+      type: object
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
+    EnvironmentKind:
+      type: string
+      enum:
+      - web
+      - desktop
+      title: EnvironmentKind
+      description: Environment family.
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BrowserVisualMode:
+      properties:
+        type:
+          type: string
+          const: visual
+          title: Type
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
+    PatchEnvironment:
+      properties:
+        host:
+          anyOf:
+          - type: string
+            enum:
+            - user_device
+            - cloud
+          - type: 'null'
+          title: Host
+        start_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start Url
+        headless:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Headless
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+        mode:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/BrowserVisualMode'
+            - $ref: '#/components/schemas/BrowserTextMode'
+            discriminator:
+              propertyName: type
+              mapping:
+                text: '#/components/schemas/BrowserTextMode'
+                visual: '#/components/schemas/BrowserVisualMode'
+          - type: 'null'
+          title: Mode
+        vault_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Vault Id
+        browser_profile_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Browser Profile Id
+        use_default_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Default Browser Profile
+        persist_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Persist Browser Profile
+        network:
+          anyOf:
+          - $ref: '#/components/schemas/BrowserNetwork'
+          - type: 'null'
+      type: object
+      title: PatchEnvironment
+      description: Partial environment update.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EnvironmentPage:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Environment'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: EnvironmentPage
+      description: Named page subclass so OpenAPI emits a clean ``EnvironmentPage`` schema name.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    Browser:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: web
+          title: Kind
+          default: web
+        host:
+          type: string
+          enum:
+          - user_device
+          - cloud
+          title: Host
+          description: 'Where the browser runs: ''cloud'' on H Company infrastructure, or ''user_device'' on your own machine.'
+          default: cloud
+        start_url:
+          type: string
+          title: Start Url
+          description: Initial URL to open.
+          default: https://www.bing.com
+        headless:
+          type: boolean
+          title: Headless
+          description: Run the browser without a visible window.
+          default: false
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing browser session by id instead of starting a new one.
+        mode:
+          oneOf:
+          - $ref: '#/components/schemas/BrowserVisualMode'
+          - $ref: '#/components/schemas/BrowserTextMode'
+          title: Mode
+          description: How the agent perceives and drives the browser.
+          discriminator:
+            propertyName: type
+            mapping:
+              text: '#/components/schemas/BrowserTextMode'
+              visual: '#/components/schemas/BrowserVisualMode'
+        vault_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Vault Id
+          description: Id of a vault config to bind to this browser, letting the agent sign in to sites with secrets resolved from the vault. The vault must belong to the caller's organization. Only supported on cloud-hosted browsers. Omit to run without secret access.
+        browser_profile_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Browser Profile Id
+          description: Id of a browser profile to load into this browser, restoring saved cookies and storage state from a prior session. The profile must belong to the caller's organization. Only supported on cloud-hosted browsers. Omit to run with a fresh profile.
+        use_default_browser_profile:
+          type: boolean
+          title: Use Default Browser Profile
+          description: When true, load the caller's default browser profile for this browser flavor (marked via the browser-profiles API) instead of naming one explicitly. Mutually exclusive with browser_profile_id. When no default exists, an empty profile is auto-created and marked default; default-profile sessions save their final state back on stop when no other session is already persisting the profile. Only supported on cloud-hosted browsers.
+          default: false
+        persist_browser_profile:
+          type: boolean
+          title: Persist Browser Profile
+          description: When true, the browser profile is updated with this session's final browser state (cookies, storage) when the session ends. Requires browser_profile_id or use_default_browser_profile. Only one active session at a time may persist a given profile; concurrent read-only use is always allowed.
+          default: false
+        network:
+          anyOf:
+          - $ref: '#/components/schemas/BrowserNetwork'
+          - type: 'null'
+          description: Optional network configuration for the remote browser session. Applied only when a new runner session is provisioned (not when session_id is set).
+      type: object
+      required:
+      - id
+      title: Browser
+      description: A web browser the agent navigates and acts on.
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
