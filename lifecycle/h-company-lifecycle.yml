@@ -1,0 +1,24 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/models
+sources:
+  - https://hub.hcompany.ai/computer-use-agents/changelog
+  - https://hub.hcompany.ai/models-api/list-models
+versioning:
+  scheme: uri-path
+  agent_platform: v2 (https://agp.eu.hcompany.ai/api/v2)
+  models_api: v1 (https://api.hcompany.ai/v1, OpenAI-compatible)
+deprecation:
+  model_lifecycle: >-
+    Model IDs are stable identifiers. When a model is scheduled for removal its
+    deprecation_date field is set on GET /v1/models and a notice appears on the
+    Models page; after removal, requests to the old ID fail with model_not_found.
+  policy_url: https://hub.hcompany.ai/models
+  programmatic_check: GET /v1/models (deprecation_date field)
+  sunset_header: false
+sla:
+  uptime_target: null
+  note: No published SLA / uptime commitment found; Enterprise plans via support@hcompany.ai.
+status_page: null
+support: support@hcompany.ai
+deprecated_operations: []

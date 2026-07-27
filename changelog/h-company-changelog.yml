@@ -1,0 +1,52 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/computer-use-agents/changelog
+scheme: semver
+current_version: 1.0.7
+scope: Computer-Use Agents API and SDKs
+entries:
+  - version: 1.0.7
+    date: '2026-07-16'
+    breaking: false
+    highlights:
+      - Session retention controls (delete_after_min, delete_screenshot_after_min; default 30 days).
+      - Faster local desktop — client-side screenshot downscale/recompress before upload.
+      - Sturdier local control — hai doctor diagnostics, hai local stop, auto-cancel on process exit.
+  - version: 1.0.6
+    date: '2026-07-09'
+    breaking: false
+    highlights:
+      - Local control — drive the browser or desktop on your own machine (host=user_device).
+      - Persistent browser profiles (persist_browser_profile) with exclusive write lock.
+      - Default browser profiles (use_default_browser_profile) with set/get/unset endpoints.
+  - version: 1.0.5
+    date: '2026-07-06'
+    breaking: false
+    highlights:
+      - Scheduled sessions — cron schedules with pause/resume, manual trigger, run history.
+      - Managed proxies — H-provisioned residential/datacenter proxy pools.
+      - Webhook delivery health fields on the webhook object.
+  - version: 1.0.4
+    date: '2026-07-03'
+    breaking: false
+    highlights:
+      - Queue sessions instead of 429 — over-quota creates accepted with queued status.
+      - Granular webhook events, retries, ping, and secret rotation.
+      - Machine-readable failures — session error_code and per-answer outcome.
+  - version: 1.0.3
+    date: '2026-07-01'
+    breaking: false
+    highlights:
+      - Browser headless option.
+      - Registry packages skipped this version (changes shipped in 1.0.4 packages).
+  - version: 1.0.2
+    date: '2026-07-01'
+    breaking: false
+    highlights:
+      - Browse the h/ catalog (agents, skills, environments) without an API key.
+      - CLI agent picker on hai run.
+  - version: 1.0.1
+    date: '2026-06-29'
+    breaking: false
+    highlights:
+      - Nested Browser mode object (visual/text); old flat shape still parses.

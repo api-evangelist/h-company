@@ -1,0 +1,38 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/computer-use-agents/webhooks/overview
+sources:
+  - https://hub.hcompany.ai/computer-use-agents/webhooks/events
+spec_type: Webhooks
+note: >-
+  H Company publishes no AsyncAPI document, but the Computer-Use Agents API ships
+  a first-class webhook surface: register endpoints to receive signed HTTP event
+  notifications when sessions change status, with retries, auto-disable on
+  repeated failure, ping, and secret rotation.
+delivery:
+  transport: HTTP POST
+  signing: signed events (HMAC secret per webhook; rotatable without downtime)
+  retries: failed deliveries retry with backoff; endpoints that keep failing are auto-disabled
+  health_fields: [last_delivery_status, last_delivery_error, last_delivery_at, last_success_at, consecutive_failures]
+management_operations:
+  - POST   /api/v2/webhooks (create)
+  - GET    /api/v2/webhooks (list)
+  - GET    /api/v2/webhooks/events (list event types)
+  - GET    /api/v2/webhooks/{webhook_id} (retrieve)
+  - PATCH  /api/v2/webhooks/{webhook_id} (update)
+  - DELETE /api/v2/webhooks/{webhook_id} (delete)
+  - POST   /api/v2/webhooks/{webhook_id}/rotate (rotate secret)
+  - POST   /api/v2/webhooks/{webhook_id}/ping (ping)
+event_types:
+  - type: session.awaiting_tool_results
+    description: Sent when the agent is waiting for client-side tool results.
+  - type: session.completed
+    description: Sent when a session finishes successfully.
+  - type: session.failed
+    description: Sent when a session fails.
+  - type: session.idle
+    description: Sent when the agent finishes a run and waits for the next message.
+  - type: session.status_updated
+    description: Sent on every session status change (running, completed, failed, timed out, interrupted, paused, idle, awaiting tool results).
+  - type: session.timed_out
+    description: Sent when a session exceeds its time limit.

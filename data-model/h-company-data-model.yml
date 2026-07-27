@@ -1,0 +1,100 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/h-company-computer-use-agents-openapi-original.json
+api: Computer-Use Agents API (agp, /api/v2)
+notes: >-
+  Entity graph derived from the OpenAPI component schemas and id-reference fields.
+  Agents reference environments and skills by name; sessions run an agent and emit
+  events and answers; schedules template a session_request; browsers (an
+  environment kind) reference vaults and browser profiles.
+entities:
+  - name: Session
+    id_field: id
+    key_schema: Session
+    description: A single execution of an agent.
+    fields: [id, request, status, agent_view_url, latest_answer, created_at, started_at, finished_at]
+  - name: Agent
+    id_field: name
+    key_schema: Agent
+    description: A reusable configuration defining what an AI agent can do (env, model, instructions, skills).
+    fields: [name, description, environments, model, instructions, subagents, skills, answer_format, tools]
+  - name: Environment
+    id_field: id
+    key_schema: Environment
+    description: The surface an agent perceives and acts on (e.g. a Browser).
+  - name: Browser
+    id_field: id
+    key_schema: Browser
+    description: A Browser environment kind, referencing a vault and a browser profile.
+    fields: [id, kind, host, start_url, headless, session_id, mode, vault_id, browser_profile_id, network]
+  - name: Skill
+    id_field: name
+    key_schema: Skill
+    description: A reusable instruction fragment an agent can draw on.
+  - name: Schedule
+    id_field: id
+    key_schema: ScheduleRecord
+    description: A cron schedule that starts a session on each fire.
+    fields: [id, name, timing, session_request, paused, next_run_times, last_run_at]
+  - name: Webhook
+    id_field: webhook_id
+    key_schema: WebhookRecord
+    description: A registered URL receiving signed session event notifications.
+  - name: BrowserProfile
+    id_field: profile_id
+    key_schema: BrowserProfileRead
+    description: Saved browser state (cookies, storage) a session can load and persist.
+  - name: Vault
+    id_field: vault_id
+    key_schema: Vault
+    description: A secrets-provider config letting an agent sign in without passing secrets through the API.
+  - name: SessionEvent
+    key_schema: SessionEvent
+    description: An event emitted during a session (observations, messages, answers, metrics).
+relationships:
+  - from: Session
+    to: Agent
+    type: belongs_to
+    via: request.agent
+  - from: Session
+    to: Session
+    type: belongs_to
+    via: request.parent_session_id
+    note: subagent/parent linkage; group_id groups related sessions
+  - from: Session
+    to: SessionEvent
+    type: has_many
+    via: session_id
+  - from: Agent
+    to: Environment
+    type: has_many
+    via: environments
+  - from: Agent
+    to: Skill
+    type: has_many
+    via: skills
+  - from: Agent
+    to: Agent
+    type: has_many
+    via: subagents
+  - from: Browser
+    to: Vault
+    type: belongs_to
+    via: vault_id
+  - from: Browser
+    to: BrowserProfile
+    type: belongs_to
+    via: browser_profile_id
+  - from: Browser
+    to: Session
+    type: belongs_to
+    via: session_id
+  - from: Schedule
+    to: Session
+    type: has_many
+    via: session_request
+    note: each fire creates a session from the template
+  - from: Webhook
+    to: Session
+    type: references
+    via: session events (enabled_events)

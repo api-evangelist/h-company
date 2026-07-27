@@ -1,0 +1,92 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/computer-use-agents/errors
+derived_from: openapi/h-company-computer-use-agents-openapi-original.json
+format: custom
+envelope:
+  message: Human-readable summary of what went wrong.
+  detail: Array with one entry per problem; each has a `type` and `message` (validation entries add `loc` and `msg`).
+  example: '{ "message": "Session not found.", "detail": [ { "type": "not_found", "message": "Session not found." } ] }'
+note: >-
+  H Company does not use RFC 9457 application/problem+json; it uses a consistent
+  custom { message, detail[] } envelope across every endpoint. Session-level
+  failures (a session accepted then ended failed/timed_out) are reported via the
+  session `error_code` field rather than an HTTP error.
+problems:
+  - status: 400
+    type: bad_request
+    title: Bad Request
+    meaning: Malformed request or invalid parameters.
+    remediation: Check the request body against the endpoint docs.
+    retry: false
+  - status: 401
+    type: unauthorized
+    title: Unauthorized
+    meaning: Missing or invalid API key.
+    remediation: Verify the Authorization bearer key is present and valid.
+    retry: false
+  - status: 402
+    type: payment_required
+    title: Payment Required
+    meaning: Monthly token budget exhausted.
+    remediation: detail carries limit, used, and window_end; wait for reset or upgrade the plan.
+    retry: false
+  - status: 403
+    type: forbidden
+    title: Forbidden
+    meaning: Valid credentials, insufficient permissions (e.g. modifying a reserved h/ agent).
+    remediation: Check that your role allows the operation.
+    retry: false
+  - status: 404
+    type: not_found
+    title: Not Found
+    meaning: Resource doesn't exist or isn't visible to you.
+    remediation: Verify the ID and your access.
+    retry: false
+  - status: 409
+    type: conflict
+    title: Conflict
+    meaning: Resource already exists, or an identical idempotent request is still in flight.
+    remediation: Use a unique identifier, fetch the existing resource, or wait for the in-flight request.
+    retry: false
+  - status: 422
+    type: validation_error
+    title: Unprocessable Entity
+    meaning: Request body fails validation; each detail entry keeps the field loc and reason (msg).
+    remediation: Read the detail array for per-field errors.
+    retry: false
+  - status: 429
+    type: too_many_requests
+    title: Too Many Requests
+    meaning: Concurrency limit exceeded with queueing declined, or the session queue is full.
+    remediation: Leave queue at default to queue instead, or request a quota increase.
+    retry: true
+  - status: 502
+    type: bad_gateway
+    title: Bad Gateway
+    meaning: Upstream service error.
+    remediation: Retry after a brief pause.
+    retry: true
+  - status: 503
+    type: service_unavailable
+    title: Service Unavailable
+    meaning: Temporary capacity issue.
+    remediation: Honor Retry-After and retry.
+    retry: true
+  - status: 504
+    type: gateway_timeout
+    title: Gateway Timeout
+    meaning: Request took too long to process.
+    remediation: Retry the request.
+    retry: true
+session_error_codes:
+  - environment_error
+  - no_answer
+  - answer_validation
+  - timeout
+  - internal
+answer_outcomes:
+  - success
+  - partial
+  - infeasible
+  - blocked

@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for H Company Computer-Use Agents API
+  version: 1.0.0
+extends: openapi/h-company-computer-use-agents-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-19'
+      x-apievangelist-provider: h-company
+      x-api-family: Computer-Use Agents
+      x-mcp-server: io.github.hcompai/hai-agents
+      x-idempotency: Idempotency-Key
+      x-regions:
+        - {region: EU, host: https://agp.eu.hcompany.ai, default: true}
+        - {region: US, host: https://agp.hcompany.ai}
+  - target: $.info
+    update:
+      x-companion-api:
+        name: Holo Models API
+        base_url: https://api.hcompany.ai/v1/
+        openai_compatible: true
+        models: [holo3-1-35b-a3b, holo3-122b-a10b]
+  - target: $.info
+    update:
+      x-error-envelope: '{ message, detail[] }'
+      x-error-catalog: errors/h-company-problem-types.yml
+      x-conventions: conventions/h-company-conventions.yml
+      x-webhooks: asyncapi/h-company-webhooks.yml

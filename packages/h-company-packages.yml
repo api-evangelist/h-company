@@ -1,0 +1,48 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/computer-use-agents/sdks
+notes: >-
+  First-party clients for the H Company Computer-Use Agents API ship as the
+  hai-agents package on PyPI and npm; the hai CLI installs from the Python
+  package extra. The Models API is OpenAI-compatible and is used through the
+  official OpenAI clients (not first-party H libraries), so those are recorded
+  as compatible rather than official.
+packages:
+  - language: python
+    registry: pypi
+    name: hai-agents
+    url: https://pypi.org/project/hai-agents/
+    install: pip install hai-agents
+    official: true
+    repo: https://github.com/hcompai/hai-agents-python
+    covers: Computer-Use Agents API (sessions, agents, skills, environments, schedules, vaults, webhooks); typed with Pydantic v2
+  - language: typescript
+    registry: npm
+    name: hai-agents
+    url: https://www.npmjs.com/package/hai-agents
+    install: npm install hai-agents
+    official: true
+    repo: https://github.com/hcompai/hai-agents-ts
+    covers: Fully typed TypeScript client for sessions, agents, skills, environments, schedules, and webhooks
+  - language: python
+    registry: pypi
+    name: hai-agents[cli]
+    url: https://pypi.org/project/hai-agents/
+    install: pip install "hai-agents[cli]"
+    official: true
+    covers: Installs the `hai` command-line interface alongside the Python client
+compatible_clients:
+  - language: python
+    registry: pypi
+    name: openai
+    url: https://pypi.org/project/openai/
+    install: pip install openai
+    official: false
+    covers: Models API is OpenAI-compatible; point the OpenAI client at https://api.hcompany.ai/v1/
+  - language: typescript
+    registry: npm
+    name: openai
+    url: https://www.npmjs.com/package/openai
+    install: npm install openai
+    official: false
+    covers: Models API is OpenAI-compatible; set baseURL to https://api.hcompany.ai/v1/

@@ -1,0 +1,59 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/api-reference
+sources:
+  - https://hub.hcompany.ai/computer-use-agents/errors
+  - https://hub.hcompany.ai/computer-use-agents/sdks
+  - openapi/h-company-computer-use-agents-openapi-original.json
+api: Computer-Use Agents API (agp, /api/v2)
+authentication:
+  style: bearer
+  header: "Authorization: Bearer hk-..."
+  detail: See authentication/h-company-authentication.yml
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  scope: mutating requests (POST create endpoints)
+  behavior: >-
+    Retrying a request with the same Idempotency-Key while the first is still in
+    flight returns 409 Conflict; the parameter appears in the OpenAPI on session,
+    agent, and other create operations.
+  evidence: Idempotency-Key parameter in openapi/h-company-computer-use-agents-openapi-original.json; 409 documented in errors reference
+pagination:
+  style: page-number and offset (list endpoints)
+  params: [page, size, sort, limit, offset, from_index]
+  response_container: Page_* envelopes (Page_SessionSummary_, Page_Agent_, Page_Skill_, Page_WebhookRecord_, Page_ScheduleRecord_, Page_ScheduleRunRecord_, Page_SessionEvent_)
+  filters: [owner, status, agent, group_id, parent_session_id, created_before, created_after, finished_before, finished_after, search]
+realtime:
+  long_poll: GET /api/v2/sessions/{id}/changes
+  status_poll: GET /api/v2/sessions/{id}/status
+  events: GET /api/v2/sessions/{id}/events
+  webhooks: See asyncapi/h-company-webhooks.yml
+error_envelope:
+  format: custom
+  shape: '{ "message": string, "detail": [ { "type": string, "message"|"msg": string, "loc"?: [..], "input"?: {} } ] }'
+  validation_errors: 422 entries keep failing field path (loc) and reason (msg)
+  session_failure_codes: [environment_error, no_answer, answer_validation, timeout, internal]
+  answer_outcomes: [success, partial, infeasible, blocked]
+  detail: See errors/h-company-problem-types.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  models_api: v1 (OpenAI-compatible, https://api.hcompany.ai/v1/)
+  detail: See lifecycle/h-company-lifecycle.yml and changelog/h-company-changelog.yml
+regions:
+  model: isolated EU and US regions; requests stay in-region (data residency)
+  eu_host: https://agp.eu.hcompany.ai
+  us_host: https://agp.hcompany.ai
+  default: EU
+rate_limiting:
+  request_rate: none (no per-request rate limits on the agent platform)
+  quotas: per-organization token budget and concurrent-session cap
+  token_quota: GET /api/v2/quota/tokens
+  session_quota: GET /api/v2/sessions/quota
+  over_quota: 402 Payment Required (tokens) / queued or 429 (concurrency)
+  models_api_rate: free tier 10 RPM on holo3-1-35b-a3b
+retries:
+  retryable: [408, 429, 5xx]
+  sdk_default: 2 retries with backoff; honors Retry-After
+  non_retryable: [400, 401, 402, 403, 404, 422]

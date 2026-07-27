@@ -1,0 +1,28 @@
+generated: '2026-07-19'
+method: searched
+note: >-
+  Probed the /.well-known/ discovery surface on the API host (api.hcompany.ai),
+  the agent-platform hosts (agp.eu/agp.hcompany.ai), the marketing site
+  (hcompany.ai / www), and the docs host (hub.hcompany.ai). None served a
+  well-known document; all returned 404. Absence is valid, recorded data.
+hosts:
+  - host: https://api.hcompany.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://hcompany.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+  - host: https://hub.hcompany.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404

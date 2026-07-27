@@ -1,0 +1,34 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/h-company-computer-use-agents-openapi-original.json
+sources:
+  - https://hub.hcompany.ai/api-reference
+  - https://hub.hcompany.ai/computer-use-agents/errors
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: Computer-Use Agents API publishes an OpenAPI 3.1.0 document at https://agp.hcompany.ai/share/openapi.json
+  - id: openai-chat-completions-compatible
+    conforms: true
+    evidence: Models API is OpenAI-compatible; the official OpenAI clients work as-is against https://api.hcompany.ai/v1/
+  - id: http-bearer-auth
+    conforms: true
+    evidence: securityScheme HTTPBearer (Authorization Bearer hk-...)
+  - id: idempotency-key
+    conforms: true
+    evidence: Idempotency-Key request parameter on create operations; duplicate in-flight returns 409
+  - id: webhooks-signed-events
+    conforms: true
+    evidence: Signed HTTP webhook deliveries with retries, rotation, and typed event catalog
+  - id: mcp
+    conforms: true
+    evidence: Official remote streamable-HTTP MCP server at /mcp; listed in the MCP Registry as io.github.hcompai/hai-agents
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Uses a custom { message, detail[] } error envelope, not application/problem+json
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme; API-key bearer only (keys minted on Portal-H)
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: Model deprecation surfaced via deprecation_date field on GET /v1/models, not Sunset headers

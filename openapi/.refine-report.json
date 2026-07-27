@@ -1,0 +1,30 @@
+{
+  "provider": "h-company",
+  "sources": [
+    "h-company-agents-api-openapi.yml",
+    "h-company-browser-profiles-api-openapi.yml",
+    "h-company-environments-api-openapi.yml",
+    "h-company-quota-api-openapi.yml",
+    "h-company-schedules-api-openapi.yml",
+    "h-company-sessions-api-openapi.yml",
+    "h-company-skills-api-openapi.yml",
+    "h-company-vaults-api-openapi.yml",
+    "h-company-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "h-company-agents-api-openapi.yml",
+    "h-company-browser-profiles-api-openapi.yml",
+    "h-company-environments-api-openapi.yml",
+    "h-company-quota-api-openapi.yml",
+    "h-company-schedules-api-openapi.yml",
+    "h-company-sessions-api-openapi.yml",
+    "h-company-skills-api-openapi.yml",
+    "h-company-vaults-api-openapi.yml",
+    "h-company-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

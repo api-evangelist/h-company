@@ -1,21 +1,210 @@
 aid: h-company
 name: H Company
-description: H Company is a company surfaced as a portfolio company of accel, creandum and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: 'H Company (hcompany.ai) is a Paris-based AI lab, backed by Accel and Creandum, that builds
+  the Holo family of vision-language models and a Computer-Use Agents platform for automating work on
+  browsers and desktops. It ships two public APIs: the Computer-Use Agents API (agp, /api/v2) for launching,
+  steering, scheduling, and observing autonomous agent sessions — with reusable agents, skills, environments,
+  browser profiles, vaults, and signed webhooks — and the OpenAI-compatible Holo Models API (/v1) serving
+  the Holo3 and Holo3.1 models. Typed Python and TypeScript SDKs (hai-agents), a hai CLI, an official
+  MCP server, and idempotent, region-isolated (EU/US) REST round out an agent-native developer surface.'
 url: https://raw.githubusercontent.com/api-evangelist/h-company/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - accel
 - creandum
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: live-developer-platform
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
-- Company
-apis: []
+- Artificial Intelligence
+- Agents
+- Computer Use
+- Automation
+- Machine Learning
+- Browser Automation
+- LLMs
+- MCP
+- Developer Tools
+apis:
+- aid: h-company-holo-models
+  name: H Company Holo Models API
+  humanURL: https://hub.hcompany.ai/about-the-models-api
+  baseURL: https://api.hcompany.ai/v1
+  tags:
+  - LLMs
+  - Machine Learning
+  - Vision-Language
+  - Inference
+  description: >-
+    OpenAI-compatible inference API serving the Holo3 and Holo3.1 vision-language models for computer
+    use — chat completions with structured outputs, reasoning, and image inputs, plus runtime model discovery.
+    Point the official OpenAI client at https://api.hcompany.ai/v1/.
+  properties:
+  - type: Documentation
+    url: https://hub.hcompany.ai/about-the-models-api
+  - type: APIReference
+    url: https://hub.hcompany.ai/api-reference
+  - type: Pricing
+    url: https://hcompany.ai/holo-models-api
+- aid: h-company:h-company-agents-api
+  name: H Company Agents API
+  description: The Agents API from H Company — 2 operation(s) for agents.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-agents-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-browser-profiles-api
+  name: H Company Browser Profiles API
+  description: The Browser Profiles API from H Company — 6 operation(s) for browser profiles.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Browser Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-browser-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-environments-api
+  name: H Company Environments API
+  description: The Environments API from H Company — 2 operation(s) for environments.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-environments-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-quota-api
+  name: H Company quota API
+  description: The quota API from H Company — 1 operation(s) for quota.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - quota
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-quota-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-schedules-api
+  name: H Company Schedules API
+  description: The Schedules API from H Company — 6 operation(s) for schedules.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-schedules-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-sessions-api
+  name: H Company Sessions API
+  description: The Sessions API from H Company — 15 operation(s) for sessions.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-skills-api
+  name: H Company Skills API
+  description: The Skills API from H Company — 2 operation(s) for skills.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Skills
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-skills-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-vaults-api
+  name: H Company Vaults API
+  description: The Vaults API from H Company — 4 operation(s) for vaults.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Vaults
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-vaults-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- aid: h-company:h-company-webhooks-api
+  name: H Company Webhooks API
+  description: The Webhooks API from H Company — 5 operation(s) for webhooks.
+  humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
+  baseURL: https://agp.eu.hcompany.ai/api/v2
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/h-company-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://hub.hcompany.ai/computer-use-agents/introduction
+  - type: APIReference
+    url: https://agp.hcompany.ai/share/docs
+  - type: GettingStarted
+    url: https://hub.hcompany.ai/computer-use-agents/quickstart
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -24,3 +213,67 @@ maintainers:
 common:
 - type: Website
   url: https://www.hcompany.ai/
+- type: DeveloperPortal
+  url: https://hub.hcompany.ai/
+- type: Documentation
+  url: https://hub.hcompany.ai/
+- type: APIReference
+  url: https://agp.hcompany.ai/share/docs
+- type: GettingStarted
+  url: https://hub.hcompany.ai/computer-use-agents/quickstart
+- type: Blog
+  url: https://hcompany.ai/blog
+- type: GitHubOrganization
+  url: https://github.com/hcompai
+- type: Support
+  url: https://hcompany.ai/contact
+- type: Pricing
+  url: https://hcompany.ai/holo-models-api
+- type: SignUp
+  url: https://portal.hcompany.ai/
+- type: TermsOfService
+  url: https://hcompany.ai/terms-of-use
+- type: PrivacyPolicy
+  url: https://hcompany.ai/privacy-policy
+- type: Authentication
+  url: authentication/h-company-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/h-company-agentic-access.yml
+- type: DomainSecurity
+  url: security/h-company-domain-security.yml
+- type: Packages
+  url: packages/h-company-packages.yml
+- type: SDKs
+  url: packages/h-company-packages.yml
+- type: CLI
+  url: cli/h-company-cli.yml
+- type: MCPServer
+  url: mcp/h-company-mcp.yml
+- type: LLMsTxt
+  url: llms/h-company-llms.txt
+- type: Conventions
+  url: conventions/h-company-conventions.yml
+- type: Idempotency
+  url: conventions/h-company-conventions.yml
+- type: ErrorCatalog
+  url: errors/h-company-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/h-company-lifecycle.yml
+- type: Deprecation
+  url: https://hub.hcompany.ai/models
+- type: ChangeLog
+  url: changelog/h-company-changelog.yml
+- type: Conformance
+  url: conformance/h-company-conformance.yml
+- type: DataModel
+  url: data-model/h-company-data-model.yml
+- type: Webhooks
+  url: asyncapi/h-company-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+image: https://framerusercontent.com/assets/Xk8HZOz0eejLsPdcyokpuQJa3c.png
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: generated
+note: >-
+  Grounded operating skills generated from the Computer-Use Agents OpenAPI
+  (every operationId verified in openapi/h-company-computer-use-agents-openapi-original.json).
+  The provider also publishes its own coding skill (hai-agents SKILL.md), saved
+  verbatim below with method: searched.
+skills:
+  - file: h-company-run-a-browser-agent.md
+    name: Run a browser agent to completion
+    api: openapi/h-company-computer-use-agents-openapi-original.json
+    method: generated
+    operations: [create_session_api_v2_sessions_post, get_session_status_api_v2_sessions__id__status_get, get_session_changes_api_v2_sessions__id__changes_get, send_session_messages_api_v2_sessions__id__messages_post, force_session_answer_api_v2_sessions__id__force_answer_post, cancel_session_api_v2_sessions__id__delete]
+  - file: h-company-define-agents-and-environments.md
+    name: Define reusable agents, skills, and environments
+    api: openapi/h-company-computer-use-agents-openapi-original.json
+    method: generated
+    operations: [create_environment_api_v2_environments_post, create_skill_api_v2_skills_post, create_agent_api_v2_agents_post, list_agents_api_v2_agents_get, patch_agent_api_v2_agents__agent_name__patch]
+  - file: h-company-schedule-and-webhook-sessions.md
+    name: Schedule sessions and receive webhook notifications
+    api: openapi/h-company-computer-use-agents-openapi-original.json
+    method: generated
+    operations: [create_schedule_api_v2_schedules_post, trigger_schedule_api_v2_schedules__schedule_id__trigger_post, list_schedule_runs_api_v2_schedules__schedule_id__runs_get, create_webhook_api_v2_webhooks_post, list_webhook_events_api_v2_webhooks_events_get, ping_webhook_api_v2_webhooks__webhook_id__ping_post, rotate_webhook_secret_api_v2_webhooks__webhook_id__rotate_post]
+  - file: h-company-hai-agents-published-SKILL.md
+    name: hai-agents (provider-published coding skill)
+    method: searched
+    source: https://github.com/hcompai/computer-use-agents-demos/tree/main/skills/hai-agents

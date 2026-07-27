@@ -1,0 +1,42 @@
+generated: '2026-07-19'
+method: searched
+source: https://hub.hcompany.ai/holo-desktop-cli/reference/cli
+sources:
+  - https://hub.hcompany.ai/computer-use-agents/sdks
+name: hai
+description: >-
+  The hai command-line interface ships with the hai-agents Python package and
+  drives the Computer-Use Agents API from the terminal — login, running agents,
+  and local browser/desktop control. A separate HoloDesktop CLI (holo) delegates
+  desktop work to Holo3 vision-language models.
+install:
+  - method: pip
+    command: pip install "hai-agents[cli]"
+binary_in: packages/h-company-packages.yml
+auth:
+  command: hai login
+  detail: Browser sign-in (desktop PKCE flow); stores the key in ~/.config/hai/.env
+commands:
+  - name: hai login
+    group: auth
+    description: Browser sign-in; writes HAI_API_KEY to config.
+  - name: hai run
+    group: sessions
+    description: Run an agent; without --agent, lists the live agent catalog and prompts for a choice.
+  - name: hai local browser
+    group: local-control
+    description: Let an agent drive Chrome on your own machine.
+  - name: hai local desktop
+    group: local-control
+    description: Let an agent drive mouse/keyboard/screen on your own machine; tune --max-width, --image-format, --quality.
+  - name: hai local stop
+    group: local-control
+    description: Cancel the in-flight local session (or double-Esc during a desktop turn).
+  - name: hai doctor
+    group: diagnostics
+    description: Diagnose login, platform access, and local-control prerequisites with fix-it hints.
+companion_cli:
+  name: holo (HoloDesktop CLI)
+  install: pip / see https://hub.hcompany.ai/holo-desktop-cli/getting-started/quickstart
+  description: Terminal, MCP, ACP, and Python interfaces to delegate desktop tasks to Holo3 models.
+  reference: https://hub.hcompany.ai/holo-desktop-cli/reference/cli
