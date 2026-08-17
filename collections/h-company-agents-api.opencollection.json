@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Computer-Use Agents API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents",
+            "params": [
+              {
+                "name": "agent_name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive substring match on agent name."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive match on agent name or description."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort by field"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List reserved + caller's org agents. Unauthenticated callers see reserved ``h/`` agents only."
+        },
+        {
+          "info": {
+            "name": "Create Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an agent.."
+        },
+        {
+          "info": {
+            "name": "Get Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents/:agent_name",
+            "params": [
+              {
+                "name": "agent_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "resolve",
+                "value": "",
+                "type": "query",
+                "description": "Materialise string environment/skill/subagent leaves into full specs."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetch by identifier; 404 if not visible. ``resolve=true`` materialises spec leaves."
+        },
+        {
+          "info": {
+            "name": "Update Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents/:agent_name",
+            "params": [
+              {
+                "name": "agent_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace ``spec``. ``spec.name`` must match the URL identifier; renames are not supported."
+        },
+        {
+          "info": {
+            "name": "Patch Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents/:agent_name",
+            "params": [
+              {
+                "name": "agent_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an agent spec; only provided fields change."
+        },
+        {
+          "info": {
+            "name": "Delete Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://agp.eu.hcompany.ai/api/v2/agents/:agent_name",
+            "params": [
+              {
+                "name": "agent_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete by identifier. Reserved rows: H employee only."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Computer-Use Agents quota API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "quota",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Token Quota",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/quota/tokens",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the current org's token-quota snapshot for the FE meter."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

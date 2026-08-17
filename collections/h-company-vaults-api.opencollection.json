@@ -1,0 +1,182 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Computer-Use Agents Vaults API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vaults",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Vaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the caller's org vault configs."
+        },
+        {
+          "info": {
+            "name": "Create Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a vault config. The provider token is validated by env-manager before storage."
+        },
+        {
+          "info": {
+            "name": "Get Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults/:vault_id",
+            "params": [
+              {
+                "name": "vault_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetch a vault config by id."
+        },
+        {
+          "info": {
+            "name": "Update Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults/:vault_id",
+            "params": [
+              {
+                "name": "vault_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partial update of a vault config (name and/or provider_config)."
+        },
+        {
+          "info": {
+            "name": "Delete Vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults/:vault_id",
+            "params": [
+              {
+                "name": "vault_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a vault config."
+        },
+        {
+          "info": {
+            "name": "Rotate Vault Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults/:vault_id/token",
+            "params": [
+              {
+                "name": "vault_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate the stored provider token. env-manager health-checks it before writing."
+        },
+        {
+          "info": {
+            "name": "Vault Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/vaults/:vault_id/health",
+            "params": [
+              {
+                "name": "vault_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Probe the vault's provider. Always 200 when reachable; branch on ``ok``."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

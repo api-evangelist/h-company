@@ -1,0 +1,180 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Computer-Use Agents Skills API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Skills",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive substring match on skill name."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive match on skill name or description."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort by field"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List reserved + caller's org skills. Unauthenticated callers see reserved ``h/`` skills only."
+        },
+        {
+          "info": {
+            "name": "Create Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a skill. The ``h/`` namespace is reserved for built-in skills."
+        },
+        {
+          "info": {
+            "name": "Get Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetch by name; 404 if not visible. ``:path`` so slash-containing names round-trip."
+        },
+        {
+          "info": {
+            "name": "Update Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace a skill's content. ``name`` must match the URL identifier; renames are not supported."
+        },
+        {
+          "info": {
+            "name": "Patch Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a skill; only provided fields change."
+        },
+        {
+          "info": {
+            "name": "Delete Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://agp.eu.hcompany.ai/api/v2/skills/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete by name. Reserved rows: H employee only."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

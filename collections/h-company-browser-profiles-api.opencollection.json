@@ -1,0 +1,197 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Computer-Use Agents Browser Profiles API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Browser Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Browser Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the caller's browser profiles."
+        },
+        {
+          "info": {
+            "name": "Initiate Browser Profile Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/initiate-upload",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a presigned S3 POST for uploading a profile zip directly to S3.\n\nThe returned ``upload_url`` and ``upload_fields`` are passed through verbatim;\nthe client uploads to S3 and then calls ``complete-upload``."
+        },
+        {
+          "info": {
+            "name": "Complete Browser Profile Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/:profile_id/complete-upload",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Finalize a profile after the zip is uploaded to S3.\n\n``browser_name`` is an unconstrained ``str`` here; env-manager validates it\nagainst its own ``BROWSER_NAMES`` literal and returns 422 on a bad value."
+        },
+        {
+          "info": {
+            "name": "Get Default Browser Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/default",
+            "params": [
+              {
+                "name": "browser_name",
+                "value": "",
+                "type": "query",
+                "description": "Browser flavor, e.g. 'chromium'"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetch the caller's default profile for a browser flavor (404 when unset)."
+        },
+        {
+          "info": {
+            "name": "Set Default Browser Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/:profile_id/default",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Mark a profile as the caller's default for its browser flavor.\n\nSessions created with ``use_default_browser_profile: true`` attach this\nprofile. Replaces the caller's previous default for the same browser_name."
+        },
+        {
+          "info": {
+            "name": "Unset Default Browser Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/:profile_id/default",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Clear the default flag on a profile."
+        },
+        {
+          "info": {
+            "name": "Get Browser Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/:profile_id",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetch a browser profile by id."
+        },
+        {
+          "info": {
+            "name": "Delete Browser Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://agp.eu.hcompany.ai/api/v2/browser-profiles/:profile_id",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a browser profile (record + S3 object)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

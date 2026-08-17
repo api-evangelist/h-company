@@ -1,0 +1,1134 @@
+{
+  "item": [
+    {
+      "id": "5ce5c95f-94e2-48ad-87af-5eb0e278e337",
+      "name": "Environments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4d72eae-7774-454e-b673-3eb67fea4b7d",
+          "name": "Create Environment",
+          "request": {
+            "name": "Create Environment",
+            "description": {
+              "content": "Create an environment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"<string>\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"<uuid>\",\n  \"browser_profile_id\": \"<uuid>\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"<string>\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f585eab9-2336-49fb-9667-72f71c227bfa",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9aedb8ef-27a1-4081-a64b-c4210f02389e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a74c3a33-e661-400b-9c20-98c28822d727",
+          "name": "List Environments",
+          "request": {
+            "name": "List Environments",
+            "description": {
+              "content": "List reserved + caller's org environments. Unauthenticated callers see reserved ``h/`` environments only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "Case-insensitive substring match on environment id."
+                },
+                {
+                  "disabled": false,
+                  "key": "kind",
+                  "value": "<string>",
+                  "description": "Filter by environment kind."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Case-insensitive match on environment id or description."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c481b713-6d83-42ae-9583-d74e528a04f9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "kind",
+                      "value": "desktop"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"kind\": \"web\",\n      \"host\": \"cloud\",\n      \"start_url\": \"https://www.bing.com\",\n      \"headless\": false,\n      \"session_id\": \"string\",\n      \"mode\": {\n        \"type\": \"visual\",\n        \"width\": 1200,\n        \"height\": 1200,\n        \"markdown\": false\n      },\n      \"vault_id\": \"b2f156e8-0886-e2fd-71e0-031baeb598c9\",\n      \"browser_profile_id\": \"f47f268d-dd9e-95b2-568a-e8f7b92e675b\",\n      \"use_default_browser_profile\": false,\n      \"persist_browser_profile\": false,\n      \"network\": {\n        \"proxy_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"managed_proxy\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"kind\": \"web\",\n      \"host\": \"cloud\",\n      \"start_url\": \"https://www.bing.com\",\n      \"headless\": false,\n      \"session_id\": \"string\",\n      \"mode\": {\n        \"type\": \"visual\",\n        \"width\": 1200,\n        \"height\": 1200,\n        \"markdown\": false\n      },\n      \"vault_id\": \"695cc1fd-5cbd-61f9-337e-2bbb1218ed0d\",\n      \"browser_profile_id\": \"6f3b5369-79d0-7bb6-f8c5-7267a81fd9d9\",\n      \"use_default_browser_profile\": false,\n      \"persist_browser_profile\": false,\n      \"network\": {\n        \"proxy_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"managed_proxy\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"total\": 780,\n  \"page\": 3743\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "383e3f7e-f577-4fd0-8b75-f4422a926204",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "kind",
+                      "value": "desktop"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71346d2d-c65f-4705-b98a-b9c6c56e8e8a",
+          "name": "Get Environment",
+          "request": {
+            "name": "Get Environment",
+            "description": {
+              "content": "Fetch by identifier; 404 if not visible. ``:path`` so slash-containing ids round-trip.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cc2a96e1-31e5-4691-91a8-3a1b167c8334",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b753461-3e02-42f8-af87-39cc8a9c8ac3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56971957-4cd9-4d5a-aa75-4d5f357f2f4d",
+          "name": "Update Environment",
+          "request": {
+            "name": "Update Environment",
+            "description": {
+              "content": "Replace the environment spec.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"<string>\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"<uuid>\",\n  \"browser_profile_id\": \"<uuid>\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"<string>\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2879ed5e-0a1c-4426-8a64-6b1296524960",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcbaf760-32ec-46f7-a0f6-f8a13c6b959b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4abf9e3c-bd33-42f2-8a44-6cf1431528b2",
+          "name": "Patch Environment",
+          "request": {
+            "name": "Patch Environment",
+            "description": {
+              "content": "Partially update an environment spec; only provided fields change.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"host\": \"<string>\",\n  \"start_url\": \"<string>\",\n  \"headless\": \"<boolean>\",\n  \"session_id\": \"<string>\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"<uuid>\",\n  \"browser_profile_id\": \"<uuid>\",\n  \"use_default_browser_profile\": \"<boolean>\",\n  \"persist_browser_profile\": \"<boolean>\",\n  \"network\": {\n    \"proxy_url\": \"<string>\",\n    \"managed_proxy\": {\n      \"country\": \"<string>\",\n      \"sticky\": true,\n      \"pool\": \"residential\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a1d5d86-4dfb-486e-8b46-ad345496d6af",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"host\": \"<string>\",\n  \"start_url\": \"<string>\",\n  \"headless\": \"<boolean>\",\n  \"session_id\": \"<string>\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"<uuid>\",\n  \"browser_profile_id\": \"<uuid>\",\n  \"use_default_browser_profile\": \"<boolean>\",\n  \"persist_browser_profile\": \"<boolean>\",\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": \"string\",\n      \"sticky\": true,\n      \"pool\": \"residential\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"kind\": \"web\",\n  \"host\": \"cloud\",\n  \"start_url\": \"https://www.bing.com\",\n  \"headless\": false,\n  \"session_id\": \"string\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"04906b28-99e5-dd34-be4c-efc0bac38fa9\",\n  \"browser_profile_id\": \"db18b226-d48d-1e0d-15dc-5698fef51ffe\",\n  \"use_default_browser_profile\": false,\n  \"persist_browser_profile\": false,\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"sticky\": true,\n      \"pool\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28d2c144-0062-4fdd-b298-659d05cdfc39",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"host\": \"<string>\",\n  \"start_url\": \"<string>\",\n  \"headless\": \"<boolean>\",\n  \"session_id\": \"<string>\",\n  \"mode\": {\n    \"type\": \"visual\",\n    \"width\": 1200,\n    \"height\": 1200,\n    \"markdown\": false\n  },\n  \"vault_id\": \"<uuid>\",\n  \"browser_profile_id\": \"<uuid>\",\n  \"use_default_browser_profile\": \"<boolean>\",\n  \"persist_browser_profile\": \"<boolean>\",\n  \"network\": {\n    \"proxy_url\": \"string\",\n    \"managed_proxy\": {\n      \"country\": \"string\",\n      \"sticky\": true,\n      \"pool\": \"residential\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "059bff8f-4de1-4bef-8dc8-28b4ce63db43",
+          "name": "Delete Environment",
+          "request": {
+            "name": "Delete Environment",
+            "description": {
+              "content": "Delete by identifier. Reserved rows: H employee only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "environments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "372d4ace-c4e0-4587-b8ea-1a68ecdb3b3b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d6e4a439-fa5f-4464-9c6f-db2e478ffc6d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "environments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://agp.eu.hcompany.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4e48506b-f65f-424b-a80b-71af1d7c90f7",
+    "name": "Computer-Use Agents Environments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

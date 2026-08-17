@@ -1,0 +1,1137 @@
+{
+  "item": [
+    {
+      "id": "4762dd5c-5ac5-46b2-8c02-0b6df14edc26",
+      "name": "Agents",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a64673d2-ddc0-45c9-b8ac-7cfc713f5398",
+          "name": "Create Agent",
+          "request": {
+            "name": "Create Agent",
+            "description": {
+              "content": "Create an agent..",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": 857,\n    \"key_1\": 5203\n  },\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": 7855.1143486394285\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "89b307c5-f28b-4786-9a15-a0dba0a17d87",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": true\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"st\",\n      \"input_schema\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": false\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"environments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"model\": \"string\",\n  \"instructions\": \"string\",\n  \"subagents\": [\n    \"string\",\n    \"string\"\n  ],\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 701,\n        \"key_1\": 4276,\n        \"key_2\": 7972\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 3167\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6353e7ca-1780-4d8d-9b49-5999bd57ac3f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": true\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"st\",\n      \"input_schema\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": false\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f0601f3-07af-4983-86d0-8218a349e15a",
+          "name": "List Agents",
+          "request": {
+            "name": "List Agents",
+            "description": {
+              "content": "List reserved + caller's org agents. Unauthenticated callers see reserved ``h/`` agents only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "agent_name",
+                  "value": "<string>",
+                  "description": "Case-insensitive substring match on agent name."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Case-insensitive match on agent name or description."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8044ad0c-b33e-421d-bebc-145b9be24bcc",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agent_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"environments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"model\": \"string\",\n      \"instructions\": \"string\",\n      \"subagents\": [\n        \"string\",\n        \"string\"\n      ],\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"answer_format\": {\n        \"key_0\": \"string\"\n      },\n      \"tools\": [\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_schema\": {\n            \"key_0\": 3563.9845836427544,\n            \"key_1\": true,\n            \"key_2\": 3329.1781171147895,\n            \"key_3\": true\n          }\n        },\n        {\n          \"name\": \"strin\",\n          \"description\": \"stri\",\n          \"input_schema\": {\n            \"key_0\": 4812,\n            \"key_1\": 2290.1006015013313,\n            \"key_2\": 8434.431287988238\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"environments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"model\": \"string\",\n      \"instructions\": \"string\",\n      \"subagents\": [\n        \"string\",\n        \"string\"\n      ],\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"answer_format\": {\n        \"key_0\": 6895.137079248628\n      },\n      \"tools\": [\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_schema\": {\n            \"key_0\": 211,\n            \"key_1\": 7521.3140042767545\n          }\n        },\n        {\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_schema\": {\n            \"key_0\": true\n          }\n        }\n      ]\n    }\n  ],\n  \"total\": 3787,\n  \"page\": 237\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4c1f9b1-7441-4329-8e75-256baad80257",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agent_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cc648c8b-9358-4f26-8207-e455f5e11928",
+          "name": "Get Agent",
+          "request": {
+            "name": "Get Agent",
+            "description": {
+              "content": "Fetch by identifier; 404 if not visible. ``resolve=true`` materialises spec leaves.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents",
+                ":agent_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "resolve",
+                  "value": "false",
+                  "description": "Materialise string environment/skill/subagent leaves into full specs."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "agent_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d6adacc7-4a41-4d30-b426-4eafa6a95c7b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resolve",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"environments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"model\": \"string\",\n  \"instructions\": \"string\",\n  \"subagents\": [\n    \"string\",\n    \"string\"\n  ],\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 701,\n        \"key_1\": 4276,\n        \"key_2\": 7972\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 3167\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69791f6d-d6bb-4010-9ded-acabe966da56",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resolve",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96efca05-03a2-4d47-96b8-ab01a5e83168",
+          "name": "Update Agent",
+          "request": {
+            "name": "Update Agent",
+            "description": {
+              "content": "Replace ``spec``. ``spec.name`` must match the URL identifier; renames are not supported.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents",
+                ":agent_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "agent_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": 857,\n    \"key_1\": 5203\n  },\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": 7855.1143486394285\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5d93ad86-b2b4-4913-a6be-01940a112d74",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": true\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"st\",\n      \"input_schema\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": false\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"environments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"model\": \"string\",\n  \"instructions\": \"string\",\n  \"subagents\": [\n    \"string\",\n    \"string\"\n  ],\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 701,\n        \"key_1\": 4276,\n        \"key_2\": 7972\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 3167\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "366e273d-bd59-46e6-bfd6-dbf15367c6d1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": true\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"st\",\n      \"input_schema\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": false\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0ce7642-091c-4614-ad14-c7862f363c50",
+          "name": "Patch Agent",
+          "request": {
+            "name": "Patch Agent",
+            "description": {
+              "content": "Partially update an agent spec; only provided fields change.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents",
+                ":agent_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "agent_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": false,\n    \"key_1\": false\n  },\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": 1370,\n        \"key_1\": \"string\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"input_schema\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6c5c742a-07b7-485c-ba5e-4c7c380288cc",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": 956,\n    \"key_1\": 7529.912668772636\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 9488,\n        \"key_1\": 5478\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 8445,\n        \"key_1\": \"string\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"environments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"model\": \"string\",\n  \"instructions\": \"string\",\n  \"subagents\": [\n    \"string\",\n    \"string\"\n  ],\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"answer_format\": {\n    \"key_0\": \"string\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 701,\n        \"key_1\": 4276,\n        \"key_2\": 7972\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 3167\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ada3a87-96d0-4027-83fa-9cb6daf9aa58",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"<string>\",\n  \"environments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"model\": \"<string>\",\n  \"instructions\": \"<string>\",\n  \"subagents\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"skills\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"answer_format\": {\n    \"key_0\": 956,\n    \"key_1\": 7529.912668772636\n  },\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 9488,\n        \"key_1\": 5478\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_schema\": {\n        \"key_0\": 8445,\n        \"key_1\": \"string\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "70e57ebc-2a9c-4cff-9fe7-71a4d9ebb3c8",
+          "name": "Delete Agent",
+          "request": {
+            "name": "Delete Agent",
+            "description": {
+              "content": "Delete by identifier. Reserved rows: H employee only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "agents",
+                ":agent_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "agent_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "061d8f09-478a-492e-bf64-b498149e24d8",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f188eb13-c271-48e1-a153-d3496751c383",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "agents",
+                    ":agent_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://agp.eu.hcompany.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a4f8cc87-204e-45ff-be5d-c878c2865962",
+    "name": "Computer-Use Agents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

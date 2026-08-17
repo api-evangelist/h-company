@@ -1,0 +1,1649 @@
+{
+  "item": [
+    {
+      "id": "a97d6c8e-61f6-4cc8-ac98-c363634f8ffb",
+      "name": "Schedules",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ed0a7982-8614-4912-989a-6e6a09af6de8",
+          "name": "Create Schedule",
+          "request": {
+            "name": "Create Schedule",
+            "description": {
+              "content": "Create a schedule that starts a session on each fire.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"<string>\",\n    \"timezone\": \"<string>\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"<string>\",\n    \"messages\": \"<string>\",\n    \"max_steps\": \"<integer>\",\n    \"max_time_s\": \"<number>\",\n    \"idle_timeout_s\": \"<integer>\",\n    \"delete_after_min\": \"<integer>\",\n    \"delete_screenshot_after_min\": \"<integer>\",\n    \"queue\": true,\n    \"group_id\": \"<string>\",\n    \"parent_session_id\": \"<string>\",\n    \"overrides\": {\n      \"key_0\": true,\n      \"key_1\": 4616\n    }\n  },\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "30f31a81-42a3-43e5-aabc-3e9a15eb2ed6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 4428,\n    \"max_time_s\": 92.55064648762531,\n    \"idle_timeout_s\": 1356,\n    \"delete_after_min\": 2032,\n    \"delete_screenshot_after_min\": 2276,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 954.1379632740144,\n      \"key_1\": \"string\",\n      \"key_2\": 8054,\n      \"key_3\": 8029.668258169277\n    }\n  },\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d64e0827-1a87-b596-5a5f-2bb1645cec7e\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 8558,\n    \"max_time_s\": 9130.487454710752,\n    \"idle_timeout_s\": 9534,\n    \"delete_after_min\": 2400,\n    \"delete_screenshot_after_min\": 7652,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 5083.028753900663,\n      \"key_1\": 1266.2781116146205,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    }\n  },\n  \"paused\": true,\n  \"pause_note\": \"string\",\n  \"next_run_times\": [\n    \"1987-07-24T02:45:49.129Z\",\n    \"1975-06-19T04:51:25.779Z\"\n  ],\n  \"last_run_at\": \"1980-03-10T12:10:39.617Z\",\n  \"created_at\": \"1947-10-09T02:44:42.008Z\",\n  \"updated_at\": \"1955-03-15T08:38:13.779Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9d31c61-5632-4703-b380-335a326d499e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 4428,\n    \"max_time_s\": 92.55064648762531,\n    \"idle_timeout_s\": 1356,\n    \"delete_after_min\": 2032,\n    \"delete_screenshot_after_min\": 2276,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 954.1379632740144,\n      \"key_1\": \"string\",\n      \"key_2\": 8054,\n      \"key_3\": 8029.668258169277\n    }\n  },\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "299c1eb2-6929-4518-9d11-b2c274d9c0dc",
+          "name": "List Schedules",
+          "request": {
+            "name": "List Schedules",
+            "description": {
+              "content": "List the organization's schedules.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "dea89ca3-acab-40f8-bbfc-5d3e9fa4925d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"afe014bd-c3ed-9c46-e144-3b95ac230d69\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"timing\": {\n        \"expression\": \"string\",\n        \"timezone\": \"string\",\n        \"type\": \"cron\"\n      },\n      \"session_request\": {\n        \"agent\": \"string\",\n        \"messages\": \"string\",\n        \"max_steps\": 6400,\n        \"max_time_s\": 691.5116046693146,\n        \"idle_timeout_s\": 4110,\n        \"delete_after_min\": 584,\n        \"delete_screenshot_after_min\": 161,\n        \"queue\": true,\n        \"group_id\": \"string\",\n        \"parent_session_id\": \"string\",\n        \"overrides\": {\n          \"key_0\": 3288,\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": 6000\n        }\n      },\n      \"paused\": false,\n      \"pause_note\": \"string\",\n      \"next_run_times\": [\n        \"2020-05-08T08:13:49.269Z\",\n        \"2016-11-05T03:34:57.276Z\"\n      ],\n      \"last_run_at\": \"1984-08-19T00:30:01.832Z\",\n      \"created_at\": \"1986-04-07T06:30:41.424Z\",\n      \"updated_at\": \"1979-05-11T04:34:25.863Z\"\n    },\n    {\n      \"id\": \"bc8faa59-3b2b-0ca3-1420-4f07ae1ed1fc\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"timing\": {\n        \"expression\": \"string\",\n        \"timezone\": \"string\",\n        \"type\": \"cron\"\n      },\n      \"session_request\": {\n        \"agent\": \"string\",\n        \"messages\": \"string\",\n        \"max_steps\": 1913,\n        \"max_time_s\": 2736.190252086652,\n        \"idle_timeout_s\": 5246,\n        \"delete_after_min\": 2419,\n        \"delete_screenshot_after_min\": 6168,\n        \"queue\": true,\n        \"group_id\": \"string\",\n        \"parent_session_id\": \"string\",\n        \"overrides\": {\n          \"key_0\": 2648,\n          \"key_1\": 9587,\n          \"key_2\": 1883\n        }\n      },\n      \"paused\": true,\n      \"pause_note\": \"string\",\n      \"next_run_times\": [\n        \"1950-01-22T23:52:18.281Z\",\n        \"2019-11-05T13:34:01.754Z\"\n      ],\n      \"last_run_at\": \"2011-09-06T17:54:18.152Z\",\n      \"created_at\": \"1991-04-15T18:27:20.764Z\",\n      \"updated_at\": \"2023-08-12T19:30:12.337Z\"\n    }\n  ],\n  \"total\": 7247,\n  \"page\": 6974\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf77d09d-baa0-4f46-82f3-1963dda401d6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9baeae9e-3f1f-498f-9787-3e65aba69935",
+          "name": "Get Schedule",
+          "request": {
+            "name": "Get Schedule",
+            "description": {
+              "content": "Fetch a schedule by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e52ce9f0-c02e-47da-9dd7-1373657e5a94",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d64e0827-1a87-b596-5a5f-2bb1645cec7e\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 8558,\n    \"max_time_s\": 9130.487454710752,\n    \"idle_timeout_s\": 9534,\n    \"delete_after_min\": 2400,\n    \"delete_screenshot_after_min\": 7652,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 5083.028753900663,\n      \"key_1\": 1266.2781116146205,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    }\n  },\n  \"paused\": true,\n  \"pause_note\": \"string\",\n  \"next_run_times\": [\n    \"1987-07-24T02:45:49.129Z\",\n    \"1975-06-19T04:51:25.779Z\"\n  ],\n  \"last_run_at\": \"1980-03-10T12:10:39.617Z\",\n  \"created_at\": \"1947-10-09T02:44:42.008Z\",\n  \"updated_at\": \"1955-03-15T08:38:13.779Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be25509a-b7c9-4792-91ad-1f9df76c214e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27b37f2c-4489-465f-94eb-816cdc5d3b7b",
+          "name": "Update Schedule",
+          "request": {
+            "name": "Update Schedule",
+            "description": {
+              "content": "Update a schedule; only provided fields change. Timing changes recompute the next fire.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"<string>\",\n    \"timezone\": \"<string>\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"<string>\",\n    \"messages\": \"<string>\",\n    \"max_steps\": \"<integer>\",\n    \"max_time_s\": \"<number>\",\n    \"idle_timeout_s\": \"<integer>\",\n    \"delete_after_min\": \"<integer>\",\n    \"delete_screenshot_after_min\": \"<integer>\",\n    \"queue\": true,\n    \"group_id\": \"<string>\",\n    \"parent_session_id\": \"<string>\",\n    \"overrides\": {\n      \"key_0\": 6002\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "77e0aaf2-0ac3-4530-b716-1e602c1fee9d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 7936,\n    \"max_time_s\": 4623.540433341554,\n    \"idle_timeout_s\": 2798,\n    \"delete_after_min\": 5778,\n    \"delete_screenshot_after_min\": 4186,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d64e0827-1a87-b596-5a5f-2bb1645cec7e\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 8558,\n    \"max_time_s\": 9130.487454710752,\n    \"idle_timeout_s\": 9534,\n    \"delete_after_min\": 2400,\n    \"delete_screenshot_after_min\": 7652,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 5083.028753900663,\n      \"key_1\": 1266.2781116146205,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    }\n  },\n  \"paused\": true,\n  \"pause_note\": \"string\",\n  \"next_run_times\": [\n    \"1987-07-24T02:45:49.129Z\",\n    \"1975-06-19T04:51:25.779Z\"\n  ],\n  \"last_run_at\": \"1980-03-10T12:10:39.617Z\",\n  \"created_at\": \"1947-10-09T02:44:42.008Z\",\n  \"updated_at\": \"1955-03-15T08:38:13.779Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "81b32d17-5ac9-4bd3-aefc-5b42a5b36a7e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 7936,\n    \"max_time_s\": 4623.540433341554,\n    \"idle_timeout_s\": 2798,\n    \"delete_after_min\": 5778,\n    \"delete_screenshot_after_min\": 4186,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f31758f4-4401-444f-8e0d-9450e0db9299",
+          "name": "Delete Schedule",
+          "request": {
+            "name": "Delete Schedule",
+            "description": {
+              "content": "Delete a schedule. Future fires stop; sessions already created keep running.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cbf39260-1e7a-4ec7-abf0-5fb1fafaa5d6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "21b30425-c277-4665-9cc3-cde726f4b403",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c5f88a8-adbd-4c9a-8f9e-425e24c937dd",
+          "name": "Pause Schedule",
+          "request": {
+            "name": "Pause Schedule",
+            "description": {
+              "content": "Pause a schedule with an optional note.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id",
+                "pause"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a7681be-d7c6-4a9b-9d7a-76a7bbf17710",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "pause"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d64e0827-1a87-b596-5a5f-2bb1645cec7e\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 8558,\n    \"max_time_s\": 9130.487454710752,\n    \"idle_timeout_s\": 9534,\n    \"delete_after_min\": 2400,\n    \"delete_screenshot_after_min\": 7652,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 5083.028753900663,\n      \"key_1\": 1266.2781116146205,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    }\n  },\n  \"paused\": true,\n  \"pause_note\": \"string\",\n  \"next_run_times\": [\n    \"1987-07-24T02:45:49.129Z\",\n    \"1975-06-19T04:51:25.779Z\"\n  ],\n  \"last_run_at\": \"1980-03-10T12:10:39.617Z\",\n  \"created_at\": \"1947-10-09T02:44:42.008Z\",\n  \"updated_at\": \"1955-03-15T08:38:13.779Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c9ca6b9-8512-4678-bd8a-c2790e0dc81b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "pause"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f43368a2-af14-49fe-ab97-42ea368db478",
+          "name": "Resume Schedule",
+          "request": {
+            "name": "Resume Schedule",
+            "description": {
+              "content": "Resume a paused schedule; the next fire is recomputed from now.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id",
+                "resume"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "afdce91e-6f45-4b81-8d61-cb202dffc573",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "resume"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d64e0827-1a87-b596-5a5f-2bb1645cec7e\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"timing\": {\n    \"expression\": \"string\",\n    \"timezone\": \"string\",\n    \"type\": \"cron\"\n  },\n  \"session_request\": {\n    \"agent\": \"string\",\n    \"messages\": \"string\",\n    \"max_steps\": 8558,\n    \"max_time_s\": 9130.487454710752,\n    \"idle_timeout_s\": 9534,\n    \"delete_after_min\": 2400,\n    \"delete_screenshot_after_min\": 7652,\n    \"queue\": true,\n    \"group_id\": \"string\",\n    \"parent_session_id\": \"string\",\n    \"overrides\": {\n      \"key_0\": 5083.028753900663,\n      \"key_1\": 1266.2781116146205,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    }\n  },\n  \"paused\": true,\n  \"pause_note\": \"string\",\n  \"next_run_times\": [\n    \"1987-07-24T02:45:49.129Z\",\n    \"1975-06-19T04:51:25.779Z\"\n  ],\n  \"last_run_at\": \"1980-03-10T12:10:39.617Z\",\n  \"created_at\": \"1947-10-09T02:44:42.008Z\",\n  \"updated_at\": \"1955-03-15T08:38:13.779Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91e091ca-9ae1-4f8a-ad59-bc81771dd454",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "resume"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3679fc36-9531-4deb-9b33-1e9a2a007fbf",
+          "name": "Trigger Schedule",
+          "request": {
+            "name": "Trigger Schedule",
+            "description": {
+              "content": "Fire the schedule once now (works while paused); the regular cadence is unaffected.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id",
+                "trigger"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2d602cf3-e818-417e-a978-1ab58654e671",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"75f96e9b-7a41-f59b-5d55-8f63a1bf0cb6\",\n  \"schedule_id\": \"70278b79-6c77-2763-8208-6a26f8cb0eb1\",\n  \"status\": \"error\",\n  \"scheduled_for\": \"1976-03-06T01:40:54.899Z\",\n  \"session_id\": \"6c618346-89cb-87b3-877c-2afac64ce5f9\",\n  \"error\": \"string\",\n  \"triggered_manually\": true,\n  \"created_at\": \"1948-05-09T10:24:51.972Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9bf95e8b-b8fe-4d9c-bdf1-6aa12e4b0818",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "trigger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0bc83e8b-a97d-40ff-a00c-4582a4873201",
+          "name": "List Schedule Runs",
+          "request": {
+            "name": "List Schedule Runs",
+            "description": {
+              "content": "List the schedule's recent run outcomes, newest fire first.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "schedules",
+                ":schedule_id",
+                "runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10",
+                  "description": "Number of items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort by field"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "schedule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e0312f58-780a-4fe4-90ca-56ebaf6fb9af",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"bdf3d3b2-e718-2c4a-fe21-8629dd600ab4\",\n      \"schedule_id\": \"dd78dccc-151d-bd85-fee7-71d7cf355b65\",\n      \"status\": \"error\",\n      \"scheduled_for\": \"1977-02-14T16:43:09.821Z\",\n      \"session_id\": \"9fd95262-1143-e7de-3d9c-29ee1224035e\",\n      \"error\": \"string\",\n      \"triggered_manually\": false,\n      \"created_at\": \"1950-01-02T08:04:23.371Z\"\n    },\n    {\n      \"id\": \"83568262-67e3-e71d-d9db-ed7dd3d225b2\",\n      \"schedule_id\": \"5fc97360-096d-814c-5f37-d5b3d227af50\",\n      \"status\": \"created\",\n      \"scheduled_for\": \"2001-05-28T10:17:33.603Z\",\n      \"session_id\": \"be747a81-6f7e-3e15-a6d6-ea72797449a2\",\n      \"error\": \"string\",\n      \"triggered_manually\": false,\n      \"created_at\": \"2010-11-04T18:27:55.565Z\"\n    }\n  ],\n  \"total\": 2052,\n  \"page\": 8032\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ddb694b-4d9d-4cc7-8894-4ee9c901bcb2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "schedules",
+                    ":schedule_id",
+                    "runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "schedule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://agp.eu.hcompany.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "24fa22ce-b2c6-4e02-b679-0a848d9fe532",
+    "name": "Computer-Use Agents Schedules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -7,30 +7,38 @@ registry_name: io.github.hcompai/hai-agents
 server:
   name: hai-agents
   transport: http
-  note: >-
-    Remote streamable-HTTP MCP endpoint at /mcp on each region host, authenticated
-    with the same H API key via `Authorization: Bearer hk-...`. Bearer-header clients
-    are supported; OAuth-only clients (Claude.ai web, ChatGPT app) are not.
+  note: 'Remote streamable-HTTP MCP endpoint at /mcp on each region host, authenticated with the same
+    H API key via `Authorization: Bearer hk-...`. Bearer-header clients are supported; OAuth-only clients
+    (Claude.ai web, ChatGPT app) are not.'
   endpoints:
-    - region: EU
-      url: https://agp.eu.hcompany.ai/mcp
-      default: true
-    - region: US
-      url: https://agp.hcompany.ai/mcp
+  - region: EU
+    url: https://agp.eu.hcompany.ai/mcp
+    default: true
+  - region: US
+    url: https://agp.hcompany.ai/mcp
 auth:
   scheme: bearer
   header: Authorization
-  value_format: "Bearer hk-..."
+  value_format: Bearer hk-...
 tools:
-  - name: run_agent
-    description: Start an agent on a task; returns the answer or a session handle to wait on if the task runs long.
-  - name: wait_for_session
-    description: Long-poll a session for its answer, or fetch its current snapshot.
-  - name: list_agents
-    description: List the agents you can run — your org's agents plus the public h/ ones.
-  - name: send_message
-    description: Send a follow-up message to a running session.
-  - name: cancel_session
-    description: Cancel a session.
-  - name: share_session
-    description: Make a session publicly viewable and return a share link.
+- name: run_agent
+  description: Start an agent on a task; returns the answer or a session handle to wait on if the task
+    runs long.
+- name: wait_for_session
+  description: Long-poll a session for its answer, or fetch its current snapshot.
+- name: list_agents
+  description: List the agents you can run — your org's agents plus the public h/ ones.
+- name: send_message
+  description: Send a follow-up message to a running session.
+- name: cancel_session
+  description: Cancel a session.
+- name: share_session
+  description: Make a session publicly viewable and return a share link.
+deployment:
+  mode: remote
+  endpoint: https://agp.eu.hcompany.ai/mcp
+  verified: probed
+  probe: live
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census
