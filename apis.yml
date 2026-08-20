@@ -35,6 +35,16 @@ tags:
 - Agents
 - Computer Use
 - Automation
+- Machine-Learning
+- Browser Automation
+- LLMs
+- MCP
+- Developer Tools
+tags_raw:
+- Artificial Intelligence
+- Agents
+- Computer Use
+- Automation
 - Machine Learning
 - Browser Automation
 - LLMs
@@ -46,6 +56,11 @@ apis:
   humanURL: https://hub.hcompany.ai/about-the-models-api
   baseURL: https://api.hcompany.ai/v1
   tags:
+  - LLMs
+  - Machine-Learning
+  - Vision-Language
+  - Inference
+  tags_raw:
   - LLMs
   - Machine Learning
   - Vision-Language
@@ -115,6 +130,8 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
+  - Quota
+  tags_raw:
   - quota
   properties:
   - type: OpenAPI
@@ -179,6 +196,8 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
+  - Vault
+  tags_raw:
   - Vaults
   properties:
   - type: OpenAPI
@@ -195,6 +214,8 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
