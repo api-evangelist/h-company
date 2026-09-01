@@ -142,7 +142,7 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
-  - quota
+  - Quota
   tags_raw:
   - quota
   properties:
