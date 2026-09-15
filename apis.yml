@@ -64,7 +64,7 @@ tags_raw:
 - MCP
 - Developer Tools
 apis:
-- aid: h-company-holo-models
+- aid: h-company:h-company-holo-models
   name: H Company Holo Models API
   humanURL: https://hub.hcompany.ai/about-the-models-api
   baseURL: https://api.hcompany.ai/v1
@@ -78,10 +78,9 @@ apis:
   - Machine Learning
   - Vision-Language
   - Inference
-  description: >-
-    OpenAI-compatible inference API serving the Holo3 and Holo3.1 vision-language models for computer
-    use — chat completions with structured outputs, reasoning, and image inputs, plus runtime model discovery.
-    Point the official OpenAI client at https://api.hcompany.ai/v1/.
+  description: OpenAI-compatible inference API serving the Holo3 and Holo3.1 vision-language models for
+    computer use — chat completions with structured outputs, reasoning, and image inputs, plus runtime
+    model discovery. Point the official OpenAI client at https://api.hcompany.ai/v1/.
   properties:
   - type: Documentation
     url: https://hub.hcompany.ai/about-the-models-api
