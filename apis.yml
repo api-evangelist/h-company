@@ -50,7 +50,7 @@ tags:
 - Automation
 - Machine-Learning
 - Browser Automation
-- LLMs
+- LLM
 - MCP
 - Developer Tools
 tags_raw:
@@ -69,7 +69,7 @@ apis:
   humanURL: https://hub.hcompany.ai/about-the-models-api
   baseURL: https://api.hcompany.ai/v1
   tags:
-  - LLMs
+  - LLM
   - Machine-Learning
   - Vision-Language
   - Inference
@@ -126,6 +126,8 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
@@ -160,6 +162,8 @@ apis:
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
