@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Computer-Use Agents Sessions API
   version: 1.0.0
@@ -776,65 +776,25 @@ paths:
           description: Client error.
 components:
   schemas:
-    Desktop:
+    UserMessageBatch:
       properties:
-        id:
+        type:
           type: string
-          minLength: 1
-          title: Id
-          description: Catalog identifier for this environment.
-        kind:
-          type: string
-          const: desktop
-          title: Kind
-          default: desktop
-        host:
-          type: string
-          title: Host
-          const: user_device
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: Connect to an existing desktop session by id instead of starting a new one.
+          const: batch
+          title: Type
+          default: batch
+        messages:
+          items:
+            $ref: '#/components/schemas/UserMessageEvent'
+          type: array
+          minItems: 1
+          title: Messages
+      additionalProperties: false
       type: object
       required:
-      - id
-      - host
-      title: Desktop
-      description: A desktop the agent controls via mouse, keyboard, and screenshots.
-    PolicyEvent:
-      properties:
-        kind:
-          type: string
-          const: policy_event
-          title: Kind
-          default: policy_event
-        reasoning_content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning Content
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        tool_reqs:
-          items:
-            $ref: '#/components/schemas/ToolRequest'
-          type: array
-          title: Tool Reqs
-        validation_errors:
-          items:
-            type: string
-          type: array
-          title: Validation Errors
-          description: Validation errors raised while parsing the model output.
-      type: object
-      title: PolicyEvent
-      description: 'One policy (LLM) step: the model output plus the tool requests extracted from it.'
+      - messages
+      title: UserMessageBatch
+      description: Batch of user messages.
     ActiveStateChangeEvent:
       properties:
         timestamp:
@@ -855,116 +815,67 @@ components:
       - data
       title: ActiveStateChangeEvent
       description: The agent switched between running, idle and awaiting custom tool results.
-    Metrics:
+    ModelCost:
       properties:
-        steps:
+        name:
+          type: string
+          title: Name
+          description: Model id.
+        input_tokens:
           type: integer
-          title: Steps
-          description: Steps taken so far.
-          default: 0
-        cost_per_model:
-          items:
-            $ref: '#/components/schemas/ModelCost'
-          type: array
-          title: Cost Per Model
-          description: Per-model token usage and cost.
+          title: Input Tokens
+          description: Input tokens consumed.
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens produced.
+        reasoning_tokens:
+          type: integer
+          title: Reasoning Tokens
+          description: Reasoning tokens produced.
         input_cost:
           anyOf:
           - type: number
           - type: 'null'
           title: Input Cost
-          description: Total input cost in USD; null if any model is unpriced.
+          description: Input cost in USD; null if the model is unpriced.
         output_cost:
           anyOf:
           - type: number
           - type: 'null'
           title: Output Cost
-          description: Total output cost in USD; null if any model is unpriced.
+          description: Output cost in USD; null if the model is unpriced.
         reasoning_cost:
           anyOf:
           - type: number
           - type: 'null'
           title: Reasoning Cost
-          description: Total reasoning cost in USD; null if any model is unpriced.
+          description: Reasoning cost in USD; null if the model is unpriced.
         total_cost:
           anyOf:
           - type: number
           - type: 'null'
           title: Total Cost
-          description: Total cost in USD; null if any model is unpriced.
+          description: Total cost in USD; null if the model is unpriced.
       additionalProperties: true
       type: object
-      title: Metrics
-      description: Rolled-up usage and cost for a session.
-    QuotaStatus:
-      properties:
-        scope:
-          type: string
-          enum:
-          - user
-          - org
-          title: Scope
-        limit:
-          type: integer
-          title: Limit
-        active:
-          type: integer
-          title: Active
-        available:
-          type: integer
-          title: Available
-      type: object
       required:
-      - scope
-      - limit
-      - active
-      - available
-      title: QuotaStatus
-      description: Quota status.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TrajectoryEvent:
-      properties:
-        type:
-          type: string
-          title: Type
-        data:
-          title: Data
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-      type: object
-      required:
-      - type
-      - data
-      - timestamp
-      title: TrajectoryEvent
-      description: "Event from a trajectory.\n\nUnified from agp_client and agent_platform.\nUses the richer agent_platform version with screenshot serialization.\n\nEvents represent individual actions, observations, or state changes during\ntrajectory execution. They form a chronological log of everything that happened.\n\nCommon event types:\n- AgentStartedEvent: Agent begins execution\n- AgentCompletionEvent: Agent finishes successfully\n- AgentErrorEvent: Agent encounters an error\n- AgentEvent: Generic wrapper for agent-emitted events (policy_event, tool_result, observation_event)\n- LiveViewUrlEvent: Live view URL becomes available\n- ChatMessageEvent: Agent sends a chat message\n\nAttributes:\n    type: The type/name of the event (e.g., \"AgentStartedEvent\", \"AgentEvent\")\n    data: Event-specific data payload (structure varies by event type)\n    timestamp: When the event occurred"
+      - name
+      - input_tokens
+      - output_tokens
+      - reasoning_tokens
+      title: ModelCost
+      description: Token usage and cost for a single model.
+    SessionErrorCode:
+      type: string
+      enum:
+      - environment_error
+      - no_answer
+      - answer_validation
+      - timeout
+      - internal
+      title: SessionErrorCode
+      description: Machine-readable category of a terminal session failure.
     FlowEvent:
       properties:
         kind:
@@ -986,44 +897,6 @@ components:
       - origin
       title: FlowEvent
       description: Run-loop control transition (pause, resume, stop, ...).
-    AgentCompletionData:
-      properties:
-        reason:
-          type: string
-          enum:
-          - finished
-          - stopped
-          - timed_out
-          title: Reason
-      additionalProperties: true
-      type: object
-      required:
-      - reason
-      title: AgentCompletionData
-    ImageContent:
-      properties:
-        source:
-          type: string
-          title: Source
-          description: 'Image location: a fetchable URL or a base64 payload, per ``type``.'
-        type:
-          type: string
-          enum:
-          - url
-          - base64
-          title: Type
-        media_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Media Type
-          description: MIME type, e.g. "image/png".
-      type: object
-      required:
-      - source
-      - type
-      title: ImageContent
-      description: 'Image payload: ``url`` for platform-served screenshots, ``base64`` for inline images.'
     ProxyPool:
       type: string
       enum:
@@ -1033,45 +906,175 @@ components:
       - mobile
       title: ProxyPool
       description: The kind of upstream IPs a managed proxy draws from.
-    ShareLink:
+    ToolResultEvent:
       properties:
-        share_url:
+        kind:
           type: string
-          title: Share Url
-      additionalProperties: false
+          const: tool_result
+          title: Kind
+          default: tool_result
+        tool_req:
+          $ref: '#/components/schemas/ToolRequest'
+        result:
+          $ref: '#/components/schemas/JsonValue'
+          description: Tool output as opaque JSON; any embedded image is inlined as base64, not a URL.
       type: object
       required:
-      - share_url
-      title: ShareLink
-      description: Public share URL for a session.
-    UserMessageBatch:
+      - tool_req
+      title: ToolResultEvent
+      description: Result of executing one tool request.
+    TrajectoryStatus:
+      type: string
+      enum:
+      - queued
+      - pending
+      - running
+      - paused
+      - idle
+      - awaiting_tool_results
+      - completed
+      - failed
+      - timed_out
+      - interrupted
+      title: TrajectoryStatus
+      description: "State of a session/trajectory.\n\nLifecycle::\n\n    QUEUED → PENDING → RUNNING → {COMPLETED, FAILED, TIMED_OUT, INTERRUPTED}\n       |        |        ↑  ↑ ↑\n       |        |        |  | └───→ IDLE (interactive: agent waiting for next task)\n       |        |        |  └─────→ AWAITING_TOOL_RESULTS (waiting for custom tool results)\n       |        |        ↓\n       |        └─────→ PAUSED\n       └────→ INTERRUPTED (cancelled before launch)\n\nQUEUED sessions were accepted above the org's concurrency quota and wait,\nunprovisioned, until a running session finishes."
+    BrowserVisualMode:
       properties:
         type:
           type: string
-          const: batch
+          const: visual
           title: Type
-          default: batch
-        messages:
-          items:
-            $ref: '#/components/schemas/UserMessageEvent'
-          type: array
-          minItems: 1
-          title: Messages
-      additionalProperties: false
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
+    MetricsUpdateData:
+      properties:
+        metrics:
+          $ref: '#/components/schemas/Metrics'
+      additionalProperties: true
       type: object
       required:
-      - messages
-      title: UserMessageBatch
-      description: Batch of user messages.
-    HTTPValidationError:
+      - metrics
+      title: MetricsUpdateData
+    SessionStatus:
       properties:
-        detail:
+        status:
+          $ref: '#/components/schemas/TrajectoryStatus'
+          description: Current lifecycle state of the session.
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+          description: Error message if the session failed; null otherwise.
+        error_code:
+          anyOf:
+          - $ref: '#/components/schemas/SessionErrorCode'
+          - type: 'null'
+          description: Machine-readable failure category if the session failed or timed out; null otherwise.
+        outcome:
+          anyOf:
+          - $ref: '#/components/schemas/AnswerOutcome'
+          - type: 'null'
+          description: Agent's self-assessed task outcome, set with the final answer; null until then.
+        steps:
+          type: integer
+          title: Steps
+          description: Number of steps the agent has taken.
+          default: 0
+        usage_per_model:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/ModelUsage'
           type: array
-          title: Detail
+          title: Usage Per Model
+          description: Per-model token usage. Empty until the agent calls a model.
+        subagent_session_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Subagent Session Ids
+          description: Session ids of any subagents this session spawned.
       type: object
-      title: HTTPValidationError
+      required:
+      - status
+      title: SessionStatus
+      description: '``GET /api/v2/sessions/{id}/status`` response.'
+    Page_SessionEvent_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/SessionEvent'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[SessionEvent]
+    AgentEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: AgentEvent
+          title: Type
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/PolicyEvent'
+          - $ref: '#/components/schemas/ToolResultEvent'
+          - $ref: '#/components/schemas/AnswerEvent'
+          - $ref: '#/components/schemas/ErrorEvent'
+          - $ref: '#/components/schemas/MessageEvent'
+          - $ref: '#/components/schemas/ObservationEvent'
+          - $ref: '#/components/schemas/FlowEvent'
+          title: Data
+          discriminator:
+            propertyName: kind
+            mapping:
+              answer_event: '#/components/schemas/AnswerEvent'
+              error_event: '#/components/schemas/ErrorEvent'
+              flow_event: '#/components/schemas/FlowEvent'
+              message_event: '#/components/schemas/MessageEvent'
+              observation_event: '#/components/schemas/ObservationEvent'
+              policy_event: '#/components/schemas/PolicyEvent'
+              tool_result: '#/components/schemas/ToolResultEvent'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: AgentEvent
+      description: Event emitted by the agent loop itself; ``data`` is discriminated by ``kind``.
     SessionRequest:
       properties:
         agent:
@@ -1154,6 +1157,531 @@ components:
       - agent
       title: SessionRequest
       description: '``POST /api/v2/sessions`` body.'
+    RequestStartEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: RequestStartEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/RequestStartData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: RequestStartEvent
+      description: The platform requested the agent to start.
+    ToolDefinition:
+      properties:
+        name:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Name
+          description: 'Tool name advertised to the model. Format: letters, digits and underscores; must start with a letter or underscore; max 64 chars.'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the tool does, when to use it, and what it returns. Shown to the model verbatim.
+        input_schema:
+          additionalProperties: true
+          type: object
+          title: Input Schema
+          description: JSON Schema (object type) describing the tool call arguments.
+      type: object
+      required:
+      - name
+      - description
+      title: ToolDefinition
+      description: 'Contract for a tool executed by the API client, not by the agent runtime.
+
+
+        The agent emits a tool call matching ``input_schema``, pauses, and resumes
+
+        once the client sends back the corresponding tool result.'
+    AgentCompletionData:
+      properties:
+        reason:
+          type: string
+          enum:
+          - finished
+          - stopped
+          - timed_out
+          title: Reason
+      additionalProperties: true
+      type: object
+      required:
+      - reason
+      title: AgentCompletionData
+    SessionEvent:
+      anyOf:
+      - oneOf:
+        - $ref: '#/components/schemas/AgentStartedEvent'
+        - $ref: '#/components/schemas/AgentCompletionEvent'
+        - $ref: '#/components/schemas/AgentErrorEvent'
+        - $ref: '#/components/schemas/AgentRunStatusChangeEvent'
+        - $ref: '#/components/schemas/ActiveStateChangeEvent'
+        - $ref: '#/components/schemas/LiveViewUrlEvent'
+        - $ref: '#/components/schemas/RequestStartEvent'
+        - $ref: '#/components/schemas/RequestStartDispatchedEvent'
+        - $ref: '#/components/schemas/MetricsUpdateEvent'
+        - $ref: '#/components/schemas/AgentEvent'
+        discriminator:
+          propertyName: type
+          mapping:
+            ActiveStateChangeEvent: '#/components/schemas/ActiveStateChangeEvent'
+            AgentCompletionEvent: '#/components/schemas/AgentCompletionEvent'
+            AgentErrorEvent: '#/components/schemas/AgentErrorEvent'
+            AgentEvent: '#/components/schemas/AgentEvent'
+            AgentRunStatusChangeEvent: '#/components/schemas/AgentRunStatusChangeEvent'
+            AgentStartedEvent: '#/components/schemas/AgentStartedEvent'
+            LiveViewUrlEvent: '#/components/schemas/LiveViewUrlEvent'
+            MetricsUpdateEvent: '#/components/schemas/MetricsUpdateEvent'
+            RequestStartDispatchedEvent: '#/components/schemas/RequestStartDispatchedEvent'
+            RequestStartEvent: '#/components/schemas/RequestStartEvent'
+      - $ref: '#/components/schemas/TrajectoryEvent'
+    BrowserNetwork:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
+      type: object
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
+    Session:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        request:
+          $ref: '#/components/schemas/SessionRequest'
+        status:
+          $ref: '#/components/schemas/SessionStatus'
+        agent_view_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent View Url
+          description: URL of the session's Agent View page on the H Platform (live view and replay).
+        latest_answer:
+          title: Latest Answer
+          description: 'The agent''s most recent final answer: free-form text, or structured data when the agent runs with a custom answer format. Null until the agent first answers. Mirrors the answer streamed from the changes endpoint, surfaced here for non-interactive runs.'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        started_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started At
+        finished_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Finished At
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - request
+      - status
+      - created_at
+      title: Session
+      description: 'Full session envelope: original request + live status.'
+    AgentRunStatusChangeEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: AgentRunStatusChangeEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/AgentRunStatusChangeData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: AgentRunStatusChangeEvent
+      description: The run status changed.
+    Feedback:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+      type: object
+      required:
+      - success
+      title: Feedback
+      description: Feedback on the semantic success of the trajectory.
+    Metrics:
+      properties:
+        steps:
+          type: integer
+          title: Steps
+          description: Steps taken so far.
+          default: 0
+        cost_per_model:
+          items:
+            $ref: '#/components/schemas/ModelCost'
+          type: array
+          title: Cost Per Model
+          description: Per-model token usage and cost.
+        input_cost:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Input Cost
+          description: Total input cost in USD; null if any model is unpriced.
+        output_cost:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Output Cost
+          description: Total output cost in USD; null if any model is unpriced.
+        reasoning_cost:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reasoning Cost
+          description: Total reasoning cost in USD; null if any model is unpriced.
+        total_cost:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Cost
+          description: Total cost in USD; null if any model is unpriced.
+      additionalProperties: true
+      type: object
+      title: Metrics
+      description: Rolled-up usage and cost for a session.
+    Agent:
+      properties:
+        name:
+          type: string
+          maxLength: 127
+          minLength: 1
+          title: Name
+          description: 'Unique name for this agent in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the agent does. Parent agents read this to decide when to delegate to it.
+        environments:
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Environment'
+          type: array
+          title: Environments
+          description: Environments the agent runs in. Each entry is a registered environment's id or an inline definition. At most one per kind. Required unless the agent delegates to subagents (a pure orchestrator owns none).
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model that serves the agent. Defaults to the platform model if omitted.
+        instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instructions
+          description: Instructions appended to the agent's system prompt to steer behavior.
+        subagents:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Agent'
+            type: array
+          - type: 'null'
+          title: Subagents
+          description: Agents this one can delegate to. Each entry is a registered agent's name or an inline definition.
+        skills:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Skill'
+            type: array
+          - type: 'null'
+          title: Skills
+          description: Skills the agent can draw on. Each entry is a registered skill's name or an inline definition.
+        answer_format:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Answer Format
+          description: JSON Schema the agent's final answer must conform to. Null returns a free-form text answer.
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolDefinition'
+            type: array
+          - type: 'null'
+          title: Tools
+          description: Custom tools executed by the API client. The agent emits a tool call, pauses, and resumes once the client sends back the matching tool result.
+      type: object
+      required:
+      - name
+      - description
+      - environments
+      title: Agent
+      description: Declarative agent definition.
+    QuotaStatus:
+      properties:
+        scope:
+          type: string
+          enum:
+          - user
+          - org
+          title: Scope
+        limit:
+          type: integer
+          title: Limit
+        active:
+          type: integer
+          title: Active
+        available:
+          type: integer
+          title: Available
+      type: object
+      required:
+      - scope
+      - limit
+      - active
+      - available
+      title: QuotaStatus
+      description: Quota status.
+    MessageEvent:
+      properties:
+        kind:
+          type: string
+          const: message_event
+          title: Kind
+          default: message_event
+        caller_id:
+          type: string
+          title: Caller Id
+        content:
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/components/schemas/ImageContent'
+          type: array
+          title: Content
+      type: object
+      required:
+      - caller_id
+      title: MessageEvent
+      description: Message exchanged with the agent (user, system or subagent).
+    AnswerEvent:
+      properties:
+        kind:
+          type: string
+          const: answer_event
+          title: Kind
+          default: answer_event
+        answer:
+          anyOf:
+          - type: string
+          - additionalProperties: true
+            type: object
+          title: Answer
+          description: Final answer, plain text or structured JSON; any embedded image is inlined as base64, not a URL.
+        outcome:
+          anyOf:
+          - $ref: '#/components/schemas/AnswerOutcome'
+          - type: 'null'
+          description: Agent's self-assessment of the task outcome; null when the agent did not report one.
+      type: object
+      required:
+      - answer
+      title: AnswerEvent
+      description: Agent's final answer for the current task.
+    LiveViewUrlEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: LiveViewUrlEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/LiveViewUrlData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: LiveViewUrlEvent
+      description: A live view URL became available.
+    JsonValue: {}
+    ActiveStateChangeData:
+      properties:
+        state:
+          type: string
+          enum:
+          - running
+          - idle
+          - awaiting_tool_results
+          title: State
+        pending_tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolRequest'
+            type: array
+          - type: 'null'
+          title: Pending Tool Calls
+      additionalProperties: true
+      type: object
+      required:
+      - state
+      title: ActiveStateChangeData
+    ShareLink:
+      properties:
+        share_url:
+          type: string
+          title: Share Url
+      additionalProperties: false
+      type: object
+      required:
+      - share_url
+      title: ShareLink
+      description: Public share URL for a session.
+    PolicyEvent:
+      properties:
+        kind:
+          type: string
+          const: policy_event
+          title: Kind
+          default: policy_event
+        reasoning_content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning Content
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        tool_reqs:
+          items:
+            $ref: '#/components/schemas/ToolRequest'
+          type: array
+          title: Tool Reqs
+        validation_errors:
+          items:
+            type: string
+          type: array
+          title: Validation Errors
+          description: Validation errors raised while parsing the model output.
+      type: object
+      title: PolicyEvent
+      description: 'One policy (LLM) step: the model output plus the tool requests extracted from it.'
+    ToolRequest:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+        args:
+          additionalProperties: true
+          type: object
+          title: Args
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+          description: Identifier correlating the request with its result.
+      type: object
+      required:
+      - tool_name
+      title: ToolRequest
+      description: Tool invocation proposed by the policy.
+    SessionChanges:
+      properties:
+        status:
+          $ref: '#/components/schemas/TrajectoryStatus'
+        started_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started At
+        finished_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Finished At
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        error_code:
+          anyOf:
+          - $ref: '#/components/schemas/SessionErrorCode'
+          - type: 'null'
+        new_events:
+          items:
+            $ref: '#/components/schemas/SessionEvent'
+          type: array
+          title: New Events
+          default: []
+        answer:
+          anyOf:
+          - type: string
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Answer
+        outcome:
+          anyOf:
+          - $ref: '#/components/schemas/AnswerOutcome'
+          - type: 'null'
+        metrics:
+          $ref: '#/components/schemas/Metrics'
+      type: object
+      required:
+      - status
+      title: SessionChanges
+      description: Typed view of ``TrajectoryChanges`` for Agent API session endpoints.
     Browser:
       properties:
         id:
@@ -1235,83 +1763,12 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    ToolResultBatch:
-      properties:
-        type:
-          type: string
-          const: batch
-          title: Type
-          default: batch
-        results:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/ToolResultEvent'
-            - $ref: '#/components/schemas/ErrorEvent'
-            discriminator:
-              propertyName: kind
-              mapping:
-                error_event: '#/components/schemas/ErrorEvent'
-                tool_result: '#/components/schemas/ToolResultEvent'
-          type: array
-          minItems: 1
-          title: Results
-      additionalProperties: false
+    AgentStartedData:
+      properties: {}
+      additionalProperties: true
       type: object
-      required:
-      - results
-      title: ToolResultBatch
-      description: Batch of custom tool results.
-    AnswerEvent:
-      properties:
-        kind:
-          type: string
-          const: answer_event
-          title: Kind
-          default: answer_event
-        answer:
-          anyOf:
-          - type: string
-          - additionalProperties: true
-            type: object
-          title: Answer
-          description: Final answer, plain text or structured JSON; any embedded image is inlined as base64, not a URL.
-        outcome:
-          anyOf:
-          - $ref: '#/components/schemas/AnswerOutcome'
-          - type: 'null'
-          description: Agent's self-assessment of the task outcome; null when the agent did not report one.
-      type: object
-      required:
-      - answer
-      title: AnswerEvent
-      description: Agent's final answer for the current task.
-    SessionEvent:
-      anyOf:
-      - oneOf:
-        - $ref: '#/components/schemas/AgentStartedEvent'
-        - $ref: '#/components/schemas/AgentCompletionEvent'
-        - $ref: '#/components/schemas/AgentErrorEvent'
-        - $ref: '#/components/schemas/AgentRunStatusChangeEvent'
-        - $ref: '#/components/schemas/ActiveStateChangeEvent'
-        - $ref: '#/components/schemas/LiveViewUrlEvent'
-        - $ref: '#/components/schemas/RequestStartEvent'
-        - $ref: '#/components/schemas/RequestStartDispatchedEvent'
-        - $ref: '#/components/schemas/MetricsUpdateEvent'
-        - $ref: '#/components/schemas/AgentEvent'
-        discriminator:
-          propertyName: type
-          mapping:
-            ActiveStateChangeEvent: '#/components/schemas/ActiveStateChangeEvent'
-            AgentCompletionEvent: '#/components/schemas/AgentCompletionEvent'
-            AgentErrorEvent: '#/components/schemas/AgentErrorEvent'
-            AgentEvent: '#/components/schemas/AgentEvent'
-            AgentRunStatusChangeEvent: '#/components/schemas/AgentRunStatusChangeEvent'
-            AgentStartedEvent: '#/components/schemas/AgentStartedEvent'
-            LiveViewUrlEvent: '#/components/schemas/LiveViewUrlEvent'
-            MetricsUpdateEvent: '#/components/schemas/MetricsUpdateEvent'
-            RequestStartDispatchedEvent: '#/components/schemas/RequestStartDispatchedEvent'
-            RequestStartEvent: '#/components/schemas/RequestStartEvent'
-      - $ref: '#/components/schemas/TrajectoryEvent'
+      title: AgentStartedData
+      description: Empty payload.
     AgentStartedEvent:
       properties:
         timestamp:
@@ -1332,61 +1789,253 @@ components:
       - data
       title: AgentStartedEvent
       description: The agent process started.
-    TrajectoryStatus:
+    AgentRunStatusChangeData:
+      properties:
+        status:
+          type: string
+          enum:
+          - running
+          - paused
+          title: Status
+      additionalProperties: true
+      type: object
+      required:
+      - status
+      title: AgentRunStatusChangeData
+    Desktop:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: desktop
+          title: Kind
+          default: desktop
+        host:
+          type: string
+          title: Host
+          const: user_device
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing desktop session by id instead of starting a new one.
+      type: object
+      required:
+      - id
+      - host
+      title: Desktop
+      description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    Page_SessionSummary_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/SessionSummary'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[SessionSummary]
+    MetricsUpdateEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: MetricsUpdateEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/MetricsUpdateData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: MetricsUpdateEvent
+      description: Rolled-up usage and cost metrics for the session.
+    UserMessageEvent:
+      properties:
+        type:
+          type: string
+          const: user_message
+          title: Type
+          default: user_message
+        message:
+          type: string
+          title: Message
+          description: Message text sent to the agent.
+        images:
+          items:
+            type: string
+          type: array
+          title: Images
+          description: Optional images attached to the message, as base64 data URIs.
+        caller_id:
+          type: string
+          title: Caller Id
+          default: user
+      type: object
+      required:
+      - message
+      title: UserMessageEvent
+      description: The user is sending a message to an active agent.
+    RequestStartDispatchedData:
+      properties:
+        status:
+          type: string
+          title: Status
+      additionalProperties: true
+      type: object
+      required:
+      - status
+      title: RequestStartDispatchedData
+    AgentCompletionEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: AgentCompletionEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/AgentCompletionData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: AgentCompletionEvent
+      description: The agent run completed.
+    AgentErrorEvent:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        type:
+          type: string
+          const: AgentErrorEvent
+          title: Type
+        data:
+          $ref: '#/components/schemas/AgentErrorData'
+      additionalProperties: true
+      type: object
+      required:
+      - timestamp
+      - type
+      - data
+      title: AgentErrorEvent
+      description: The agent run failed.
+    ModelUsage:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Model id.
+        input_tokens:
+          type: integer
+          title: Input Tokens
+          description: Input tokens consumed.
+        output_tokens:
+          type: integer
+          title: Output Tokens
+          description: Output tokens produced.
+        reasoning_tokens:
+          type: integer
+          title: Reasoning Tokens
+          description: Reasoning tokens produced.
+      type: object
+      required:
+      - name
+      - input_tokens
+      - output_tokens
+      - reasoning_tokens
+      title: ModelUsage
+      description: Per-model token usage.
+    TrajectoryEvent:
+      properties:
+        type:
+          type: string
+          title: Type
+        data:
+          title: Data
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+      type: object
+      required:
+      - type
+      - data
+      - timestamp
+      title: TrajectoryEvent
+      description: "Event from a trajectory.\n\nUnified from agp_client and agent_platform.\nUses the richer agent_platform version with screenshot serialization.\n\nEvents represent individual actions, observations, or state changes during\ntrajectory execution. They form a chronological log of everything that happened.\n\nCommon event types:\n- AgentStartedEvent: Agent begins execution\n- AgentCompletionEvent: Agent finishes successfully\n- AgentErrorEvent: Agent encounters an error\n- AgentEvent: Generic wrapper for agent-emitted events (policy_event, tool_result, observation_event)\n- LiveViewUrlEvent: Live view URL becomes available\n- ChatMessageEvent: Agent sends a chat message\n\nAttributes:\n    type: The type/name of the event (e.g., \"AgentStartedEvent\", \"AgentEvent\")\n    data: Event-specific data payload (structure varies by event type)\n    timestamp: When the event occurred"
+    Skill:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: When to use this skill. The agent reads this to decide whether to load it.
+        body:
+          type: string
+          minLength: 1
+          title: Body
+          description: Markdown instructions the agent loads when it uses the skill.
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Optional URL the content was sourced from.
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+          description: Optional regex hinting at URLs where this skill applies.
+      type: object
+      required:
+      - name
+      - description
+      - body
+      title: Skill
+      description: A named, reusable instruction an agent can draw on during a session.
+    AnswerOutcome:
       type: string
       enum:
-      - queued
-      - pending
-      - running
-      - paused
-      - idle
-      - awaiting_tool_results
-      - completed
-      - failed
-      - timed_out
-      - interrupted
-      title: TrajectoryStatus
-      description: "State of a session/trajectory.\n\nLifecycle::\n\n    QUEUED → PENDING → RUNNING → {COMPLETED, FAILED, TIMED_OUT, INTERRUPTED}\n       |        |        ↑  ↑ ↑\n       |        |        |  | └───→ IDLE (interactive: agent waiting for next task)\n       |        |        |  └─────→ AWAITING_TOOL_RESULTS (waiting for custom tool results)\n       |        |        ↓\n       |        └─────→ PAUSED\n       └────→ INTERRUPTED (cancelled before launch)\n\nQUEUED sessions were accepted above the org's concurrency quota and wait,\nunprovisioned, until a running session finishes."
-    RequestStartEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: RequestStartEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/RequestStartData'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: RequestStartEvent
-      description: The platform requested the agent to start.
-    AgentRunStatusChangeEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: AgentRunStatusChangeEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/AgentRunStatusChangeData'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: AgentRunStatusChangeEvent
-      description: The run status changed.
+      - success
+      - partial
+      - infeasible
+      - blocked
+      title: AnswerOutcome
+      description: Agent's self-assessment of how the task concluded, reported with the final answer.
     Environment:
       oneOf:
       - $ref: '#/components/schemas/Browser'
@@ -1396,53 +2045,57 @@ components:
         mapping:
           desktop: '#/components/schemas/Desktop'
           web: '#/components/schemas/Browser'
-    LiveViewUrlEvent:
+    ValidationError:
       properties:
-        timestamp:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          format: date-time
-          title: Timestamp
+          title: Message
         type:
           type: string
-          const: LiveViewUrlEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/LiveViewUrlData'
-      additionalProperties: true
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - timestamp
+      - loc
+      - msg
       - type
-      - data
-      title: LiveViewUrlEvent
-      description: A live view URL became available.
-    BrowserVisualMode:
+      title: ValidationError
+    ErrorEvent:
       properties:
-        type:
+        kind:
           type: string
-          const: visual
-          title: Type
-          default: visual
-        width:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Width
-          description: Viewport width in pixels.
-          default: 1200
-        height:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Height
-          description: Viewport height in pixels.
-          default: 1200
-        markdown:
-          type: boolean
-          title: Markdown
-          description: Also include the viewport's text as markdown alongside each screenshot.
-          default: false
+          const: error_event
+          title: Kind
+          default: error_event
+        error:
+          type: string
+          title: Error
+        origin:
+          type: string
+          title: Origin
+          description: Component that raised the error.
+        tool_req:
+          anyOf:
+          - $ref: '#/components/schemas/ToolRequest'
+          - type: 'null'
+          description: Tool request being executed, if any.
       type: object
-      title: BrowserVisualMode
-      description: Act on screenshots by viewport coordinates.
+      required:
+      - error
+      - origin
+      title: ErrorEvent
+      description: Recoverable error raised while running the agent loop.
     SessionSummary:
       properties:
         id:
@@ -1497,663 +2150,6 @@ components:
       - created_at
       title: SessionSummary
       description: Flat projection for session listings, including child rosters via ``?parent_session_id=``.
-    Page_SessionEvent_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/SessionEvent'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[SessionEvent]
-    Agent:
-      properties:
-        name:
-          type: string
-          maxLength: 127
-          minLength: 1
-          title: Name
-          description: 'Unique name for this agent in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: What the agent does. Parent agents read this to decide when to delegate to it.
-        environments:
-          items:
-            anyOf:
-            - type: string
-            - $ref: '#/components/schemas/Environment'
-          type: array
-          title: Environments
-          description: Environments the agent runs in. Each entry is a registered environment's id or an inline definition. At most one per kind. Required unless the agent delegates to subagents (a pure orchestrator owns none).
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-          description: Model that serves the agent. Defaults to the platform model if omitted.
-        instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Instructions
-          description: Instructions appended to the agent's system prompt to steer behavior.
-        subagents:
-          anyOf:
-          - items:
-              anyOf:
-              - type: string
-              - $ref: '#/components/schemas/Agent'
-            type: array
-          - type: 'null'
-          title: Subagents
-          description: Agents this one can delegate to. Each entry is a registered agent's name or an inline definition.
-        skills:
-          anyOf:
-          - items:
-              anyOf:
-              - type: string
-              - $ref: '#/components/schemas/Skill'
-            type: array
-          - type: 'null'
-          title: Skills
-          description: Skills the agent can draw on. Each entry is a registered skill's name or an inline definition.
-        answer_format:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Answer Format
-          description: JSON Schema the agent's final answer must conform to. Null returns a free-form text answer.
-        tools:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolDefinition'
-            type: array
-          - type: 'null'
-          title: Tools
-          description: Custom tools executed by the API client. The agent emits a tool call, pauses, and resumes once the client sends back the matching tool result.
-      type: object
-      required:
-      - name
-      - description
-      - environments
-      title: Agent
-      description: Declarative agent definition.
-    MetricsUpdateData:
-      properties:
-        metrics:
-          $ref: '#/components/schemas/Metrics'
-      additionalProperties: true
-      type: object
-      required:
-      - metrics
-      title: MetricsUpdateData
-    RequestStartData:
-      properties: {}
-      additionalProperties: true
-      type: object
-      title: RequestStartData
-      description: Empty payload.
-    JsonValue: {}
-    AgentErrorEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: AgentErrorEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/AgentErrorData'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: AgentErrorEvent
-      description: The agent run failed.
-    ErrorEvent:
-      properties:
-        kind:
-          type: string
-          const: error_event
-          title: Kind
-          default: error_event
-        error:
-          type: string
-          title: Error
-        origin:
-          type: string
-          title: Origin
-          description: Component that raised the error.
-        tool_req:
-          anyOf:
-          - $ref: '#/components/schemas/ToolRequest'
-          - type: 'null'
-          description: Tool request being executed, if any.
-      type: object
-      required:
-      - error
-      - origin
-      title: ErrorEvent
-      description: Recoverable error raised while running the agent loop.
-    Feedback:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-      type: object
-      required:
-      - success
-      title: Feedback
-      description: Feedback on the semantic success of the trajectory.
-    BrowserNetwork:
-      properties:
-        proxy_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Proxy Url
-          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
-        managed_proxy:
-          anyOf:
-          - $ref: '#/components/schemas/ManagedProxySelection'
-          - type: 'null'
-          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
-      type: object
-      title: BrowserNetwork
-      description: Network egress settings for a remote browser session.
-    ToolRequest:
-      properties:
-        tool_name:
-          type: string
-          title: Tool Name
-        args:
-          additionalProperties: true
-          type: object
-          title: Args
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-          description: Identifier correlating the request with its result.
-      type: object
-      required:
-      - tool_name
-      title: ToolRequest
-      description: Tool invocation proposed by the policy.
-    Skill:
-      properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: When to use this skill. The agent reads this to decide whether to load it.
-        body:
-          type: string
-          minLength: 1
-          title: Body
-          description: Markdown instructions the agent loads when it uses the skill.
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-          description: Optional URL the content was sourced from.
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-          description: Optional regex hinting at URLs where this skill applies.
-      type: object
-      required:
-      - name
-      - description
-      - body
-      title: Skill
-      description: A named, reusable instruction an agent can draw on during a session.
-    Session:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        request:
-          $ref: '#/components/schemas/SessionRequest'
-        status:
-          $ref: '#/components/schemas/SessionStatus'
-        agent_view_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent View Url
-          description: URL of the session's Agent View page on the H Platform (live view and replay).
-        latest_answer:
-          title: Latest Answer
-          description: 'The agent''s most recent final answer: free-form text, or structured data when the agent runs with a custom answer format. Null until the agent first answers. Mirrors the answer streamed from the changes endpoint, surfaced here for non-interactive runs.'
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        started_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Started At
-        finished_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Finished At
-      additionalProperties: false
-      type: object
-      required:
-      - id
-      - request
-      - status
-      - created_at
-      title: Session
-      description: 'Full session envelope: original request + live status.'
-    ToolResultEvent:
-      properties:
-        kind:
-          type: string
-          const: tool_result
-          title: Kind
-          default: tool_result
-        tool_req:
-          $ref: '#/components/schemas/ToolRequest'
-        result:
-          $ref: '#/components/schemas/JsonValue'
-          description: Tool output as opaque JSON; any embedded image is inlined as base64, not a URL.
-      type: object
-      required:
-      - tool_req
-      title: ToolResultEvent
-      description: Result of executing one tool request.
-    BrowserTextMode:
-      properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
-      type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
-    AgentCompletionEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: AgentCompletionEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/AgentCompletionData'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: AgentCompletionEvent
-      description: The agent run completed.
-    MetricsUpdateEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: MetricsUpdateEvent
-          title: Type
-        data:
-          $ref: '#/components/schemas/MetricsUpdateData'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: MetricsUpdateEvent
-      description: Rolled-up usage and cost metrics for the session.
-    MessageEvent:
-      properties:
-        kind:
-          type: string
-          const: message_event
-          title: Kind
-          default: message_event
-        caller_id:
-          type: string
-          title: Caller Id
-        content:
-          items:
-            anyOf:
-            - type: string
-            - $ref: '#/components/schemas/ImageContent'
-          type: array
-          title: Content
-      type: object
-      required:
-      - caller_id
-      title: MessageEvent
-      description: Message exchanged with the agent (user, system or subagent).
-    ModelUsage:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Model id.
-        input_tokens:
-          type: integer
-          title: Input Tokens
-          description: Input tokens consumed.
-        output_tokens:
-          type: integer
-          title: Output Tokens
-          description: Output tokens produced.
-        reasoning_tokens:
-          type: integer
-          title: Reasoning Tokens
-          description: Reasoning tokens produced.
-      type: object
-      required:
-      - name
-      - input_tokens
-      - output_tokens
-      - reasoning_tokens
-      title: ModelUsage
-      description: Per-model token usage.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
-    AgentStartedData:
-      properties: {}
-      additionalProperties: true
-      type: object
-      title: AgentStartedData
-      description: Empty payload.
-    Page_SessionSummary_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/SessionSummary'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[SessionSummary]
-    ModelCost:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Model id.
-        input_tokens:
-          type: integer
-          title: Input Tokens
-          description: Input tokens consumed.
-        output_tokens:
-          type: integer
-          title: Output Tokens
-          description: Output tokens produced.
-        reasoning_tokens:
-          type: integer
-          title: Reasoning Tokens
-          description: Reasoning tokens produced.
-        input_cost:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Input Cost
-          description: Input cost in USD; null if the model is unpriced.
-        output_cost:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Output Cost
-          description: Output cost in USD; null if the model is unpriced.
-        reasoning_cost:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Reasoning Cost
-          description: Reasoning cost in USD; null if the model is unpriced.
-        total_cost:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Cost
-          description: Total cost in USD; null if the model is unpriced.
-      additionalProperties: true
-      type: object
-      required:
-      - name
-      - input_tokens
-      - output_tokens
-      - reasoning_tokens
-      title: ModelCost
-      description: Token usage and cost for a single model.
-    AgentRunStatusChangeData:
-      properties:
-        status:
-          type: string
-          enum:
-          - running
-          - paused
-          title: Status
-      additionalProperties: true
-      type: object
-      required:
-      - status
-      title: AgentRunStatusChangeData
-    SessionStatus:
-      properties:
-        status:
-          $ref: '#/components/schemas/TrajectoryStatus'
-          description: Current lifecycle state of the session.
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-          description: Error message if the session failed; null otherwise.
-        error_code:
-          anyOf:
-          - $ref: '#/components/schemas/SessionErrorCode'
-          - type: 'null'
-          description: Machine-readable failure category if the session failed or timed out; null otherwise.
-        outcome:
-          anyOf:
-          - $ref: '#/components/schemas/AnswerOutcome'
-          - type: 'null'
-          description: Agent's self-assessed task outcome, set with the final answer; null until then.
-        steps:
-          type: integer
-          title: Steps
-          description: Number of steps the agent has taken.
-          default: 0
-        usage_per_model:
-          items:
-            $ref: '#/components/schemas/ModelUsage'
-          type: array
-          title: Usage Per Model
-          description: Per-model token usage. Empty until the agent calls a model.
-        subagent_session_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Subagent Session Ids
-          description: Session ids of any subagents this session spawned.
-      type: object
-      required:
-      - status
-      title: SessionStatus
-      description: '``GET /api/v2/sessions/{id}/status`` response.'
-    AgentErrorData:
-      properties:
-        error:
-          type: string
-          title: Error
-        trace:
-          type: string
-          title: Trace
-          default: ''
-        info:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Info
-      additionalProperties: true
-      type: object
-      required:
-      - error
-      title: AgentErrorData
-    SessionErrorCode:
-      type: string
-      enum:
-      - environment_error
-      - no_answer
-      - answer_validation
-      - timeout
-      - internal
-      title: SessionErrorCode
-      description: Machine-readable category of a terminal session failure.
-    SessionChanges:
-      properties:
-        status:
-          $ref: '#/components/schemas/TrajectoryStatus'
-        started_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Started At
-        finished_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Finished At
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        error_code:
-          anyOf:
-          - $ref: '#/components/schemas/SessionErrorCode'
-          - type: 'null'
-        new_events:
-          items:
-            $ref: '#/components/schemas/SessionEvent'
-          type: array
-          title: New Events
-          default: []
-        answer:
-          anyOf:
-          - type: string
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Answer
-        outcome:
-          anyOf:
-          - $ref: '#/components/schemas/AnswerOutcome'
-          - type: 'null'
-        metrics:
-          $ref: '#/components/schemas/Metrics'
-      type: object
-      required:
-      - status
-      title: SessionChanges
-      description: Typed view of ``TrajectoryChanges`` for Agent API session endpoints.
-    AnswerOutcome:
-      type: string
-      enum:
-      - success
-      - partial
-      - infeasible
-      - blocked
-      title: AnswerOutcome
-      description: Agent's self-assessment of how the task concluded, reported with the final answer.
     ObservationEvent:
       properties:
         kind:
@@ -2184,6 +2180,26 @@ components:
       type: object
       title: ObservationEvent
       description: 'What the agent perceived this step: optional text, screenshot and environment metadata.'
+    AgentErrorData:
+      properties:
+        error:
+          type: string
+          title: Error
+        trace:
+          type: string
+          title: Trace
+          default: ''
+        info:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Info
+      additionalProperties: true
+      type: object
+      required:
+      - error
+      title: AgentErrorData
     RequestStartDispatchedEvent:
       properties:
         timestamp:
@@ -2204,109 +2220,6 @@ components:
       - data
       title: RequestStartDispatchedEvent
       description: The start request was dispatched to a runner.
-    ToolDefinition:
-      properties:
-        name:
-          type: string
-          maxLength: 64
-          minLength: 1
-          title: Name
-          description: 'Tool name advertised to the model. Format: letters, digits and underscores; must start with a letter or underscore; max 64 chars.'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: What the tool does, when to use it, and what it returns. Shown to the model verbatim.
-        input_schema:
-          additionalProperties: true
-          type: object
-          title: Input Schema
-          description: JSON Schema (object type) describing the tool call arguments.
-      type: object
-      required:
-      - name
-      - description
-      title: ToolDefinition
-      description: 'Contract for a tool executed by the API client, not by the agent runtime.
-
-
-        The agent emits a tool call matching ``input_schema``, pauses, and resumes
-
-        once the client sends back the corresponding tool result.'
-    UserMessageEvent:
-      properties:
-        type:
-          type: string
-          const: user_message
-          title: Type
-          default: user_message
-        message:
-          type: string
-          title: Message
-          description: Message text sent to the agent.
-        images:
-          items:
-            type: string
-          type: array
-          title: Images
-          description: Optional images attached to the message, as base64 data URIs.
-        caller_id:
-          type: string
-          title: Caller Id
-          default: user
-      type: object
-      required:
-      - message
-      title: UserMessageEvent
-      description: The user is sending a message to an active agent.
-    AgentEvent:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        type:
-          type: string
-          const: AgentEvent
-          title: Type
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/PolicyEvent'
-          - $ref: '#/components/schemas/ToolResultEvent'
-          - $ref: '#/components/schemas/AnswerEvent'
-          - $ref: '#/components/schemas/ErrorEvent'
-          - $ref: '#/components/schemas/MessageEvent'
-          - $ref: '#/components/schemas/ObservationEvent'
-          - $ref: '#/components/schemas/FlowEvent'
-          title: Data
-          discriminator:
-            propertyName: kind
-            mapping:
-              answer_event: '#/components/schemas/AnswerEvent'
-              error_event: '#/components/schemas/ErrorEvent'
-              flow_event: '#/components/schemas/FlowEvent'
-              message_event: '#/components/schemas/MessageEvent'
-              observation_event: '#/components/schemas/ObservationEvent'
-              policy_event: '#/components/schemas/PolicyEvent'
-              tool_result: '#/components/schemas/ToolResultEvent'
-      additionalProperties: true
-      type: object
-      required:
-      - timestamp
-      - type
-      - data
-      title: AgentEvent
-      description: Event emitted by the agent loop itself; ``data`` is discriminated by ``kind``.
-    RequestStartDispatchedData:
-      properties:
-        status:
-          type: string
-          title: Status
-      additionalProperties: true
-      type: object
-      required:
-      - status
-      title: RequestStartDispatchedData
     LiveViewUrlData:
       properties:
         live_view_url:
@@ -2317,27 +2230,114 @@ components:
       required:
       - live_view_url
       title: LiveViewUrlData
-    ActiveStateChangeData:
-      properties:
-        state:
-          type: string
-          enum:
-          - running
-          - idle
-          - awaiting_tool_results
-          title: State
-        pending_tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolRequest'
-            type: array
-          - type: 'null'
-          title: Pending Tool Calls
+    RequestStartData:
+      properties: {}
       additionalProperties: true
       type: object
+      title: RequestStartData
+      description: Empty payload.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    ImageContent:
+      properties:
+        source:
+          type: string
+          title: Source
+          description: 'Image location: a fetchable URL or a base64 payload, per ``type``.'
+        type:
+          type: string
+          enum:
+          - url
+          - base64
+          title: Type
+        media_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Media Type
+          description: MIME type, e.g. "image/png".
+      type: object
       required:
-      - state
-      title: ActiveStateChangeData
+      - source
+      - type
+      title: ImageContent
+      description: 'Image payload: ``url`` for platform-served screenshots, ``base64`` for inline images.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ToolResultBatch:
+      properties:
+        type:
+          type: string
+          const: batch
+          title: Type
+          default: batch
+        results:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ToolResultEvent'
+            - $ref: '#/components/schemas/ErrorEvent'
+            discriminator:
+              propertyName: kind
+              mapping:
+                error_event: '#/components/schemas/ErrorEvent'
+                tool_result: '#/components/schemas/ToolResultEvent'
+          type: array
+          minItems: 1
+          title: Results
+      additionalProperties: false
+      type: object
+      required:
+      - results
+      title: ToolResultBatch
+      description: Batch of custom tool results.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

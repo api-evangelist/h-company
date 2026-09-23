@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Computer-Use Agents quota API
+  title: Computer-Use Agents Quota API
   version: 1.0.0
 servers:
 - url: https://agp.eu.hcompany.ai
@@ -10,12 +10,12 @@ servers:
   description: United States
   x-fern-server-name: Us
 tags:
-- name: quota
+- name: Quota
 paths:
   /api/v2/quota/tokens:
     get:
       tags:
-      - quota
+      - Quota
       summary: Get Token Quota
       description: Return the current org's token-quota snapshot for the FE meter.
       operationId: get_token_quota_api_v2_quota_tokens_get
@@ -72,6 +72,15 @@ components:
       - window_end
       title: TokenQuotaStatus
       description: Current per-org token usage snapshot.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -98,15 +107,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

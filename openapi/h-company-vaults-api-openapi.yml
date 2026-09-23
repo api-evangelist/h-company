@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Computer-Use Agents Vaults API
   version: 1.0.0
@@ -233,21 +233,33 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OnePasswordConfig:
+    VaultTokenRotateRequest:
       properties:
-        provider:
+        token:
           type: string
-          const: onepassword
-          title: Provider
-          default: onepassword
-        op_vault_id:
-          type: string
-          title: Op Vault Id
+          format: password
+          title: Token
+          writeOnly: true
       type: object
       required:
-      - op_vault_id
-      title: OnePasswordConfig
-      description: 1Password vault provider config.
+      - token
+      title: VaultTokenRotateRequest
+      description: Request body for rotating a vault's stored provider token.
+    VaultHealth:
+      properties:
+        ok:
+          type: boolean
+          title: Ok
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      type: object
+      required:
+      - ok
+      title: VaultHealth
+      description: Result of a provider health check. The API always returns 200; branch on ``ok``.
     VaultCreateRequest:
       properties:
         name:
@@ -267,6 +279,47 @@ components:
       - token
       title: VaultCreateRequest
       description: Request body for creating a vault config.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OnePasswordConfig:
+      properties:
+        provider:
+          type: string
+          const: onepassword
+          title: Provider
+          default: onepassword
+        op_vault_id:
+          type: string
+          title: Op Vault Id
+      type: object
+      required:
+      - op_vault_id
+      title: OnePasswordConfig
+      description: 1Password vault provider config.
     VaultConfigRead:
       properties:
         id:
@@ -314,59 +367,15 @@ components:
       type: object
       title: VaultUpdateRequest
       description: Partial update; only provided fields are forwarded. Token rotation is separate.
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    VaultHealth:
-      properties:
-        ok:
-          type: boolean
-          title: Ok
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-      type: object
-      required:
-      - ok
-      title: VaultHealth
-      description: Result of a provider health check. The API always returns 200; branch on ``ok``.
-    VaultTokenRotateRequest:
-      properties:
-        token:
-          type: string
-          format: password
-          title: Token
-          writeOnly: true
-      type: object
-      required:
-      - token
-      title: VaultTokenRotateRequest
-      description: Request body for rotating a vault's stored provider token.
+      title: HTTPValidationError
     VaultConfigList:
       properties:
         total:
@@ -391,15 +400,6 @@ components:
       - vaults
       title: VaultConfigList
       description: Response model for listing vault configs.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

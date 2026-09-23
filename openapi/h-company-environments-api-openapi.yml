@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Computer-Use Agents Environments API
   version: 1.0.0
@@ -271,34 +271,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Desktop:
-      properties:
-        id:
-          type: string
-          minLength: 1
-          title: Id
-          description: Catalog identifier for this environment.
-        kind:
-          type: string
-          const: desktop
-          title: Kind
-          default: desktop
-        host:
-          type: string
-          title: Host
-          const: user_device
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: Connect to an existing desktop session by id instead of starting a new one.
-      type: object
-      required:
-      - id
-      - host
-      title: Desktop
-      description: A desktop the agent controls via mouse, keyboard, and screenshots.
     BrowserNetwork:
       properties:
         proxy_url:
@@ -315,22 +287,6 @@ components:
       type: object
       title: BrowserNetwork
       description: Network egress settings for a remote browser session.
-    EnvironmentKind:
-      type: string
-      enum:
-      - web
-      - desktop
-      title: EnvironmentKind
-      description: Environment family.
-    Environment:
-      oneOf:
-      - $ref: '#/components/schemas/Browser'
-      - $ref: '#/components/schemas/Desktop'
-      discriminator:
-        propertyName: kind
-        mapping:
-          desktop: '#/components/schemas/Desktop'
-          web: '#/components/schemas/Browser'
     ValidationError:
       properties:
         loc:
@@ -357,133 +313,6 @@ components:
       - msg
       - type
       title: ValidationError
-    BrowserVisualMode:
-      properties:
-        type:
-          type: string
-          const: visual
-          title: Type
-          default: visual
-        width:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Width
-          description: Viewport width in pixels.
-          default: 1200
-        height:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Height
-          description: Viewport height in pixels.
-          default: 1200
-        markdown:
-          type: boolean
-          title: Markdown
-          description: Also include the viewport's text as markdown alongside each screenshot.
-          default: false
-      type: object
-      title: BrowserVisualMode
-      description: Act on screenshots by viewport coordinates.
-    PatchEnvironment:
-      properties:
-        host:
-          anyOf:
-          - type: string
-            enum:
-            - user_device
-            - cloud
-          - type: 'null'
-          title: Host
-        start_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Start Url
-        headless:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Headless
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-        mode:
-          anyOf:
-          - oneOf:
-            - $ref: '#/components/schemas/BrowserVisualMode'
-            - $ref: '#/components/schemas/BrowserTextMode'
-            discriminator:
-              propertyName: type
-              mapping:
-                text: '#/components/schemas/BrowserTextMode'
-                visual: '#/components/schemas/BrowserVisualMode'
-          - type: 'null'
-          title: Mode
-        vault_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Vault Id
-        browser_profile_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Browser Profile Id
-        use_default_browser_profile:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Default Browser Profile
-        persist_browser_profile:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Persist Browser Profile
-        network:
-          anyOf:
-          - $ref: '#/components/schemas/BrowserNetwork'
-          - type: 'null'
-      type: object
-      title: PatchEnvironment
-      description: Partial environment update.
-    ProxyPool:
-      type: string
-      enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
-    BrowserTextMode:
-      properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
-      type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     EnvironmentPage:
       properties:
         items:
@@ -504,33 +333,15 @@ components:
       - page
       title: EnvironmentPage
       description: Named page subclass so OpenAPI emits a clean ``EnvironmentPage`` schema name.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
     Browser:
       properties:
         id:
@@ -612,6 +423,195 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    Desktop:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: desktop
+          title: Kind
+          default: desktop
+        host:
+          type: string
+          title: Host
+          const: user_device
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing desktop session by id instead of starting a new one.
+      type: object
+      required:
+      - id
+      - host
+      title: Desktop
+      description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    BrowserVisualMode:
+      properties:
+        type:
+          type: string
+          const: visual
+          title: Type
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
+    EnvironmentKind:
+      type: string
+      enum:
+      - web
+      - desktop
+      title: EnvironmentKind
+      description: Environment family.
+    PatchEnvironment:
+      properties:
+        host:
+          anyOf:
+          - type: string
+            enum:
+            - user_device
+            - cloud
+          - type: 'null'
+          title: Host
+        start_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start Url
+        headless:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Headless
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+        mode:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/BrowserVisualMode'
+            - $ref: '#/components/schemas/BrowserTextMode'
+            discriminator:
+              propertyName: type
+              mapping:
+                text: '#/components/schemas/BrowserTextMode'
+                visual: '#/components/schemas/BrowserVisualMode'
+          - type: 'null'
+          title: Mode
+        vault_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Vault Id
+        browser_profile_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Browser Profile Id
+        use_default_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Default Browser Profile
+        persist_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Persist Browser Profile
+        network:
+          anyOf:
+          - $ref: '#/components/schemas/BrowserNetwork'
+          - type: 'null'
+      type: object
+      title: PatchEnvironment
+      description: Partial environment update.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

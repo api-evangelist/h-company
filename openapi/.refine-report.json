@@ -1,30 +1,45 @@
 {
   "provider": "h-company",
   "sources": [
-    "h-company-agents-api-openapi.yml",
-    "h-company-browser-profiles-api-openapi.yml",
-    "h-company-environments-api-openapi.yml",
-    "h-company-quota-api-openapi.yml",
-    "h-company-schedules-api-openapi.yml",
-    "h-company-sessions-api-openapi.yml",
-    "h-company-skills-api-openapi.yml",
-    "h-company-vaults-api-openapi.yml",
-    "h-company-webhooks-api-openapi.yml"
+    "_original/h-company-computer-use-agents-openapi-original.json"
   ],
   "outputs": [
     "h-company-agents-api-openapi.yml",
     "h-company-browser-profiles-api-openapi.yml",
     "h-company-environments-api-openapi.yml",
-    "h-company-quota-api-openapi.yml",
     "h-company-schedules-api-openapi.yml",
     "h-company-sessions-api-openapi.yml",
     "h-company-skills-api-openapi.yml",
     "h-company-vaults-api-openapi.yml",
-    "h-company-webhooks-api-openapi.yml"
+    "h-company-webhooks-api-openapi.yml",
+    "h-company-quota-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "h-company-computer-use-agents-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Agents",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Browser Profiles",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Environments",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Schedules",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Sessions",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Skills",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Vaults",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: Webhooks",
+    "h-company-computer-use-agents-openapi-original.json: declared missing tag: quota",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "h-company-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-browser-profiles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-environments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-quota-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-schedules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-skills-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-vaults-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "h-company-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
