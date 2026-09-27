@@ -277,43 +277,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    WebhookPingResult:
-      properties:
-        response_status:
-          type: integer
-          title: Response Status
-          description: HTTP status code returned by the receiving endpoint.
-      type: object
-      required:
-      - response_status
-      title: WebhookPingResult
-      description: Outcome of a test delivery to a webhook endpoint.
     CreateWebhook:
       properties:
         url:
@@ -340,111 +303,6 @@ components:
       - url
       title: CreateWebhook
       description: Register a webhook for the caller's organization.
-    WebhookRecord:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        url:
-          type: string
-          title: Url
-        enabled_events:
-          items:
-            type: string
-          type: array
-          title: Enabled Events
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        disabled:
-          type: boolean
-          title: Disabled
-        last_delivery_status:
-          anyOf:
-          - type: string
-            enum:
-            - succeeded
-            - failed
-          - type: 'null'
-          title: Last Delivery Status
-          description: Result of the most recent delivery attempt; null before the first attempt.
-        last_delivery_error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Delivery Error
-          description: What went wrong on the most recent delivery attempt; null when it succeeded.
-        last_delivery_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Delivery At
-          description: When the most recent delivery attempt happened; null before the first attempt.
-        last_success_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Success At
-          description: When a delivery last succeeded; null if none has.
-        consecutive_failures:
-          type: integer
-          title: Consecutive Failures
-          description: Failed delivery attempts since the last success. The endpoint is automatically disabled when this grows too large; resets to zero on success or re-enable.
-          default: 0
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - url
-      - enabled_events
-      - description
-      - disabled
-      - created_at
-      - updated_at
-      title: WebhookRecord
-      description: Webhook as returned by reads; the signing secret is never included.
-    UpdateWebhook:
-      properties:
-        url:
-          anyOf:
-          - type: string
-            maxLength: 2048
-            minLength: 1
-          - type: 'null'
-          title: Url
-        enabled_events:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enabled Events
-        description:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Description
-        disabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Disabled
-      type: object
-      title: UpdateWebhook
-      description: Partial update; omit a field to leave it unchanged.
     WebhookEventTypeDefinition:
       properties:
         type:
@@ -538,15 +396,47 @@ components:
       - secret
       title: WebhookWithSecret
       description: 'Create response: the only time the signing secret is returned.'
-    HTTPValidationError:
+    UpdateWebhook:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        url:
+          anyOf:
+          - type: string
+            maxLength: 2048
+            minLength: 1
+          - type: 'null'
+          title: Url
+        enabled_events:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enabled Events
+        description:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Description
+        disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Disabled
       type: object
-      title: HTTPValidationError
+      title: UpdateWebhook
+      description: Partial update; omit a field to leave it unchanged.
+    WebhookPingResult:
+      properties:
+        response_status:
+          type: integer
+          title: Response Status
+          description: HTTP status code returned by the receiving endpoint.
+      type: object
+      required:
+      - response_status
+      title: WebhookPingResult
+      description: Outcome of a test delivery to a webhook endpoint.
     Page_WebhookRecord_:
       properties:
         items:
@@ -566,6 +456,116 @@ components:
       - total
       - page
       title: Page[WebhookRecord]
+    WebhookRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        url:
+          type: string
+          title: Url
+        enabled_events:
+          items:
+            type: string
+          type: array
+          title: Enabled Events
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        disabled:
+          type: boolean
+          title: Disabled
+        last_delivery_status:
+          anyOf:
+          - type: string
+            enum:
+            - succeeded
+            - failed
+          - type: 'null'
+          title: Last Delivery Status
+          description: Result of the most recent delivery attempt; null before the first attempt.
+        last_delivery_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Delivery Error
+          description: What went wrong on the most recent delivery attempt; null when it succeeded.
+        last_delivery_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Delivery At
+          description: When the most recent delivery attempt happened; null before the first attempt.
+        last_success_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Success At
+          description: When a delivery last succeeded; null if none has.
+        consecutive_failures:
+          type: integer
+          title: Consecutive Failures
+          description: Failed delivery attempts since the last success. The endpoint is automatically disabled when this grows too large; resets to zero on success or re-enable.
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - url
+      - enabled_events
+      - description
+      - disabled
+      - created_at
+      - updated_at
+      title: WebhookRecord
+      description: Webhook as returned by reads; the signing secret is never included.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http

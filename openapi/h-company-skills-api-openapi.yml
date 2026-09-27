@@ -245,6 +245,54 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    Page_Skill_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Skill'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[Skill]
+    PatchSkill:
+      properties:
+        description:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Description
+        body:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Body
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+      type: object
+      title: PatchSkill
+      description: Partial skill update.
     Skill:
       properties:
         name:
@@ -283,25 +331,15 @@ components:
       - body
       title: Skill
       description: A named, reusable instruction an agent can draw on during a session.
-    Page_Skill_:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/Skill'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
+          title: Detail
       type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[Skill]
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -328,44 +366,6 @@ components:
       - msg
       - type
       title: ValidationError
-    PatchSkill:
-      properties:
-        description:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Description
-        body:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Body
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-      type: object
-      title: PatchSkill
-      description: Partial skill update.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

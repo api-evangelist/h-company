@@ -48,7 +48,7 @@ tags:
 - Agents
 - Computer Use
 - Automation
-- Machine-Learning
+- Machine Learning
 - Browser Automation
 - LLM
 - MCP
@@ -63,6 +63,7 @@ tags_raw:
 - LLMs
 - MCP
 - Developer Tools
+- Machine-Learning
 apis:
 - aid: h-company:h-company-holo-models
   name: H Company Holo Models API
@@ -70,7 +71,7 @@ apis:
   baseURL: https://api.hcompany.ai/v1
   tags:
   - LLM
-  - Machine-Learning
+  - Machine Learning
   - Vision-Language
   - Inference
   tags_raw:
@@ -78,6 +79,7 @@ apis:
   - Machine Learning
   - Vision-Language
   - Inference
+  - Machine-Learning
   description: OpenAI-compatible inference API serving the Holo3 and Holo3.1 vision-language models for
     computer use — chat completions with structured outputs, reasoning, and image inputs, plus runtime
     model discovery. Point the official OpenAI client at https://api.hcompany.ai/v1/.
@@ -139,7 +141,7 @@ apis:
   - type: GettingStarted
     url: https://hub.hcompany.ai/computer-use-agents/quickstart
 - aid: h-company:h-company-quota-api
-  name: H Company quota API
+  name: H Company Quota API
   description: The quota API from H Company — 1 operation(s) for quota.
   humanURL: https://hub.hcompany.ai/computer-use-agents/introduction
   baseURL: https://agp.eu.hcompany.ai/api/v2

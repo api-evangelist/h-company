@@ -272,6 +272,31 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    InitiateUploadResponse:
+      properties:
+        profile_id:
+          type: string
+          format: uuid
+          title: Profile Id
+        upload_url:
+          type: string
+          title: Upload Url
+        upload_fields:
+          additionalProperties:
+            type: string
+          type: object
+          title: Upload Fields
+        upload_expires_in:
+          type: integer
+          title: Upload Expires In
+      type: object
+      required:
+      - profile_id
+      - upload_url
+      - upload_fields
+      - upload_expires_in
+      title: InitiateUploadResponse
+      description: Response model for initiating a browser profile upload.
     BrowserProfileRead:
       properties:
         id:
@@ -383,31 +408,15 @@ components:
       - browser_version
       title: BrowserProfileCreate
       description: Request model for completing a browser profile upload.
-    InitiateUploadResponse:
+    HTTPValidationError:
       properties:
-        profile_id:
-          type: string
-          format: uuid
-          title: Profile Id
-        upload_url:
-          type: string
-          title: Upload Url
-        upload_fields:
-          additionalProperties:
-            type: string
-          type: object
-          title: Upload Fields
-        upload_expires_in:
-          type: integer
-          title: Upload Expires In
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - profile_id
-      - upload_url
-      - upload_fields
-      - upload_expires_in
-      title: InitiateUploadResponse
-      description: Response model for initiating a browser profile upload.
+      title: HTTPValidationError
     BrowserProfileList:
       properties:
         total:
@@ -458,15 +467,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http
