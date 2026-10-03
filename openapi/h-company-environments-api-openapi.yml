@@ -271,6 +271,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
     BrowserVisualMode:
       properties:
         type:
@@ -298,33 +316,15 @@ components:
       type: object
       title: BrowserVisualMode
       description: Act on screenshots by viewport coordinates.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
     PatchEnvironment:
       properties:
         host:
@@ -391,38 +391,6 @@ components:
       type: object
       title: PatchEnvironment
       description: Partial environment update.
-    Environment:
-      oneOf:
-      - $ref: '#/components/schemas/Browser'
-      - $ref: '#/components/schemas/Desktop'
-      discriminator:
-        propertyName: kind
-        mapping:
-          desktop: '#/components/schemas/Desktop'
-          web: '#/components/schemas/Browser'
-    EnvironmentKind:
-      type: string
-      enum:
-      - web
-      - desktop
-      title: EnvironmentKind
-      description: Environment family.
-    BrowserNetwork:
-      properties:
-        proxy_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Proxy Url
-          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
-        managed_proxy:
-          anyOf:
-          - $ref: '#/components/schemas/ManagedProxySelection'
-          - type: 'null'
-          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
-      type: object
-      title: BrowserNetwork
-      description: Network egress settings for a remote browser session.
     Browser:
       properties:
         id:
@@ -504,15 +472,6 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    ProxyPool:
-      type: string
-      enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
     EnvironmentPage:
       properties:
         items:
@@ -533,31 +492,56 @@ components:
       - page
       title: EnvironmentPage
       description: Named page subclass so OpenAPI emits a clean ``EnvironmentPage`` schema name.
-    BrowserTextMode:
+    ManagedProxySelection:
       properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
       type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
-    HTTPValidationError:
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    EnvironmentKind:
+      type: string
+      enum:
+      - web
+      - desktop
+      title: EnvironmentKind
+      description: Environment family.
+    BrowserNetwork:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
       type: object
-      title: HTTPValidationError
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
     ValidationError:
       properties:
         loc:
@@ -612,6 +596,22 @@ components:
       - host
       title: Desktop
       description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

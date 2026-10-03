@@ -358,321 +358,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PauseSchedule:
-      properties:
-        note:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Note
-      type: object
-      title: PauseSchedule
-      description: Pause a schedule with an optional note explaining why.
-    ScheduleRunRecord:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        schedule_id:
-          type: string
-          format: uuid
-          title: Schedule Id
-        status:
-          type: string
-          enum:
-          - created
-          - skipped_overlap
-          - skipped_quota
-          - error
-          title: Status
-        scheduled_for:
-          type: string
-          format: date-time
-          title: Scheduled For
-        session_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Session Id
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        triggered_manually:
-          type: boolean
-          title: Triggered Manually
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - schedule_id
-      - status
-      - scheduled_for
-      - session_id
-      - error
-      - triggered_manually
-      - created_at
-      title: ScheduleRunRecord
-      description: Outcome of one schedule fire.
-    CreateSchedule:
-      properties:
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Description
-        timing:
-          $ref: '#/components/schemas/CronTiming'
-        session_request:
-          $ref: '#/components/schemas/SessionRequest'
-          description: Template used to create each scheduled session; re-resolved on every fire.
-      type: object
-      required:
-      - name
-      - timing
-      - session_request
-      title: CreateSchedule
-      description: Register a schedule that creates a session on each fire.
-    UpdateSchedule:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Description
-        timing:
-          anyOf:
-          - $ref: '#/components/schemas/CronTiming'
-          - type: 'null'
-        session_request:
-          anyOf:
-          - $ref: '#/components/schemas/SessionRequest'
-          - type: 'null'
-      type: object
-      title: UpdateSchedule
-      description: Partial update; omit a field to leave it unchanged.
-    Environment:
-      oneOf:
-      - $ref: '#/components/schemas/Browser'
-      - $ref: '#/components/schemas/Desktop'
-      discriminator:
-        propertyName: kind
-        mapping:
-          desktop: '#/components/schemas/Desktop'
-          web: '#/components/schemas/Browser'
-    Page_ScheduleRunRecord_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ScheduleRunRecord'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[ScheduleRunRecord]
-    ProxyPool:
-      type: string
-      enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
-    CronTiming:
-      properties:
-        type:
-          type: string
-          const: cron
-          title: Type
-          default: cron
-        expression:
-          type: string
-          title: Expression
-          description: Five-field cron expression, e.g. '0 9 * * 1-5'.
-        timezone:
-          type: string
-          title: Timezone
-          description: IANA timezone the expression is evaluated in, e.g. 'Europe/Paris'.
-      type: object
-      required:
-      - expression
-      - timezone
-      title: CronTiming
-      description: Cron cadence evaluated in an IANA timezone.
-    BrowserTextMode:
-      properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
-      type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Agent:
-      properties:
-        name:
-          type: string
-          maxLength: 127
-          minLength: 1
-          title: Name
-          description: 'Unique name for this agent in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: What the agent does. Parent agents read this to decide when to delegate to it.
-        environments:
-          items:
-            anyOf:
-            - type: string
-            - $ref: '#/components/schemas/Environment'
-          type: array
-          title: Environments
-          description: Environments the agent runs in. Each entry is a registered environment's id or an inline definition. At most one per kind. Required unless the agent delegates to subagents (a pure orchestrator owns none).
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-          description: Model that serves the agent. Defaults to the platform model if omitted.
-        instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Instructions
-          description: Instructions appended to the agent's system prompt to steer behavior.
-        subagents:
-          anyOf:
-          - items:
-              anyOf:
-              - type: string
-              - $ref: '#/components/schemas/Agent'
-            type: array
-          - type: 'null'
-          title: Subagents
-          description: Agents this one can delegate to. Each entry is a registered agent's name or an inline definition.
-        skills:
-          anyOf:
-          - items:
-              anyOf:
-              - type: string
-              - $ref: '#/components/schemas/Skill'
-            type: array
-          - type: 'null'
-          title: Skills
-          description: Skills the agent can draw on. Each entry is a registered skill's name or an inline definition.
-        answer_format:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Answer Format
-          description: JSON Schema the agent's final answer must conform to. Null returns a free-form text answer.
-        tools:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolDefinition'
-            type: array
-          - type: 'null'
-          title: Tools
-          description: Custom tools executed by the API client. The agent emits a tool call, pauses, and resumes once the client sends back the matching tool result.
-      type: object
-      required:
-      - name
-      - description
-      - environments
-      title: Agent
-      description: Declarative agent definition.
-    BrowserVisualMode:
-      properties:
-        type:
-          type: string
-          const: visual
-          title: Type
-          default: visual
-        width:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Width
-          description: Viewport width in pixels.
-          default: 1200
-        height:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Height
-          description: Viewport height in pixels.
-          default: 1200
-        markdown:
-          type: boolean
-          title: Markdown
-          description: Also include the viewport's text as markdown alongside each screenshot.
-          default: false
-      type: object
-      title: BrowserVisualMode
-      description: Act on screenshots by viewport coordinates.
-    BrowserNetwork:
-      properties:
-        proxy_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Proxy Url
-          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
-        managed_proxy:
-          anyOf:
-          - $ref: '#/components/schemas/ManagedProxySelection'
-          - type: 'null'
-          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
-      type: object
-      title: BrowserNetwork
-      description: Network egress settings for a remote browser session.
     Browser:
       properties:
         id:
@@ -754,70 +439,54 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    Skill:
+    ManagedProxySelection:
       properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: When to use this skill. The agent reads this to decide whether to load it.
-        body:
-          type: string
-          minLength: 1
-          title: Body
-          description: Markdown instructions the agent loads when it uses the skill.
-        source:
+        country:
           anyOf:
           - type: string
           - type: 'null'
-          title: Source
-          description: Optional URL the content was sourced from.
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-          description: Optional regex hinting at URLs where this skill applies.
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
       type: object
-      required:
-      - name
-      - description
-      - body
-      title: Skill
-      description: A named, reusable instruction an agent can draw on during a session.
-    UserMessageEvent:
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    CronTiming:
       properties:
         type:
           type: string
-          const: user_message
+          const: cron
           title: Type
-          default: user_message
-        message:
+          default: cron
+        expression:
           type: string
-          title: Message
-          description: Message text sent to the agent.
-        images:
-          items:
-            type: string
-          type: array
-          title: Images
-          description: Optional images attached to the message, as base64 data URIs.
-        caller_id:
+          title: Expression
+          description: Five-field cron expression, e.g. '0 9 * * 1-5'.
+        timezone:
           type: string
-          title: Caller Id
-          default: user
+          title: Timezone
+          description: IANA timezone the expression is evaluated in, e.g. 'Europe/Paris'.
       type: object
       required:
-      - message
-      title: UserMessageEvent
-      description: The user is sending a message to an active agent.
+      - expression
+      - timezone
+      title: CronTiming
+      description: Cron cadence evaluated in an IANA timezone.
     ValidationError:
       properties:
         loc:
@@ -844,97 +513,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ScheduleRecord:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        timing:
-          $ref: '#/components/schemas/CronTiming'
-        session_request:
-          $ref: '#/components/schemas/SessionRequest'
-        paused:
-          type: boolean
-          title: Paused
-        pause_note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pause Note
-        next_run_times:
-          items:
-            type: string
-            format: date-time
-          type: array
-          title: Next Run Times
-          description: The next few fire times, empty while paused.
-        last_run_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Run At
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - id
-      - name
-      - description
-      - timing
-      - session_request
-      - paused
-      - pause_note
-      - next_run_times
-      - last_run_at
-      - created_at
-      - updated_at
-      title: ScheduleRecord
-      description: Schedule as returned by reads.
-    ToolDefinition:
-      properties:
-        name:
-          type: string
-          maxLength: 64
-          minLength: 1
-          title: Name
-          description: 'Tool name advertised to the model. Format: letters, digits and underscores; must start with a letter or underscore; max 64 chars.'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: What the tool does, when to use it, and what it returns. Shown to the model verbatim.
-        input_schema:
-          additionalProperties: true
-          type: object
-          title: Input Schema
-          description: JSON Schema (object type) describing the tool call arguments.
-      type: object
-      required:
-      - name
-      - description
-      title: ToolDefinition
-      description: 'Contract for a tool executed by the API client, not by the agent runtime.
-
-
-        The agent emits a tool call matching ``input_schema``, pauses, and resumes
-
-        once the client sends back the corresponding tool result.'
     SessionRequest:
       properties:
         agent:
@@ -1017,52 +595,240 @@ components:
       - agent
       title: SessionRequest
       description: '``POST /api/v2/sessions`` body.'
-    ManagedProxySelection:
+    ToolDefinition:
       properties:
-        country:
+        name:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Name
+          description: 'Tool name advertised to the model. Format: letters, digits and underscores; must start with a letter or underscore; max 64 chars.'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the tool does, when to use it, and what it returns. Shown to the model verbatim.
+        input_schema:
+          additionalProperties: true
+          type: object
+          title: Input Schema
+          description: JSON Schema (object type) describing the tool call arguments.
+      type: object
+      required:
+      - name
+      - description
+      title: ToolDefinition
+      description: 'Contract for a tool executed by the API client, not by the agent runtime.
+
+
+        The agent emits a tool call matching ``input_schema``, pauses, and resumes
+
+        once the client sends back the corresponding tool result.'
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
+    PauseSchedule:
+      properties:
+        note:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Note
+      type: object
+      title: PauseSchedule
+      description: Pause a schedule with an optional note explaining why.
+    Agent:
+      properties:
+        name:
+          type: string
+          maxLength: 127
+          minLength: 1
+          title: Name
+          description: 'Unique name for this agent in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: What the agent does. Parent agents read this to decide when to delegate to it.
+        environments:
+          items:
+            anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Environment'
+          type: array
+          title: Environments
+          description: Environments the agent runs in. Each entry is a registered environment's id or an inline definition. At most one per kind. Required unless the agent delegates to subagents (a pure orchestrator owns none).
+        model:
           anyOf:
           - type: string
           - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
-    Page_ScheduleRecord_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ScheduleRecord'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
+          title: Model
+          description: Model that serves the agent. Defaults to the platform model if omitted.
+        instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instructions
+          description: Instructions appended to the agent's system prompt to steer behavior.
+        subagents:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Agent'
+            type: array
+          - type: 'null'
+          title: Subagents
+          description: Agents this one can delegate to. Each entry is a registered agent's name or an inline definition.
+        skills:
+          anyOf:
+          - items:
+              anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Skill'
+            type: array
+          - type: 'null'
+          title: Skills
+          description: Skills the agent can draw on. Each entry is a registered skill's name or an inline definition.
+        answer_format:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Answer Format
+          description: JSON Schema the agent's final answer must conform to. Null returns a free-form text answer.
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolDefinition'
+            type: array
+          - type: 'null'
+          title: Tools
+          description: Custom tools executed by the API client. The agent emits a tool call, pauses, and resumes once the client sends back the matching tool result.
       type: object
       required:
-      - items
-      - total
-      - page
-      title: Page[ScheduleRecord]
+      - name
+      - description
+      - environments
+      title: Agent
+      description: Declarative agent definition.
+    ScheduleRunRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        schedule_id:
+          type: string
+          format: uuid
+          title: Schedule Id
+        status:
+          type: string
+          enum:
+          - created
+          - skipped_overlap
+          - skipped_quota
+          - error
+          title: Status
+        scheduled_for:
+          type: string
+          format: date-time
+          title: Scheduled For
+        session_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Session Id
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        triggered_manually:
+          type: boolean
+          title: Triggered Manually
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - schedule_id
+      - status
+      - scheduled_for
+      - session_id
+      - error
+      - triggered_manually
+      - created_at
+      title: ScheduleRunRecord
+      description: Outcome of one schedule fire.
+    BrowserNetwork:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
+      type: object
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
+    UserMessageEvent:
+      properties:
+        type:
+          type: string
+          const: user_message
+          title: Type
+          default: user_message
+        message:
+          type: string
+          title: Message
+          description: Message text sent to the agent.
+        images:
+          items:
+            type: string
+          type: array
+          title: Images
+          description: Optional images attached to the message, as base64 data URIs.
+        caller_id:
+          type: string
+          title: Caller Id
+          default: user
+      type: object
+      required:
+      - message
+      title: UserMessageEvent
+      description: The user is sending a message to an active agent.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
     Desktop:
       properties:
         id:
@@ -1091,6 +857,240 @@ components:
       - host
       title: Desktop
       description: A desktop the agent controls via mouse, keyboard, and screenshots.
+    Page_ScheduleRunRecord_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ScheduleRunRecord'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[ScheduleRunRecord]
+    Skill:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: When to use this skill. The agent reads this to decide whether to load it.
+        body:
+          type: string
+          minLength: 1
+          title: Body
+          description: Markdown instructions the agent loads when it uses the skill.
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Optional URL the content was sourced from.
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+          description: Optional regex hinting at URLs where this skill applies.
+      type: object
+      required:
+      - name
+      - description
+      - body
+      title: Skill
+      description: A named, reusable instruction an agent can draw on during a session.
+    Page_ScheduleRecord_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ScheduleRecord'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[ScheduleRecord]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BrowserVisualMode:
+      properties:
+        type:
+          type: string
+          const: visual
+          title: Type
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    CreateSchedule:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Description
+        timing:
+          $ref: '#/components/schemas/CronTiming'
+        session_request:
+          $ref: '#/components/schemas/SessionRequest'
+          description: Template used to create each scheduled session; re-resolved on every fire.
+      type: object
+      required:
+      - name
+      - timing
+      - session_request
+      title: CreateSchedule
+      description: Register a schedule that creates a session on each fire.
+    ScheduleRecord:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        timing:
+          $ref: '#/components/schemas/CronTiming'
+        session_request:
+          $ref: '#/components/schemas/SessionRequest'
+        paused:
+          type: boolean
+          title: Paused
+        pause_note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pause Note
+        next_run_times:
+          items:
+            type: string
+            format: date-time
+          type: array
+          title: Next Run Times
+          description: The next few fire times, empty while paused.
+        last_run_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Run At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - timing
+      - session_request
+      - paused
+      - pause_note
+      - next_run_times
+      - last_run_at
+      - created_at
+      - updated_at
+      title: ScheduleRecord
+      description: Schedule as returned by reads.
+    UpdateSchedule:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Description
+        timing:
+          anyOf:
+          - $ref: '#/components/schemas/CronTiming'
+          - type: 'null'
+        session_request:
+          anyOf:
+          - $ref: '#/components/schemas/SessionRequest'
+          - type: 'null'
+      type: object
+      title: UpdateSchedule
+      description: Partial update; omit a field to leave it unchanged.
   securitySchemes:
     HTTPBearer:
       type: http

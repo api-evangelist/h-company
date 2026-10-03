@@ -245,6 +245,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Page_Skill_:
       properties:
         items:
@@ -264,35 +273,6 @@ components:
       - total
       - page
       title: Page[Skill]
-    PatchSkill:
-      properties:
-        description:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Description
-        body:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Body
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-      type: object
-      title: PatchSkill
-      description: Partial skill update.
     Skill:
       properties:
         name:
@@ -331,15 +311,35 @@ components:
       - body
       title: Skill
       description: A named, reusable instruction an agent can draw on during a session.
-    HTTPValidationError:
+    PatchSkill:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        description:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Description
+        body:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Body
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
       type: object
-      title: HTTPValidationError
+      title: PatchSkill
+      description: Partial skill update.
     ValidationError:
       properties:
         loc:

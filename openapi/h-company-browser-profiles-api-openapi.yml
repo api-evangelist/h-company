@@ -272,31 +272,67 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    InitiateUploadResponse:
+    HTTPValidationError:
       properties:
-        profile_id:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BrowserProfileList:
+      properties:
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+        profiles:
+          items:
+            $ref: '#/components/schemas/BrowserProfileRead'
+          type: array
+          title: Profiles
+      type: object
+      required:
+      - total
+      - limit
+      - offset
+      - profiles
+      title: BrowserProfileList
+      description: Response model for listing browser profiles.
+    BrowserProfileCreate:
+      properties:
+        name:
           type: string
-          format: uuid
-          title: Profile Id
-        upload_url:
+          title: Name
+        browser_name:
           type: string
-          title: Upload Url
-        upload_fields:
+          title: Browser Name
+        browser_version:
+          type: string
+          title: Browser Version
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        labels:
           additionalProperties:
             type: string
           type: object
-          title: Upload Fields
-        upload_expires_in:
-          type: integer
-          title: Upload Expires In
+          title: Labels
       type: object
       required:
-      - profile_id
-      - upload_url
-      - upload_fields
-      - upload_expires_in
-      title: InitiateUploadResponse
-      description: Response model for initiating a browser profile upload.
+      - name
+      - browser_name
+      - browser_version
+      title: BrowserProfileCreate
+      description: Request model for completing a browser profile upload.
     BrowserProfileRead:
       properties:
         id:
@@ -380,67 +416,31 @@ components:
       - updated_at
       title: BrowserProfileRead
       description: Response model for a browser profile.
-    BrowserProfileCreate:
+    InitiateUploadResponse:
       properties:
-        name:
+        profile_id:
           type: string
-          title: Name
-        browser_name:
+          format: uuid
+          title: Profile Id
+        upload_url:
           type: string
-          title: Browser Name
-        browser_version:
-          type: string
-          title: Browser Version
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        labels:
+          title: Upload Url
+        upload_fields:
           additionalProperties:
             type: string
           type: object
-          title: Labels
+          title: Upload Fields
+        upload_expires_in:
+          type: integer
+          title: Upload Expires In
       type: object
       required:
-      - name
-      - browser_name
-      - browser_version
-      title: BrowserProfileCreate
-      description: Request model for completing a browser profile upload.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    BrowserProfileList:
-      properties:
-        total:
-          type: integer
-          title: Total
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
-        profiles:
-          items:
-            $ref: '#/components/schemas/BrowserProfileRead'
-          type: array
-          title: Profiles
-      type: object
-      required:
-      - total
-      - limit
-      - offset
-      - profiles
-      title: BrowserProfileList
-      description: Response model for listing browser profiles.
+      - profile_id
+      - upload_url
+      - upload_fields
+      - upload_expires_in
+      title: InitiateUploadResponse
+      description: Response model for initiating a browser profile upload.
     ValidationError:
       properties:
         loc:
