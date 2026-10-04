@@ -271,24 +271,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    BrowserTextMode:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
       type: object
-      title: HTTPValidationError
-    Environment:
-      oneOf:
-      - $ref: '#/components/schemas/Browser'
-      - $ref: '#/components/schemas/Desktop'
-      discriminator:
-        propertyName: kind
-        mapping:
-          desktop: '#/components/schemas/Desktop'
-          web: '#/components/schemas/Browser'
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
     BrowserVisualMode:
       properties:
         type:
@@ -316,15 +314,22 @@ components:
       type: object
       title: BrowserVisualMode
       description: Act on screenshots by viewport coordinates.
-    ProxyPool:
+    Environment:
+      oneOf:
+      - $ref: '#/components/schemas/Browser'
+      - $ref: '#/components/schemas/Desktop'
+      discriminator:
+        propertyName: kind
+        mapping:
+          desktop: '#/components/schemas/Desktop'
+          web: '#/components/schemas/Browser'
+    EnvironmentKind:
       type: string
       enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
+      - web
+      - desktop
+      title: EnvironmentKind
+      description: Environment family.
     PatchEnvironment:
       properties:
         host:
@@ -391,6 +396,97 @@ components:
       type: object
       title: PatchEnvironment
       description: Partial environment update.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    EnvironmentPage:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Environment'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: EnvironmentPage
+      description: Named page subclass so OpenAPI emits a clean ``EnvironmentPage`` schema name.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Browser:
       properties:
         id:
@@ -472,60 +568,6 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    EnvironmentPage:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Environment'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: EnvironmentPage
-      description: Named page subclass so OpenAPI emits a clean ``EnvironmentPage`` schema name.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
-    EnvironmentKind:
-      type: string
-      enum:
-      - web
-      - desktop
-      title: EnvironmentKind
-      description: Environment family.
     BrowserNetwork:
       properties:
         proxy_url:
@@ -542,32 +584,6 @@ components:
       type: object
       title: BrowserNetwork
       description: Network egress settings for a remote browser session.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     Desktop:
       properties:
         id:
@@ -596,22 +612,6 @@ components:
       - host
       title: Desktop
       description: A desktop the agent controls via mouse, keyboard, and screenshots.
-    BrowserTextMode:
-      properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
-      type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

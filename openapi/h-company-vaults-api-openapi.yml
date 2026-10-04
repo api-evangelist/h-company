@@ -233,6 +233,21 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    OnePasswordConfig:
+      properties:
+        provider:
+          type: string
+          const: onepassword
+          title: Provider
+          default: onepassword
+        op_vault_id:
+          type: string
+          title: Op Vault Id
+      type: object
+      required:
+      - op_vault_id
+      title: OnePasswordConfig
+      description: 1Password vault provider config.
     VaultCreateRequest:
       properties:
         name:
@@ -252,95 +267,6 @@ components:
       - token
       title: VaultCreateRequest
       description: Request body for creating a vault config.
-    VaultConfigList:
-      properties:
-        total:
-          type: integer
-          title: Total
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
-        vaults:
-          items:
-            $ref: '#/components/schemas/VaultConfigRead'
-          type: array
-          title: Vaults
-      type: object
-      required:
-      - total
-      - limit
-      - offset
-      - vaults
-      title: VaultConfigList
-      description: Response model for listing vault configs.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    VaultHealth:
-      properties:
-        ok:
-          type: boolean
-          title: Ok
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-      type: object
-      required:
-      - ok
-      title: VaultHealth
-      description: Result of a provider health check. The API always returns 200; branch on ``ok``.
-    OnePasswordConfig:
-      properties:
-        provider:
-          type: string
-          const: onepassword
-          title: Provider
-          default: onepassword
-        op_vault_id:
-          type: string
-          title: Op Vault Id
-      type: object
-      required:
-      - op_vault_id
-      title: OnePasswordConfig
-      description: 1Password vault provider config.
-    VaultTokenRotateRequest:
-      properties:
-        token:
-          type: string
-          format: password
-          title: Token
-          writeOnly: true
-      type: object
-      required:
-      - token
-      title: VaultTokenRotateRequest
-      description: Request body for rotating a vault's stored provider token.
-    VaultUpdateRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        provider_config:
-          anyOf:
-          - $ref: '#/components/schemas/OnePasswordConfig'
-          - type: 'null'
-      type: object
-      title: VaultUpdateRequest
-      description: Partial update; only provided fields are forwarded. Token rotation is separate.
     ValidationError:
       properties:
         loc:
@@ -367,6 +293,65 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VaultConfigList:
+      properties:
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+        vaults:
+          items:
+            $ref: '#/components/schemas/VaultConfigRead'
+          type: array
+          title: Vaults
+      type: object
+      required:
+      - total
+      - limit
+      - offset
+      - vaults
+      title: VaultConfigList
+      description: Response model for listing vault configs.
+    VaultTokenRotateRequest:
+      properties:
+        token:
+          type: string
+          format: password
+          title: Token
+          writeOnly: true
+      type: object
+      required:
+      - token
+      title: VaultTokenRotateRequest
+      description: Request body for rotating a vault's stored provider token.
+    VaultUpdateRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        provider_config:
+          anyOf:
+          - $ref: '#/components/schemas/OnePasswordConfig'
+          - type: 'null'
+      type: object
+      title: VaultUpdateRequest
+      description: Partial update; only provided fields are forwarded. Token rotation is separate.
     VaultConfigRead:
       properties:
         id:
@@ -400,6 +385,21 @@ components:
       - updated_at
       title: VaultConfigRead
       description: Response model for a vault config. Never includes the stored token.
+    VaultHealth:
+      properties:
+        ok:
+          type: boolean
+          title: Ok
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      type: object
+      required:
+      - ok
+      title: VaultHealth
+      description: Result of a provider health check. The API always returns 200; branch on ``ok``.
   securitySchemes:
     HTTPBearer:
       type: http

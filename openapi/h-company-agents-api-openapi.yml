@@ -254,6 +254,49 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
+    BrowserVisualMode:
+      properties:
+        type:
+          type: string
+          const: visual
+          title: Type
+          default: visual
+        width:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Width
+          description: Viewport width in pixels.
+          default: 1200
+        height:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Height
+          description: Viewport height in pixels.
+          default: 1200
+        markdown:
+          type: boolean
+          title: Markdown
+          description: Also include the viewport's text as markdown alongside each screenshot.
+          default: false
+      type: object
+      title: BrowserVisualMode
+      description: Act on screenshots by viewport coordinates.
     ToolDefinition:
       properties:
         name:
@@ -283,15 +326,6 @@ components:
         The agent emits a tool call matching ``input_schema``, pauses, and resumes
 
         once the client sends back the corresponding tool result.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     Environment:
       oneOf:
       - $ref: '#/components/schemas/Browser'
@@ -301,42 +335,15 @@ components:
         mapping:
           desktop: '#/components/schemas/Desktop'
           web: '#/components/schemas/Browser'
-    BrowserVisualMode:
+    HTTPValidationError:
       properties:
-        type:
-          type: string
-          const: visual
-          title: Type
-          default: visual
-        width:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Width
-          description: Viewport width in pixels.
-          default: 1200
-        height:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Height
-          description: Viewport height in pixels.
-          default: 1200
-        markdown:
-          type: boolean
-          title: Markdown
-          description: Also include the viewport's text as markdown alongside each screenshot.
-          default: false
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: BrowserVisualMode
-      description: Act on screenshots by viewport coordinates.
-    ProxyPool:
-      type: string
-      enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
+      title: HTTPValidationError
     PatchAgent:
       properties:
         description:
@@ -398,6 +405,125 @@ components:
       type: object
       title: PatchAgent
       description: Partial agent update.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    ManagedProxySelection:
+      properties:
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
+      type: object
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    Page_Agent_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Agent'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[Agent]
+    Skill:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
+        description:
+          type: string
+          minLength: 1
+          title: Description
+          description: When to use this skill. The agent reads this to decide whether to load it.
+        body:
+          type: string
+          minLength: 1
+          title: Body
+          description: Markdown instructions the agent loads when it uses the skill.
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Optional URL the content was sourced from.
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+          description: Optional regex hinting at URLs where this skill applies.
+      type: object
+      required:
+      - name
+      - description
+      - body
+      title: Skill
+      description: A named, reusable instruction an agent can draw on during a session.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Browser:
       properties:
         id:
@@ -479,71 +605,6 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    Skill:
-      properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-          description: 'Unique name for this skill in your catalog. Format: lowercase ASCII letters, digits and hyphens; must start and end with alphanumeric; max 63 chars per segment; optional single ''org/'' namespace prefix (e.g. ''h/web-environment'').'
-        description:
-          type: string
-          minLength: 1
-          title: Description
-          description: When to use this skill. The agent reads this to decide whether to load it.
-        body:
-          type: string
-          minLength: 1
-          title: Body
-          description: Markdown instructions the agent loads when it uses the skill.
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-          description: Optional URL the content was sourced from.
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-          description: Optional regex hinting at URLs where this skill applies.
-      type: object
-      required:
-      - name
-      - description
-      - body
-      title: Skill
-      description: A named, reusable instruction an agent can draw on during a session.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
     Agent:
       properties:
         name:
@@ -635,32 +696,6 @@ components:
       type: object
       title: BrowserNetwork
       description: Network egress settings for a remote browser session.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     Desktop:
       properties:
         id:
@@ -689,41 +724,6 @@ components:
       - host
       title: Desktop
       description: A desktop the agent controls via mouse, keyboard, and screenshots.
-    Page_Agent_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Agent'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[Agent]
-    BrowserTextMode:
-      properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
-      type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

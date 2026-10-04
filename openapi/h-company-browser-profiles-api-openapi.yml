@@ -272,6 +272,34 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    BrowserProfileCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        browser_name:
+          type: string
+          title: Browser Name
+        browser_version:
+          type: string
+          title: Browser Version
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        labels:
+          additionalProperties:
+            type: string
+          type: object
+          title: Labels
+      type: object
+      required:
+      - name
+      - browser_name
+      - browser_version
+      title: BrowserProfileCreate
+      description: Request model for completing a browser profile upload.
     HTTPValidationError:
       properties:
         detail:
@@ -305,34 +333,57 @@ components:
       - profiles
       title: BrowserProfileList
       description: Response model for listing browser profiles.
-    BrowserProfileCreate:
+    ValidationError:
       properties:
-        name:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Name
-        browser_name:
+          title: Message
+        type:
           type: string
-          title: Browser Name
-        browser_version:
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    InitiateUploadResponse:
+      properties:
+        profile_id:
           type: string
-          title: Browser Version
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        labels:
+          format: uuid
+          title: Profile Id
+        upload_url:
+          type: string
+          title: Upload Url
+        upload_fields:
           additionalProperties:
             type: string
           type: object
-          title: Labels
+          title: Upload Fields
+        upload_expires_in:
+          type: integer
+          title: Upload Expires In
       type: object
       required:
-      - name
-      - browser_name
-      - browser_version
-      title: BrowserProfileCreate
-      description: Request model for completing a browser profile upload.
+      - profile_id
+      - upload_url
+      - upload_fields
+      - upload_expires_in
+      title: InitiateUploadResponse
+      description: Response model for initiating a browser profile upload.
     BrowserProfileRead:
       properties:
         id:
@@ -416,57 +467,6 @@ components:
       - updated_at
       title: BrowserProfileRead
       description: Response model for a browser profile.
-    InitiateUploadResponse:
-      properties:
-        profile_id:
-          type: string
-          format: uuid
-          title: Profile Id
-        upload_url:
-          type: string
-          title: Upload Url
-        upload_fields:
-          additionalProperties:
-            type: string
-          type: object
-          title: Upload Fields
-        upload_expires_in:
-          type: integer
-          title: Upload Expires In
-      type: object
-      required:
-      - profile_id
-      - upload_url
-      - upload_fields
-      - upload_expires_in
-      title: InitiateUploadResponse
-      description: Response model for initiating a browser profile upload.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     HTTPBearer:
       type: http

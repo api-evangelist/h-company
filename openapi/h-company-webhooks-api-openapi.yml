@@ -297,6 +297,25 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Page_WebhookRecord_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/WebhookRecord'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+      type: object
+      required:
+      - items
+      - total
+      - page
+      title: Page[WebhookRecord]
     CreateWebhook:
       properties:
         url:
@@ -323,6 +342,36 @@ components:
       - url
       title: CreateWebhook
       description: Register a webhook for the caller's organization.
+    UpdateWebhook:
+      properties:
+        url:
+          anyOf:
+          - type: string
+            maxLength: 2048
+            minLength: 1
+          - type: 'null'
+          title: Url
+        enabled_events:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enabled Events
+        description:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Description
+        disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Disabled
+      type: object
+      title: UpdateWebhook
+      description: Partial update; omit a field to leave it unchanged.
     WebhookRecord:
       properties:
         id:
@@ -398,55 +447,6 @@ components:
       - updated_at
       title: WebhookRecord
       description: Webhook as returned by reads; the signing secret is never included.
-    UpdateWebhook:
-      properties:
-        url:
-          anyOf:
-          - type: string
-            maxLength: 2048
-            minLength: 1
-          - type: 'null'
-          title: Url
-        enabled_events:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enabled Events
-        description:
-          anyOf:
-          - type: string
-            maxLength: 255
-          - type: 'null'
-          title: Description
-        disabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Disabled
-      type: object
-      title: UpdateWebhook
-      description: Partial update; omit a field to leave it unchanged.
-    Page_WebhookRecord_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/WebhookRecord'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        page:
-          type: integer
-          title: Page
-      type: object
-      required:
-      - items
-      - total
-      - page
-      title: Page[WebhookRecord]
     WebhookWithSecret:
       properties:
         id:
@@ -526,6 +526,20 @@ components:
       - secret
       title: WebhookWithSecret
       description: 'Create response: the only time the signing secret is returned.'
+    WebhookEventTypeDefinition:
+      properties:
+        type:
+          type: string
+          title: Type
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - type
+      - description
+      title: WebhookEventTypeDefinition
+      description: A webhook event type clients can subscribe to.
     ValidationError:
       properties:
         loc:
@@ -552,20 +566,6 @@ components:
       - msg
       - type
       title: ValidationError
-    WebhookEventTypeDefinition:
-      properties:
-        type:
-          type: string
-          title: Type
-        description:
-          type: string
-          title: Description
-      type: object
-      required:
-      - type
-      - description
-      title: WebhookEventTypeDefinition
-      description: A webhook event type clients can subscribe to.
   securitySchemes:
     HTTPBearer:
       type: http
