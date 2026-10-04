@@ -43,6 +43,10 @@ accessModel:
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-19'
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: vercel
 tags:
 - Artificial Intelligence
 - Agents
@@ -53,6 +57,7 @@ tags:
 - LLM
 - MCP
 - Developer Tools
+- Foundation Models
 tags_raw:
 - Artificial Intelligence
 - Agents
@@ -64,6 +69,7 @@ tags_raw:
 - MCP
 - Developer Tools
 - Machine-Learning
+- Foundation Models
 apis:
 - aid: h-company:h-company-holo-models
   name: H Company Holo Models API
@@ -250,6 +256,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/h-company-capability-edges.yml
+  name: H Company Business Capability Map
 - type: Overlay
   url: overlays/h-company-computer-use-agents-overlay.yaml
 - type: Website
