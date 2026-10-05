@@ -1,0 +1,12 @@
+{
+ "url": "https://agp.hcompany.ai/share/openapi.json",
+ "requested_url": "https://agp.hcompany.ai/share/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 129677,
+ "sha256": "d23cdad0f6ad1f45cbf920019057dd9f643a6b42cc6155d3c26b7bcbed3fc329",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.958), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
