@@ -1,0 +1,167 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://hcompany.ai/models-api
+sources:
+- https://hcompany.ai/models-api
+- https://hcompany.ai/holo-models-api
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: per-call
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-10-07'
+  evidence: Open weights under Apache 2.0.
+  free_edition: Holo4 35B-A3B
+  managed_tier: Holo4 35B-A3B
+  open_source_license: Apache 2.0
+published: true
+note: Token pricing per 1M for four models; free rate-limited tier plus pay-as-you-go. Open weights under
+  Apache 2.0 with local inference via vLLM/llama.cpp.
+plan_count: 9
+currency: USD
+plans:
+- name: Holo4 27B input
+  price_text: $0.40
+  price: 0.4
+  currency: USD
+  period: per-use
+  unit: per 1M input tokens
+  included_quota: Context 256K; $0.04 cached
+- name: Holo4 27B output
+  price_text: $3.00
+  price: 3.0
+  currency: USD
+  period: per-use
+  unit: per 1M output tokens
+- name: Holo4 35B-A3B input
+  price_text: $0.30
+  price: 0.3
+  currency: USD
+  period: per-use
+  unit: per 1M input tokens
+  included_quota: Context 256K; $0.03 cached
+- name: Holo4 35B-A3B output
+  price_text: $2.00
+  price: 2.0
+  currency: USD
+  period: per-use
+  unit: per 1M output tokens
+- name: Holo3.1 35B-A3B input
+  price_text: $0.25
+  price: 0.25
+  currency: USD
+  period: per-use
+  unit: per 1M input tokens
+  included_quota: Context 64K
+- name: Holo3.1 35B-A3B output
+  price_text: $1.80
+  price: 1.8
+  currency: USD
+  period: per-use
+  unit: per 1M output tokens
+- name: Holo3 122B-A10B input
+  price_text: $0.40
+  price: 0.4
+  currency: USD
+  period: per-use
+  unit: per 1M input tokens
+  included_quota: Context 64K
+- name: Holo3 122B-A10B output
+  price_text: $3.00
+  price: 3.0
+  currency: USD
+  period: per-use
+  unit: per 1M output tokens
+- name: Free tier
+  price_text: Rate-limited free access to Holo3.1 35B-A3B. No credit card required.
+  period: none
+  included_quota: Holo3.1 35B-A3B
+  overage: Pay-as-you-go for every model, with higher rate limits.
+rate_limit_statements:
+- Rate-limited free access to Holo3.1 35B-A3B. No credit card required.
+- Pay-as-you-go for every model, with higher rate limits.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units:
+  - token
+  plans:
+  - name: Holo4 27B input
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo4 27B output
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo4 35B-A3B input
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo4 35B-A3B output
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo3.1 35B-A3B input
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo3.1 35B-A3B output
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo3 122B-A10B input
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Holo3 122B-A10B output
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - token
+    periods:
+    - other
+  - name: Free tier
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
