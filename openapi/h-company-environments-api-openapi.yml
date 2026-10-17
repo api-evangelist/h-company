@@ -271,22 +271,59 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    BrowserTextMode:
+    BrowserNetwork:
       properties:
-        type:
-          type: string
-          const: text
-          title: Type
-          default: text
-        chunk_size:
-          type: integer
-          exclusiveMinimum: 0.0
-          title: Chunk Size
-          description: Characters of page text shown per page.
-          default: 20000
+        proxy_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proxy Url
+          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
+        managed_proxy:
+          anyOf:
+          - $ref: '#/components/schemas/ManagedProxySelection'
+          - type: 'null'
+          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
       type: object
-      title: BrowserTextMode
-      description: Read-only markdown with URL navigation, no screenshots.
+      title: BrowserNetwork
+      description: Network egress settings for a remote browser session.
+    ProxyPool:
+      type: string
+      enum:
+      - residential
+      - datacenter
+      - isp
+      - mobile
+      title: ProxyPool
+      description: The kind of upstream IPs a managed proxy draws from.
+    Desktop:
+      properties:
+        id:
+          type: string
+          minLength: 1
+          title: Id
+          description: Catalog identifier for this environment.
+        kind:
+          type: string
+          const: desktop
+          title: Kind
+          default: desktop
+        host:
+          type: string
+          title: Host
+          const: user_device
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Connect to an existing desktop session by id instead of starting a new one.
+      type: object
+      required:
+      - id
+      - host
+      title: Desktop
+      description: A desktop the agent controls via mouse, keyboard, and screenshots.
     BrowserVisualMode:
       properties:
         type:
@@ -323,124 +360,6 @@ components:
         mapping:
           desktop: '#/components/schemas/Desktop'
           web: '#/components/schemas/Browser'
-    EnvironmentKind:
-      type: string
-      enum:
-      - web
-      - desktop
-      title: EnvironmentKind
-      description: Environment family.
-    PatchEnvironment:
-      properties:
-        host:
-          anyOf:
-          - type: string
-            enum:
-            - user_device
-            - cloud
-          - type: 'null'
-          title: Host
-        start_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Start Url
-        headless:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Headless
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-        mode:
-          anyOf:
-          - oneOf:
-            - $ref: '#/components/schemas/BrowserVisualMode'
-            - $ref: '#/components/schemas/BrowserTextMode'
-            discriminator:
-              propertyName: type
-              mapping:
-                text: '#/components/schemas/BrowserTextMode'
-                visual: '#/components/schemas/BrowserVisualMode'
-          - type: 'null'
-          title: Mode
-        vault_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Vault Id
-        browser_profile_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Browser Profile Id
-        use_default_browser_profile:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Default Browser Profile
-        persist_browser_profile:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Persist Browser Profile
-        network:
-          anyOf:
-          - $ref: '#/components/schemas/BrowserNetwork'
-          - type: 'null'
-      type: object
-      title: PatchEnvironment
-      description: Partial environment update.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ProxyPool:
-      type: string
-      enum:
-      - residential
-      - datacenter
-      - isp
-      - mobile
-      title: ProxyPool
-      description: The kind of upstream IPs a managed proxy draws from.
-    ManagedProxySelection:
-      properties:
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
-        sticky:
-          type: boolean
-          title: Sticky
-          description: Keep the same IP across the session where the pool allows it.
-          default: true
-        pool:
-          $ref: '#/components/schemas/ProxyPool'
-          description: Which upstream IP pool to draw from.
-          default: residential
-      type: object
-      title: ManagedProxySelection
-      description: 'Request for an H-managed proxy, provisioned per session.
-
-
-        Describes intent only — pool, country, stickiness — never credentials; H resolves
-
-        and injects those when provisioning the session, including which provider backs
-
-        the requested pool.'
     EnvironmentPage:
       properties:
         items:
@@ -487,6 +406,13 @@ components:
       - msg
       - type
       title: ValidationError
+    EnvironmentKind:
+      type: string
+      enum:
+      - web
+      - desktop
+      title: EnvironmentKind
+      description: Environment family.
     Browser:
       properties:
         id:
@@ -568,50 +494,124 @@ components:
       - id
       title: Browser
       description: A web browser the agent navigates and acts on.
-    BrowserNetwork:
+    ManagedProxySelection:
       properties:
-        proxy_url:
+        country:
           anyOf:
           - type: string
           - type: 'null'
-          title: Proxy Url
-          description: Optional bring-your-own HTTP/HTTPS/SOCKS proxy URL for browser egress (e.g. http://user:pass@proxy.example.com:8080). Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with managed_proxy.
-        managed_proxy:
-          anyOf:
-          - $ref: '#/components/schemas/ManagedProxySelection'
-          - type: 'null'
-          description: Optional H-managed proxy (e.g. Oxylabs), provisioned for the session. Applied when provisioning a new remote browser session. Only supported for chromium-based browser runners (headful and headless). Ignored when session_id attaches to an existing session. Mutually exclusive with proxy_url.
+          title: Country
+          description: Two-letter ISO 3166-1 country to source IPs from (e.g. 'US'). Validated server-side.
+        sticky:
+          type: boolean
+          title: Sticky
+          description: Keep the same IP across the session where the pool allows it.
+          default: true
+        pool:
+          $ref: '#/components/schemas/ProxyPool'
+          description: Which upstream IP pool to draw from.
+          default: residential
       type: object
-      title: BrowserNetwork
-      description: Network egress settings for a remote browser session.
-    Desktop:
+      title: ManagedProxySelection
+      description: 'Request for an H-managed proxy, provisioned per session.
+
+
+        Describes intent only — pool, country, stickiness — never credentials; H resolves
+
+        and injects those when provisioning the session, including which provider backs
+
+        the requested pool.'
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          minLength: 1
-          title: Id
-          description: Catalog identifier for this environment.
-        kind:
-          type: string
-          const: desktop
-          title: Kind
-          default: desktop
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PatchEnvironment:
+      properties:
         host:
-          type: string
+          anyOf:
+          - type: string
+            enum:
+            - user_device
+            - cloud
+          - type: 'null'
           title: Host
-          const: user_device
+        start_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start Url
+        headless:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Headless
         session_id:
           anyOf:
           - type: string
           - type: 'null'
           title: Session Id
-          description: Connect to an existing desktop session by id instead of starting a new one.
+        mode:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/BrowserVisualMode'
+            - $ref: '#/components/schemas/BrowserTextMode'
+            discriminator:
+              propertyName: type
+              mapping:
+                text: '#/components/schemas/BrowserTextMode'
+                visual: '#/components/schemas/BrowserVisualMode'
+          - type: 'null'
+          title: Mode
+        vault_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Vault Id
+        browser_profile_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Browser Profile Id
+        use_default_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Default Browser Profile
+        persist_browser_profile:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Persist Browser Profile
+        network:
+          anyOf:
+          - $ref: '#/components/schemas/BrowserNetwork'
+          - type: 'null'
       type: object
-      required:
-      - id
-      - host
-      title: Desktop
-      description: A desktop the agent controls via mouse, keyboard, and screenshots.
+      title: PatchEnvironment
+      description: Partial environment update.
+    BrowserTextMode:
+      properties:
+        type:
+          type: string
+          const: text
+          title: Type
+          default: text
+        chunk_size:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Chunk Size
+          description: Characters of page text shown per page.
+          default: 20000
+      type: object
+      title: BrowserTextMode
+      description: Read-only markdown with URL navigation, no screenshots.
   securitySchemes:
     HTTPBearer:
       type: http

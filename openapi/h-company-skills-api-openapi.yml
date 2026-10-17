@@ -245,6 +245,61 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PatchSkill:
+      properties:
+        description:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Description
+        body:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Body
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        url_pattern:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 1
+          - type: 'null'
+          title: Url Pattern
+      type: object
+      title: PatchSkill
+      description: Partial skill update.
     Page_Skill_:
       properties:
         items:
@@ -311,61 +366,6 @@ components:
       - body
       title: Skill
       description: A named, reusable instruction an agent can draw on during a session.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PatchSkill:
-      properties:
-        description:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Description
-        body:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Body
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-        url_pattern:
-          anyOf:
-          - type: string
-            maxLength: 1024
-            minLength: 1
-          - type: 'null'
-          title: Url Pattern
-      type: object
-      title: PatchSkill
-      description: Partial skill update.
   securitySchemes:
     HTTPBearer:
       type: http
