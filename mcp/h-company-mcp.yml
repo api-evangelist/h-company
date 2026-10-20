@@ -22,18 +22,49 @@ auth:
   value_format: Bearer hk-...
 tools:
 - name: run_agent
-  description: Start an agent on a task; returns the answer or a session handle to wait on if the task
-    runs long.
+  description: 'Start an agent on a task; return the answer or a session handle to wait on.
+
+
+    ``agent`` is a name from list_agents, which runs its latest revision, or ``name:N`` to run revision
+    N.'
 - name: wait_for_session
-  description: Long-poll a session for its answer, or fetch its current snapshot.
+  description: 'Poll a session: with ``wait`` long-poll for the answer, else return the current snapshot.'
 - name: list_agents
-  description: List the agents you can run — your org's agents plus the public h/ ones.
+  description: 'List agents the caller can run: their org''s agents plus the public ``h/`` ones.'
 - name: send_message
   description: Send a follow-up message to a running session.
 - name: cancel_session
-  description: Cancel a session.
+  description: Cancel a session; a no-op if it does not exist or already finished.
 - name: share_session
-  description: Make a session publicly viewable and return a share link.
+  description: Make a session publicly readable and return its absolute share URL.
+- name: list_files
+  description: 'List files on a browser session''s machine (e.g. downloads), newest first.
+
+
+    ``session_id`` is the browser session id issued by env-manager when the session was
+
+    created, not the id ``run_agent`` returns.
+
+
+    When a listing is truncated, page on the last entry''s modified_at (ISO-8601)
+
+    and name, passed as modified_before and name_after. Send both: modification
+
+    times are not unique, and a timestamp alone skips the rest of a tied group.'
+- name: read_file
+  description: 'Read a file from a browser session''s machine; returns base64 content and metadata.
+
+
+    ``session_id`` is the browser session id issued by env-manager when the session was
+
+    created, not the id ``run_agent`` returns.'
+- name: write_file
+  description: 'Write base64-encoded content to a file on a browser session''s machine.
+
+
+    ``session_id`` is the browser session id issued by env-manager when the session was
+
+    created, not the id ``run_agent`` returns.'
 deployment:
   mode: remote
   endpoint: https://agp.eu.hcompany.ai/mcp
@@ -71,3 +102,4 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools_count: 9
