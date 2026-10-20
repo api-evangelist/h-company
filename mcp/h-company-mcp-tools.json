@@ -1,0 +1,343 @@
+{
+  "endpoint": "https://agp.eu.hcompany.ai/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "hai-agents",
+    "version": "4.0.11"
+  },
+  "result": {
+    "tools": [
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Start an agent on a task; return the answer or a session handle to wait on.\n\n``agent`` is a name from list_agents, which runs its latest revision, or ``name:N`` to run revision N.",
+        "inputSchema": {
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "agent": {
+              "type": "string"
+            },
+            "max_steps": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "max_time_s": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "idempotency_key": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "task",
+            "agent"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "run_agent",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "Run Agent"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Poll a session: with ``wait`` long-poll for the answer, else return the current snapshot.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            },
+            "wait": {
+              "default": true,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "session_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "wait_for_session",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "Wait For Session"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "List agents the caller can run: their org's agents plus the public ``h/`` ones.",
+        "inputSchema": {
+          "properties": {
+            "page": {
+              "default": 1,
+              "type": "integer"
+            },
+            "size": {
+              "default": 20,
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "list_agents",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "List Agents"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Send a follow-up message to a running session.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "session_id",
+            "message"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "send_message",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "title": "Send Message"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Cancel a session; a no-op if it does not exist or already finished.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "session_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "cancel_session",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "title": "Cancel Session"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Make a session publicly readable and return its absolute share URL.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "session_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "share_session",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "title": "Share Session"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "List files on a browser session's machine (e.g. downloads), newest first.\n\n``session_id`` is the browser session id issued by env-manager when the session was\ncreated, not the id ``run_agent`` returns.\n\nWhen a listing is truncated, page on the last entry's modified_at (ISO-8601)\nand name, passed as modified_before and name_after. Send both: modification\ntimes are not unique, and a timestamp alone skips the rest of a tied group.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            },
+            "path": {
+              "default": "~/Downloads",
+              "type": "string"
+            },
+            "max_entries": {
+              "default": 500,
+              "type": "integer"
+            },
+            "modified_before": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "name_after": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "session_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "list_files",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "List Files"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Read a file from a browser session's machine; returns base64 content and metadata.\n\n``session_id`` is the browser session id issued by env-manager when the session was\ncreated, not the id ``run_agent`` returns.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "session_id",
+            "path"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "read_file",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "Read File"
+      },
+      {
+        "_meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "description": "Write base64-encoded content to a file on a browser session's machine.\n\n``session_id`` is the browser session id issued by env-manager when the session was\ncreated, not the id ``run_agent`` returns.",
+        "inputSchema": {
+          "properties": {
+            "session_id": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "content_base64": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "session_id",
+            "path",
+            "content_base64"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "name": "write_file",
+        "outputSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "title": "Write File"
+      }
+    ]
+  }
+}
