@@ -60,6 +60,40 @@ edges:
   - remote-domain
   detected_by: sweep-agent-tools.py
   first_seen: '2026-10-14'
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/Hcompany
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - Hcompany/trajectories
+  - Hcompany/WebClick
+  - Hcompany/DragOn
+  - Hcompany/h_cua_perf
+  - Hcompany/Holo-3.1-35B-A3B-GGUF
+  - Hcompany/Holo2-4B
+  - Hcompany/Holo4-27B-GGUF
+  - Hcompany/Holo4-35B-A3B-GGUF
+  - Hcompany/Holo-3.1-4B
+  - Hcompany/Holo-3.1-0.8B
+  - Hcompany/NeoMME-260M
+  - Hcompany/Holo4-35B-A3B
+  - Hcompany/Holo1-Navigation
+  - Hcompany/Holo1-Localization
+  - Hcompany/Holo1.5-Navigation
+  - Hcompany/Holo1.5-Localization
+  listing_count: 3
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub datasets
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 generated: '2026-10-14'
 method: searched
 checked:
@@ -71,6 +105,7 @@ checked:
 - https://registry.npmjs.org
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
+- hugging-face/integrations/hugging-face-integration-edges.yml
 source:
 - https://registry.npmjs.org
 - https://pypi.org/pypi
