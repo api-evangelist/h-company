@@ -64,6 +64,149 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-H Company is a company surfaced as a portfolio company of accel, creandum and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+H Company (hcompany.ai) is a Paris-based AI lab, backed by Accel and Creandum, that builds the Holo family of vision-language models and a Computer-Use Agents platform for automating work on browsers and desktops. It ships two public APIs: the Computer-Use Agents API (agp, /api/v2) for launching, steering, scheduling, and observing autonomous agent sessions — with reusable agents, skills, environments, browser profiles, vaults, and signed webhooks — and the OpenAI-compatible Holo Models API (/v1) serving the Holo3 and Holo3.1 models. Typed Python and TypeScript SDKs (hai-agents), a hai CLI, an official MCP server, and idempotent, region-isolated (EU/US) REST round out an agent-native developer surface.
 
-Backed by: accel, creandum — https://www.hcompany.ai/
+**Areas:** Artificial Intelligence · Agents · Computer Use · Automation · Machine Learning · Browser Automation · LLM · MCP · Developer Tools · Foundation Models
+
+## H Company on APIs.io
+
+Everything profiled for H Company is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/h-company/](https://apis.io/providers/h-company/)** — or go straight to one of the APIs or properties below.
+
+### APIs (10)
+
+- [H Company Holo Models API](https://apis.io/apis/h-company/h-company-holo-models/) — OpenAI-compatible inference API serving the Holo3 and Holo3.1 vision-language models for computer use — chat completions with structured outputs, reasoning,…
+- [H Company Agents API](https://apis.io/apis/h-company/h-company-agents-api/) — The Agents API from H Company — 2 operation(s) for agents.
+- [H Company Browser Profiles API](https://apis.io/apis/h-company/h-company-browser-profiles-api/) — The Browser Profiles API from H Company — 6 operation(s) for browser profiles.
+- [H Company Environments API](https://apis.io/apis/h-company/h-company-environments-api/) — The Environments API from H Company — 2 operation(s) for environments.
+- [H Company Quota API](https://apis.io/apis/h-company/h-company-quota-api/) — The quota API from H Company — 1 operation(s) for quota.
+- [H Company Schedules API](https://apis.io/apis/h-company/h-company-schedules-api/) — The Schedules API from H Company — 6 operation(s) for schedules.
+- [H Company Sessions API](https://apis.io/apis/h-company/h-company-sessions-api/) — The Sessions API from H Company — 15 operation(s) for sessions.
+- [H Company Skills API](https://apis.io/apis/h-company/h-company-skills-api/) — The Skills API from H Company — 2 operation(s) for skills.
+- [H Company Vaults API](https://apis.io/apis/h-company/h-company-vaults-api/) — The Vaults API from H Company — 4 operation(s) for vaults.
+- [H Company Webhooks API](https://apis.io/apis/h-company/h-company-webhooks-api/) — The Webhooks API from H Company — 5 operation(s) for webhooks.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [H Company Webhooks](https://apis.io/asyncapis/h-company/h-company-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [hai-agents](https://apis.io/servers/h-company/hai-agents/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [H Company Agentic Access](https://apis.io/agentic-access/h-company/h-company-agentic-access/)
+
+#### Collections (9)
+
+Postman and Open Collection request collections.
+
+- [Computer-Use Agents API](https://apis.io/collections/h-company/open-h-company-agents-api/)
+- [Computer-Use Agents Browser Profiles API](https://apis.io/collections/h-company/open-h-company-browser-profiles-api/)
+- [Computer-Use Agents Environments API](https://apis.io/collections/h-company/open-h-company-environments-api/)
+- [Computer-Use Agents quota API](https://apis.io/collections/h-company/open-h-company-quota-api/)
+- [Computer-Use Agents Schedules API](https://apis.io/collections/h-company/open-h-company-schedules-api/)
+- [Computer-Use Agents Sessions API](https://apis.io/collections/h-company/open-h-company-sessions-api/)
+- [Computer-Use Agents Skills API](https://apis.io/collections/h-company/open-h-company-skills-api/)
+- [Computer-Use Agents Vaults API](https://apis.io/collections/h-company/open-h-company-vaults-api/)
+- [Computer-Use Agents Webhooks API](https://apis.io/collections/h-company/open-h-company-webhooks-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [H Company Computer Use Agents Overlay](https://apis.io/overlays/h-company/h-company-computer-use-agents-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [H Company Authentication](https://apis.io/security/h-company/h-company-authentication/)
+- [H Company Domain Security](https://apis.io/security/h-company/h-company-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [H Company Plans Pricing](https://apis.io/plans/h-company/h-company-plans-pricing/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.hcompany.ai/)
+- [Documentation](https://hub.hcompany.ai/)
+- [Getting started](https://hub.hcompany.ai/computer-use-agents/quickstart)
+- [API reference](https://agp.hcompany.ai/share/docs)
+- [Pricing](https://hcompany.ai/holo-models-api)
+- [Sign up](https://portal.hcompany.ai/)
+- [Support](https://hcompany.ai/contact)
+- [Blog](https://hcompany.ai/blog)
+- [Terms of service](https://hcompany.ai/terms-of-use)
+- [Privacy policy](https://hcompany.ai/privacy-policy)
+- [GitHub](https://github.com/hcompai)
+
+## API Evangelist rating
+
+**Kin Score 57.7** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 61.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 76.3 |
+
+**Agent readiness 46.4** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 22.7** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/h-company/](https://apis.io/providers/h-company/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for H Company: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/h-company/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
